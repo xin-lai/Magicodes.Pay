@@ -14,7 +14,7 @@
     </Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Alipay.AopSdk.Core" Version="2.2.4" />
+    <PackageReference Include="Alipay.AopSdk.Core" Version="2.2.7" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
   </ItemGroup>
   <PropertyGroup>
