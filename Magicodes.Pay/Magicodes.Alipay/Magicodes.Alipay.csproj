@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>湖南心莱信息科技有限公司</Company>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
+    <Description>
+      支付宝支付信息核心库。
+      官方网址：http://xin-lai.com
+      开源库地址:https://github.com/xin-lai
+      博客地址：http://www.cnblogs.com/codelove/
+      交流QQ群：85318032
+      小店地址：https://shop113059108.taobao.com/
+    </Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Alipay.AopSdk.Core" Version="2.2.4" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+  </ItemGroup>
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+</Project>
