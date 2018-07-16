@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/xin-lai</RepositoryUrl>
     <Company>湖南心莱信息科技有限公司</Company>
     <Authors>雪雁</Authors>
-    <Version>0.0.2</Version>
+    <Version>0.0.5</Version>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
