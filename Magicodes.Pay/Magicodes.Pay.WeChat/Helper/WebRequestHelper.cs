@@ -212,9 +212,9 @@ namespace Magicodes.Pay.WeChat.Helper
             }
             if (serializeStrFunc != null)
                 postStr = serializeStrFunc(postStr);
-            WeChatPayApi.LoggerAction?.Invoke("api", string.Format("Pre POST Url:{0},Data:{1}", url, postStr));
+            WeChatPayHelper.LoggerAction?.Invoke("api", string.Format("Pre POST Url:{0},Data:{1}", url, postStr));
             result = HttpPost(url, postStr);
-            WeChatPayApi.LoggerAction?.Invoke("api", string.Format("POST Url:{0},result:{1}", url, result));
+            WeChatPayHelper.LoggerAction?.Invoke("api", string.Format("POST Url:{0},result:{1}", url, result));
             switch (outDataType)
             {
                 case WebRequestDataTypes.XML:
@@ -298,9 +298,9 @@ namespace Magicodes.Pay.WeChat.Helper
             }
             if (serializeStrFunc != null)
                 postStr = serializeStrFunc(postStr);
-            WeChatPayApi.LoggerAction?.Invoke("api", "postStrs:" + postStr);
+            WeChatPayHelper.LoggerAction?.Invoke("api", "postStrs:" + postStr);
             result = HttpPost(url, postStr, cer);
-            WeChatPayApi.LoggerAction?.Invoke("api", "result:" + result);
+            WeChatPayHelper.LoggerAction?.Invoke("api", "result:" + result);
             switch (outDataType)
             {
                 case WebRequestDataTypes.XML:

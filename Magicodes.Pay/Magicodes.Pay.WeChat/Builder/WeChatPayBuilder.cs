@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using Magicodes.Pay.WeChat.Config;
+using Magicodes.Pay.WeChat.Helper;
 
 namespace Magicodes.Pay.WeChat.Builder
 {
@@ -63,10 +64,10 @@ namespace Magicodes.Pay.WeChat.Builder
         public void Build()
         {
             if (LoggerAction != null)
-                WeChatPayApi.LoggerAction = LoggerAction;
+                WeChatPayHelper.LoggerAction = LoggerAction;
 
             if (GetPayConfigFunc != null)
-                WeChatPayApi.GetPayConfigFunc = GetPayConfigFunc;
+                WeChatPayHelper.GetPayConfigFunc = GetPayConfigFunc;
         }
     }
 }
