@@ -92,11 +92,11 @@ namespace Magicodes.Pay.WeChat
                 SpbillCreateIp = input.SpbillCreateIp,
                 TimeExpire = input.TimeExpire,
                 TimeStart = input.TimeStart,
-                TotalFee = ((int)(input.TotalFee * 100)).ToString(),
+                TotalFee = ((int) (input.TotalFee * 100)).ToString(),
+                NonceStr = GetNoncestr(),
+                NotifyUrl = config.PayNotifyUrl,
             };
-            model.NonceStr = GetNoncestr();
-            model.NotifyUrl = config.PayNotifyUrl;
-            var dictionary = GetAuthors(model);
+            var dictionary = GetDictionaryByType(model);
             model.Sign = CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
 
             var result = PostXML<UnifiedorderResult>(url, model);
@@ -115,7 +115,7 @@ namespace Magicodes.Pay.WeChat
                     AppId = data.appId,
                     Package = data.package,
                     NonceStr = data.nonceStr,
-                    PaySign = CreateMd5Sign(GetAuthors(data), config.TenPayKey),
+                    PaySign = CreateMd5Sign(GetDictionaryByType(data), config.TenPayKey),
                     SignType = data.signType,
                     TimeStamp = data.timeStamp
                 };
@@ -355,12 +355,9 @@ namespace Magicodes.Pay.WeChat
         /// <summary>
         ///     循环获取一个实体类每个字段的XmlAttribute属性的值
         /// </summary>
-        /// <typeparam name="T">
-        ///     <peparam>
-        ///         <returns></returns>
-        private Dictionary<string, string> GetAuthors<T>(T model)
+        private Dictionary<string, string> GetDictionaryByType<T>(T model)
         {
-            var _dict = new Dictionary<string, string>();
+            var dict = new Dictionary<string, string>();
 
             var type = model.GetType(); //获取类型
 
@@ -375,10 +372,10 @@ namespace Magicodes.Pay.WeChat
                 }
                 var property = type.GetProperty(prop.Name);
                 var value = property.GetValue(model, null); //获取属性值
-                _dict.Add(attr?.ElementName ?? property.Name, value?.ToString());
+                dict.Add(attr?.ElementName ?? property.Name, value?.ToString());
 
             }
-            return _dict;
+            return dict;
         }
 
         /// <summary>
