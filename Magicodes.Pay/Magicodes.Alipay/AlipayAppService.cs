@@ -8,6 +8,8 @@ using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using Alipay.AopSdk.Core.Util;
 
 namespace Magicodes.Alipay
 {
@@ -108,6 +110,30 @@ namespace Magicodes.Alipay
                 Body = response.Body
             });
         }
+
+        /// <summary>
+        /// 支付回调通知处理
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        public bool PayNotifyHandler(Dictionary<string,string> dic)
+        {
+            try
+            {
+                var config = GetPayConfigFunc();
+                var alipaySignPublicKey = config.AlipaySignPublicKey;
+                var charset = config.CharSet;
+                var signtype = config.SignType;
+                bool flag = AlipaySignature.RSACheckV1(dic, alipaySignPublicKey, charset, signtype, false);
+                return flag;
+            }
+            catch (Exception e)
+            {
+                LoggerAction?.Invoke("Error", e.Message);
+                return false;
+            }
+        }
+
 
         private DefaultAopClient GetClient()
         {

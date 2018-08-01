@@ -185,21 +185,23 @@ namespace Magicodes.Pay.WeChat
             {
                 var data = new
                 {
-                    appId = result.AppId,
-                    nonceStr = result.NonceStr,
-                    package = "prepay_id=" + result.PrepayId,
-                    signType = "MD5",
-                    timeStamp = weChatPayHelper.GetTimestamp(),
+                    appid = result.AppId,
+                    noncestr = result.NonceStr,
+                    partnerid = result.Mch_Id,
+                    prepayid = result.PrepayId,
+                    package = "Sign=WXPay",
+                    timestamp = weChatPayHelper.GetTimestamp(),                   
                 };
                 return new AppPayOutput()
                 {
-                    AppId = data.appId,
+                    AppId = data.appid,
                     MchId = model.MchId,
                     PrepayId = result.PrepayId,
-                    NonceStr = data.nonceStr,
-                    PaySign = model.Sign,
-                    SignType = data.signType,
-                    TimeStamp = data.timeStamp
+                    NonceStr = data.noncestr,
+                    PaySign = weChatPayHelper.CreateMd5Sign(weChatPayHelper.GetDictionaryByType(data), config.TenPayKey),
+                    SignType = "MD5",
+                    TimeStamp = data.timestamp,
+                    Package = data.package
                 };
             }
             WeChatPayHelper.LoggerAction("Error", "支付错误：" + result.GetFriendlyMessage());

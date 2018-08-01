@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Magicodes.Alipay.Dto;
 
 namespace Magicodes.Alipay
@@ -21,5 +22,12 @@ namespace Magicodes.Alipay
         /// <param name="input"></param>
         /// <returns></returns>
         Task<WapPayOutput> WapPay(WapPayInput input);
+
+        /// <summary>
+        /// 支付回调
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        bool PayNotifyHandler(Dictionary<string, string> dic);
     }
 }

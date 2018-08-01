@@ -35,6 +35,11 @@ namespace Magicodes.Alipay
         public string AlipayPublicKey { get; set; }
 
         /// <summary>
+        /// 支付宝签名公钥
+        /// </summary>
+        public string AlipaySignPublicKey { get; set; }
+
+        /// <summary>
         /// 签名方式（默认值：RSA2）
         /// </summary>
         public string SignType { get; set; } = "RSA2";

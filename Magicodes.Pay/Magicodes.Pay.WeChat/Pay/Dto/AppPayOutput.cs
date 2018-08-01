@@ -16,6 +16,8 @@ namespace Magicodes.Pay.WeChat.Pay.Dto
 
         public string PrepayId { get; set; }
 
+        public string Package { get; set; }
+
         public string SignType { get; set; }
         public string PaySign { get; internal set; }
     }
