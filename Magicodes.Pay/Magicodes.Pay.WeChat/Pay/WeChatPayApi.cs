@@ -244,11 +244,12 @@ namespace Magicodes.Pay.WeChat
         /// <param name="inputStream">输入流</param>
         /// <param name="payHandlerFunc">支付处理逻辑函数</param>
         /// <returns>处理结果</returns>
-        public Task<string> PayNotifyHandler(Stream inputStream, Action<PayNotifyOutput> payHandlerFunc)
+        public Task<string> PayNotifyHandler(Stream inputStream, Action<PayNotifyOutput, string> payHandlerFunc)
         {
             PayNotifyOutput result = null;
             var data = weChatPayHelper.PostInput(inputStream);
-            var failXml = string.Empty;
+            var outPutXml = string.Empty;
+            var error = string.Empty;
             try
             {
                 result = XmlHelper.DeserializeObject<PayNotifyOutput>(data);
@@ -256,29 +257,33 @@ namespace Magicodes.Pay.WeChat
             catch (Exception ex)
             {
                 WeChatPayHelper.LoggerAction?.Invoke("Error", "解析支付回调参数出错：" + data + "  Exception:" + ex.ToString());
-                failXml = string.Format(Fail_Xml_Tpl, "解析支付回调参数出错");
-                return Task.FromResult(failXml);
+                outPutXml = string.Format(Fail_Xml_Tpl, "解析支付回调参数出错");
+                error = ex.ToString();
             }
 
-            if (string.IsNullOrWhiteSpace(result.TransactionId))
+            if (!string.IsNullOrWhiteSpace(outPutXml))
             {
-                failXml = string.Format(Fail_Xml_Tpl, "支付结果中微信订单号不存在");
+
+            }
+            else if (string.IsNullOrWhiteSpace(result.TransactionId))
+            {
+                error = "支付结果中微信订单号不存在";
+                outPutXml = string.Format(Fail_Xml_Tpl, error);
             }
             else if (!result.IsSuccess())
             {
-                failXml = string.Format(Fail_Xml_Tpl, "回调处理失败");
+                outPutXml = string.Format(Fail_Xml_Tpl, "回调处理失败");
+                error = $"回调处理失败：ErrCode:{result.ErrCode} \nErrCodeDes:{result.ErrCodeDes}";
             }
             //查询订单，判断订单真实性
             else if (!QueryOrder(result.TransactionId))
             {
-                failXml = string.Format(Fail_Xml_Tpl, "订单不存在");
+                error = "订单不存在";
+                outPutXml = string.Format(Fail_Xml_Tpl, error);
             }
+            payHandlerFunc?.Invoke(result, error);
 
-            if (!string.IsNullOrWhiteSpace(failXml))
-                return Task.FromResult(failXml);
-
-            payHandlerFunc?.Invoke(result);
-            return Task.FromResult("<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
+            return Task.FromResult(!string.IsNullOrWhiteSpace(outPutXml) ? outPutXml : "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
         }
 
         /// <summary>
