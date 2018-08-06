@@ -1,16 +1,18 @@
 ﻿// ======================================================================
-//  
-//          Copyright (C) 2016-2020 湖南心莱信息科技有限公司    
-//          All rights reserved
-//  
-//          filename : XmlHelper.cs
-//          description :
-//  
-//          created by 李文强 at  2018/04/10 17:10
-//          Blog：http://www.cnblogs.com/codelove/
-//          GitHub ： https://github.com/xin-lai
-//          Home：http://xin-lai.com
-//  
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : XmlHelper.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
 // ======================================================================
 
 using System.IO;
@@ -22,10 +24,6 @@ namespace Magicodes.Pay.WeChat.Helper
 {
     public static class XmlHelper
     {
-        static XmlHelper()
-        {
-            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        }
         /// <summary>
         ///     XML序列化
         /// </summary>
@@ -69,6 +67,7 @@ namespace Magicodes.Pay.WeChat.Helper
                 var serializer = new XmlSerializer(obj.GetType());
                 serializer.Serialize(xmlWriter, obj, xmlSerializerNamespaces);
             }
+
             return sb.ToString();
         }
 
@@ -87,11 +86,9 @@ namespace Magicodes.Pay.WeChat.Helper
                 var xmlSerial = new XmlSerializer(typeof(T));
                 using (var rdr = new StringReader(str))
                 {
-                    return (T)xmlSerial.Deserialize(rdr);
+                    return (T) xmlSerial.Deserialize(rdr);
                 }
             }
-            
-            
         }
 
         /// <summary>

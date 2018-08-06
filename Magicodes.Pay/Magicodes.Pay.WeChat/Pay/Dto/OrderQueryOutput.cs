@@ -1,6 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : OrderQueryOutput.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-31 10:47
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
+using System;
 using System.Xml.Serialization;
 using Magicodes.Pay.WeChat.Pay.Dto;
 
@@ -47,68 +62,68 @@ namespace Magicodes.Pay.WeChat.Pay.Models
         public string Sign { get; set; }
 
         /// <summary>
-        /// 用户在商户appid下的唯一标识
+        ///     用户在商户appid下的唯一标识
         /// </summary>
         [XmlElement("openid")]
         public string OpenId { get; set; }
 
         /// <summary>
-        /// 用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
+        ///     用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
         /// </summary>
         [XmlElement("is_subscribe")]
         public string IsSubscribe { get; set; }
 
         /// <summary>
-        /// SUCCESS—支付成功
-        /// REFUND—转入退款
-        /// NOTPAY—未支付
-        /// CLOSED—已关闭
-        /// REVOKED—已撤销（刷卡支付）
-        /// USERPAYING--用户支付中
-        /// PAYERROR--支付失败(其他原因，如银行返回失败)
-        /// 支付状态机请见下单API页面
+        ///     SUCCESS—支付成功
+        ///     REFUND—转入退款
+        ///     NOTPAY—未支付
+        ///     CLOSED—已关闭
+        ///     REVOKED—已撤销（刷卡支付）
+        ///     USERPAYING--用户支付中
+        ///     PAYERROR--支付失败(其他原因，如银行返回失败)
+        ///     支付状态机请见下单API页面
         /// </summary>
         [XmlElement("trade_state")]
         public string TradeState { get; set; }
 
         /// <summary>
-        /// 银行类型，采用字符串类型的银行标识
+        ///     银行类型，采用字符串类型的银行标识
         /// </summary>
         [XmlElement("bank_type")]
         public string BankType { get; set; }
 
         /// <summary>
-        /// 订单总金额，单位为分
+        ///     订单总金额，单位为分
         /// </summary>
         [XmlElement("total_fee")]
         public int TotalFee { get; set; }
 
         /// <summary>
-        /// 当订单使用了免充值型优惠券后返回该参数，应结订单金额=订单金额-免充值优惠券金额。
+        ///     当订单使用了免充值型优惠券后返回该参数，应结订单金额=订单金额-免充值优惠券金额。
         /// </summary>
         [XmlElement("settlement_total_fee")]
         public int SettlementTotalFee { get; set; }
 
         /// <summary>
-        /// 货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
+        ///     货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
         /// </summary>
         [XmlElement("fee_type")]
         public string FeeType { get; set; }
 
         /// <summary>
-        /// 现金支付金额订单现金支付金额，详见支付金额
+        ///     现金支付金额订单现金支付金额，详见支付金额
         /// </summary>
         [XmlElement("cash_fee")]
         public string CashFee { get; set; }
 
         /// <summary>
-        /// 货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
+        ///     货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
         /// </summary>
         [XmlElement("cash_fee_type")]
         public string CashFeeType { get; set; }
 
         /// <summary>
-        /// <![CDATA[代金券金额<=订单金额，订单金额-代金券金额=现金支付金额，详见支付金额]]]>
+        ///     <![CDATA[代金券金额<=订单金额，订单金额-代金券金额=现金支付金额，详见支付金额]]]>
         /// </summary>
         [XmlElement("coupon_fee")]
         public string CouponFee { get; set; }
@@ -162,7 +177,7 @@ namespace Magicodes.Pay.WeChat.Pay.Models
         public string TimeEnd { get; set; }
 
         /// <summary>
-        /// 对当前查询订单状态的描述和下一步操作的指引,如:支付失败，请重新下单支付
+        ///     对当前查询订单状态的描述和下一步操作的指引,如:支付失败，请重新下单支付
         /// </summary>
         [XmlElement("trade_state_desc")]
         public string TradeStateDesc { get; set; }

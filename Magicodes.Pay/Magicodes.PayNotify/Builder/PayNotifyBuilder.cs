@@ -1,6 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : PayNotifyBuilder.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
+using System;
 using System.Threading.Tasks;
 using Magicodes.PayNotify.Models;
 
@@ -16,7 +31,10 @@ namespace Magicodes.PayNotify.Builder
         ///     创建实例
         /// </summary>
         /// <returns></returns>
-        public static PayNotifyBuilder Create() => new PayNotifyBuilder();
+        public static PayNotifyBuilder Create()
+        {
+            return new PayNotifyBuilder();
+        }
 
         /// <summary>
         ///     设置日志记录处理
@@ -30,7 +48,7 @@ namespace Magicodes.PayNotify.Builder
         }
 
         /// <summary>
-        /// 设置支付回调处理逻辑
+        ///     设置支付回调处理逻辑
         /// </summary>
         /// <param name="payNotifyFunc"></param>
         /// <returns></returns>
@@ -50,8 +68,6 @@ namespace Magicodes.PayNotify.Builder
 
             if (PayNotifyFunc != null)
                 PayNotifyController.PayNotifyFunc = PayNotifyFunc;
-
-            
         }
     }
 }

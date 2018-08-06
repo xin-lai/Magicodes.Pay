@@ -1,4 +1,21 @@
-﻿using System;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : WeChatPayHelper.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-30 20:29
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -14,10 +31,11 @@ namespace Magicodes.Pay.WeChat.Helper
 {
     public class WeChatPayHelper
     {
-        internal static Func<IWeChatPayConfig> GetPayConfigFunc { get; set; } = () => null;
         internal static Action<string, string> LoggerAction = (tag, log) => { };
+        internal static Func<IWeChatPayConfig> GetPayConfigFunc { get; set; } = () => null;
 
         #region 方法
+
         /// <summary>
         ///     随机生成Noncestr
         /// </summary>
@@ -129,15 +147,12 @@ namespace Magicodes.Pay.WeChat.Helper
             {
                 var attrs = prop.GetCustomAttributes(true);
                 XmlElementAttribute attr = null;
-                if (attrs.Length > 0)
-                {
-                    attr = attrs[0] as XmlElementAttribute;
-                }
+                if (attrs.Length > 0) attr = attrs[0] as XmlElementAttribute;
                 var property = type.GetProperty(prop.Name);
                 var value = property.GetValue(model, null); //获取属性值
                 dict.Add(attr?.ElementName ?? property.Name, value?.ToString());
-
             }
+
             return dict;
         }
 
@@ -155,6 +170,7 @@ namespace Magicodes.Pay.WeChat.Helper
                     continue;
                 akeys.Add(x.Key);
             }
+
             var sb = new StringBuilder();
             akeys.Sort();
 
@@ -162,9 +178,10 @@ namespace Magicodes.Pay.WeChat.Helper
             {
                 var v = dict[k];
                 if (null != v && "".CompareTo(v) != 0
-                    && "sign".CompareTo(k) != 0 && "key".CompareTo(k) != 0)
+                              && "sign".CompareTo(k) != 0 && "key".CompareTo(k) != 0)
                     sb.Append(k + "=" + v + "&");
             }
+
             sb.Append("key=" + value);
             var md5 = MD5.Create();
             var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(sb.ToString()));
@@ -196,7 +213,8 @@ namespace Magicodes.Pay.WeChat.Helper
         /// <param name="url">请求地址</param>
         /// <param name="obj">提交的数据对象</param>
         /// <returns>ApiResult对象</returns>
-        internal T PostXML<T>(string url, object obj, Func<string, string> serializeStrFunc = null) where T : PayOutputBase
+        internal T PostXML<T>(string url, object obj, Func<string, string> serializeStrFunc = null)
+            where T : PayOutputBase
         {
             var wr = new WeChatApiWebRequestHelper();
             string resultStr = null;
@@ -225,6 +243,7 @@ namespace Magicodes.Pay.WeChat.Helper
                 result.DetailResult = resultStr;
             return result;
         }
+
         #endregion
     }
 }

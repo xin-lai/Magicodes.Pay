@@ -1,16 +1,18 @@
 ﻿// ======================================================================
-//  
-//          Copyright (C) 2016-2020 湖南心莱信息科技有限公司    
-//          All rights reserved
-//  
-//          filename : IWeChatConfig.cs
-//          description :
-//  
-//          created by 李文强 at  2018/04/10 17:10
-//          Blog：http://www.cnblogs.com/codelove/
-//          GitHub ： https://github.com/xin-lai
-//          Home：http://xin-lai.com
-//  
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : IWeChatPayConfig.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
 // ======================================================================
 
 namespace Magicodes.Pay.WeChat.Config
@@ -21,22 +23,22 @@ namespace Magicodes.Pay.WeChat.Config
     public interface IWeChatPayConfig
     {
         /// <summary>
-        /// 小程序ID
+        ///     小程序ID
         /// </summary>
         string PayAppId { get; set; }
 
         /// <summary>
-        /// 商户Id
+        ///     商户Id
         /// </summary>
         string MchId { get; set; }
 
         /// <summary>
-        /// 支付回调路径
+        ///     支付回调路径
         /// </summary>
         string PayNotifyUrl { get; set; }
 
         /// <summary>
-        /// 支付密钥
+        ///     支付密钥
         /// </summary>
         string TenPayKey { get; set; }
     }

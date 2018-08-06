@@ -1,16 +1,18 @@
 ﻿// ======================================================================
-//  
-//          Copyright (C) 2016-2020 湖南心莱信息科技有限公司    
-//          All rights reserved
-//  
-//          filename : WebRequestHelper.cs
-//          description :
-//  
-//          created by 李文强 at  2018/04/10 17:10
-//          Blog：http://www.cnblogs.com/codelove/
-//          GitHub ： https://github.com/xin-lai
-//          Home：http://xin-lai.com
-//  
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : WebRequestHelper.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
 // ======================================================================
 
 using System;
@@ -127,7 +129,8 @@ namespace Magicodes.Pay.WeChat.Helper
 
         /// <summary>
         /// </summary>
-        public string UserAgent { get; set; } = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36";
+        public string UserAgent { get; set; } =
+            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36";
 
         /// <summary>
         ///     接受的语言
@@ -154,6 +157,7 @@ namespace Magicodes.Pay.WeChat.Helper
                     requestStream.Close();
                 }
             }
+
             using (var response = (HttpWebResponse) request.GetResponse())
             {
                 using (var sr = new StreamReader(response.GetResponseStream()))
@@ -186,6 +190,7 @@ namespace Magicodes.Pay.WeChat.Helper
                     requestStream.Close();
                 }
             }
+
             using (var response = (HttpWebResponse) request.GetResponse())
             {
                 using (var sr = new StreamReader(response.GetResponseStream()))
@@ -210,6 +215,7 @@ namespace Magicodes.Pay.WeChat.Helper
                     postStr = JsonConvert.SerializeObject(obj);
                     break;
             }
+
             if (serializeStrFunc != null)
                 postStr = serializeStrFunc(postStr);
             WeChatPayHelper.LoggerAction?.Invoke("api", string.Format("Pre POST Url:{0},Data:{1}", url, postStr));
@@ -254,6 +260,7 @@ namespace Magicodes.Pay.WeChat.Helper
 
                 requestStream.Write(endbytes, 0, endbytes.Length);
             }
+
             using (var response = (HttpWebResponse) request.GetResponse())
             {
                 using (var sr = new StreamReader(response.GetResponseStream()))
@@ -261,6 +268,7 @@ namespace Magicodes.Pay.WeChat.Helper
                     result = sr.ReadToEnd();
                 }
             }
+
             switch (outDataType)
             {
                 case WebRequestDataTypes.XML:
@@ -296,6 +304,7 @@ namespace Magicodes.Pay.WeChat.Helper
                     postStr = JsonConvert.SerializeObject(obj);
                     break;
             }
+
             if (serializeStrFunc != null)
                 postStr = serializeStrFunc(postStr);
             WeChatPayHelper.LoggerAction?.Invoke("api", "postStrs:" + postStr);
@@ -379,6 +388,7 @@ namespace Magicodes.Pay.WeChat.Helper
                 var myWebHeaderCollection = request.Headers;
                 myWebHeaderCollection.Add("Accept-Language", AcceptLanguage);
             }
+
             request.Accept = Accept;
             request.UseDefaultCredentials = true;
             request.UserAgent = UserAgent;
@@ -484,6 +494,7 @@ namespace Magicodes.Pay.WeChat.Helper
                 //1.3 form end
                 stream.Write(endbytes, 0, endbytes.Length);
             }
+
             //2.WebResponse
             var response = (HttpWebResponse) request.GetResponse();
             using (var stream = new StreamReader(response.GetResponseStream()))

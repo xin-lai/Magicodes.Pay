@@ -1,6 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : UnifiedorderResult.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
+using System;
 using System.Xml.Serialization;
 using Magicodes.Pay.WeChat.Pay.Dto;
 
@@ -8,7 +23,7 @@ namespace Magicodes.Pay.WeChat.Pay.Models
 {
     [XmlRoot("xml")]
     [Serializable]
-    public class UnifiedorderResult: PayOutputBase
+    public class UnifiedorderResult : PayOutputBase
     {
         /// <summary>
         ///     交易类型:JSAPI、NATIVE、APP
@@ -57,7 +72,5 @@ namespace Magicodes.Pay.WeChat.Pay.Models
         /// </summary>
         [XmlElement("sign")]
         public string Sign { get; set; }
-
-
     }
 }

@@ -1,16 +1,18 @@
 ﻿// ======================================================================
-//  
-//          Copyright (C) 2016-2020 湖南心莱信息科技有限公司    
-//          All rights reserved
-//  
-//          filename : RequestUtility.cs
-//          description :
-//  
-//          created by 李文强 at  2018/04/10 17:10
-//          Blog：http://www.cnblogs.com/codelove/
-//          GitHub ： https://github.com/xin-lai
-//          Home：http://xin-lai.com
-//  
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : RequestUtility.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
 // ======================================================================
 
 using System;
@@ -178,7 +180,7 @@ namespace Magicodes.Pay.WeChat.Helper
         public static string HttpGet(string url, CookieContainer cookieContainer = null, Encoding encoding = null,
             int timeOut = 30000)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = "GET";
             request.Timeout = timeOut;
             request.Proxy = _webproxy;
@@ -186,7 +188,7 @@ namespace Magicodes.Pay.WeChat.Helper
             if (cookieContainer != null)
                 request.CookieContainer = cookieContainer;
 
-            var response = (HttpWebResponse)request.GetResponse();
+            var response = (HttpWebResponse) request.GetResponse();
 
             if (cookieContainer != null)
                 response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
@@ -219,11 +221,12 @@ namespace Magicodes.Pay.WeChat.Helper
             string contentType = null,
             string acceptLanguage = null,
             string accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            string userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36",
+            string userAgent =
+                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36",
             int timeOut = 30000,
             CookieContainer cookieContainer = null)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
 
             request.ContentType = contentType;
             if (cookieContainer != null)
@@ -233,6 +236,7 @@ namespace Magicodes.Pay.WeChat.Helper
                 var myWebHeaderCollection = request.Headers;
                 myWebHeaderCollection.Add("Accept-Language", acceptLanguage);
             }
+
             request.Accept = accept;
             request.UseDefaultCredentials = true;
             request.UserAgent = userAgent;
@@ -248,7 +252,8 @@ namespace Magicodes.Pay.WeChat.Helper
         /// <param name="postdata">参数</param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string HttpUploadFile(string url, Dictionary<string, string> postdata, Encoding encoding, params string[] files)
+        public static string HttpUploadFile(string url, Dictionary<string, string> postdata, Encoding encoding,
+            params string[] files)
         {
             var boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             var boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
@@ -295,8 +300,9 @@ namespace Magicodes.Pay.WeChat.Helper
                 //1.3 form end
                 stream.Write(endbytes, 0, endbytes.Length);
             }
+
             //2.WebResponse
-            var response = (HttpWebResponse)request.GetResponse();
+            var response = (HttpWebResponse) request.GetResponse();
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
                 return stream.ReadToEnd();
@@ -334,63 +340,56 @@ namespace Magicodes.Pay.WeChat.Helper
                 request.Referer = refererUrl;
 
             #region 处理Form表单文件上传
-            var formUploadFile = fileDictionary != null && fileDictionary.Count > 0;//是否用Form上传文件
+
+            var formUploadFile = fileDictionary != null && fileDictionary.Count > 0; //是否用Form上传文件
             if (formUploadFile)
             {
-
                 //通过表单上传文件
-                string boundary = "----" + DateTime.Now.Ticks.ToString("x");
+                var boundary = "----" + DateTime.Now.Ticks.ToString("x");
 
                 postStream = postStream ?? new MemoryStream();
                 //byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
-                string fileFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
-                string dataFormdataTemplate = "\r\n--" + boundary +
-                                                "\r\nContent-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+                var fileFormdataTemplate = "\r\n--" + boundary +
+                                           "\r\nContent-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
+                var dataFormdataTemplate = "\r\n--" + boundary +
+                                           "\r\nContent-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
 
 
                 foreach (var file in fileDictionary)
-                {
                     try
                     {
                         var fileName = file.Value;
                         //准备文件流
                         using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                         {
-
                             string formdata = null;
                             if (fileStream != null)
-                            {
-                                //存在文件
-                                formdata = string.Format(fileFormdataTemplate, file.Key, /*fileName*/ Path.GetFileName(fileName));
-                            }
+                                formdata = string.Format(fileFormdataTemplate, file.Key, /*fileName*/
+                                    Path.GetFileName(fileName));
                             else
-                            {
-                                //不存在文件或只是注释
                                 formdata = string.Format(dataFormdataTemplate, file.Key, file.Value);
-                            }
 
                             //统一处理
-                            var formdataBytes = Encoding.UTF8.GetBytes(postStream.Length == 0 ? formdata.Substring(2, formdata.Length - 2) : formdata);//第一行不需要换行
+                            var formdataBytes = Encoding.UTF8.GetBytes(postStream.Length == 0
+                                ? formdata.Substring(2, formdata.Length - 2)
+                                : formdata); //第一行不需要换行
                             postStream.Write(formdataBytes, 0, formdataBytes.Length);
 
                             //写入文件
                             if (fileStream != null)
                             {
-                                byte[] buffer = new byte[1024];
-                                int bytesRead = 0;
+                                var buffer = new byte[1024];
+                                var bytesRead = 0;
                                 while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
-                                {
                                     postStream.Write(buffer, 0, bytesRead);
-                                }
                             }
-
                         }
                     }
                     catch (Exception ex)
                     {
                         throw ex;
                     }
-                }
+
                 //结尾
                 var footer = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
                 postStream.Write(footer, 0, footer.Length);
@@ -401,26 +400,30 @@ namespace Magicodes.Pay.WeChat.Helper
             {
                 request.ContentType = "application/x-www-form-urlencoded";
             }
+
             #endregion
+
             request.ContentLength = postStream != null ? postStream.Length : 0;
+
             #region 输入二进制流
+
             if (postStream != null)
             {
                 postStream.Position = 0;
 
                 //直接写入流
-                Stream requestStream = request.GetRequestStream();
+                var requestStream = request.GetRequestStream();
 
-                byte[] buffer = new byte[1024];
-                int bytesRead = 0;
+                var buffer = new byte[1024];
+                var bytesRead = 0;
                 while ((bytesRead = postStream.Read(buffer, 0, buffer.Length)) != 0)
-                {
                     requestStream.Write(buffer, 0, bytesRead);
-                }
-                postStream.Close();//关闭文件访问
+                postStream.Close(); //关闭文件访问
             }
+
             #endregion
-            var response = (HttpWebResponse)request.GetResponse();
+
+            var response = (HttpWebResponse) request.GetResponse();
 
             if (cookieContainer != null)
                 response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
@@ -484,7 +487,7 @@ namespace Magicodes.Pay.WeChat.Helper
         public static async Task<string> HttpGetAsync(string url, CookieContainer cookieContainer = null,
             Encoding encoding = null, int timeOut = 30000)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = "GET";
             request.Timeout = timeOut;
             request.Proxy = _webproxy;
@@ -492,7 +495,7 @@ namespace Magicodes.Pay.WeChat.Helper
             if (cookieContainer != null)
                 request.CookieContainer = cookieContainer;
 
-            var response = (HttpWebResponse)await request.GetResponseAsync();
+            var response = (HttpWebResponse) await request.GetResponseAsync();
 
             if (cookieContainer != null)
                 response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
@@ -536,7 +539,7 @@ namespace Magicodes.Pay.WeChat.Helper
             Stream postStream = null, string refererUrl = null,
             Encoding encoding = null, int timeOut = 30000, bool checkValidationResult = false)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = "POST";
             request.Timeout = timeOut;
             request.Proxy = _webproxy;
@@ -582,7 +585,7 @@ namespace Magicodes.Pay.WeChat.Helper
 
             #endregion
 
-            var response = (HttpWebResponse)await request.GetResponseAsync();
+            var response = (HttpWebResponse) await request.GetResponseAsync();
 
             if (cookieContainer != null)
                 response.Cookies = cookieContainer.GetCookies(response.ResponseUri);

@@ -1,12 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : OrderQueryInput.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-31 9:52
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
 using System.Xml.Serialization;
 
 namespace Magicodes.Pay.WeChat.Pay.Dto
 {
     /// <summary>
-    /// 订单查询
+    ///     订单查询
     /// </summary>
     public class OrderQueryInput
     {

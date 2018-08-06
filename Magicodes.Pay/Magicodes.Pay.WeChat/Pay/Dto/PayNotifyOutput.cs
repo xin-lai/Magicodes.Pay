@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : PayNotifyOutput.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
+using System;
 using System.Xml.Serialization;
 
 namespace Magicodes.Pay.WeChat.Pay.Dto
 {
     /// <summary>
-    /// 回调
+    ///     回调
     /// </summary>
     [XmlRoot("xml")]
     [Serializable]
@@ -97,7 +112,7 @@ namespace Magicodes.Pay.WeChat.Pay.Dto
         public string CashFeeType { get; set; }
 
         /// <summary>
-        /// <![CDATA[代金券金额<=订单金额，订单金额-代金券金额=现金支付金额，详见支付金额]]]>
+        ///     <![CDATA[代金券金额<=订单金额，订单金额-代金券金额=现金支付金额，详见支付金额]]]>
         /// </summary>
         [XmlElement("coupon_fee")]
         public string CouponFee { get; set; }

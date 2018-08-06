@@ -1,21 +1,21 @@
 ﻿// ======================================================================
-//  
-//          Copyright (C) 2016-2020 湖南心莱信息科技有限公司    
-//          All rights reserved
-//  
-//          filename : WeChatSDKBuilder.cs
-//          description :
-//  
-//          created by 李文强 at  2016/10/04 20:16
-//          Blog：http://www.cnblogs.com/codelove/
-//          GitHub：https://github.com/xin-lai
-//          Home：http://xin-lai.com
-//  
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : WeChatPayBuilder.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
 // ======================================================================
 
-
 using System;
-using System.Collections.Generic;
 using Magicodes.Pay.WeChat.Config;
 using Magicodes.Pay.WeChat.Helper;
 
@@ -34,7 +34,10 @@ namespace Magicodes.Pay.WeChat.Builder
         ///     创建实例
         /// </summary>
         /// <returns></returns>
-        public static WeChatPayBuilder Create() => new WeChatPayBuilder();
+        public static WeChatPayBuilder Create()
+        {
+            return new WeChatPayBuilder();
+        }
 
         /// <summary>
         ///     设置日志记录处理
@@ -48,7 +51,7 @@ namespace Magicodes.Pay.WeChat.Builder
         }
 
         /// <summary>
-        /// 注册配置获取逻辑
+        ///     注册配置获取逻辑
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>

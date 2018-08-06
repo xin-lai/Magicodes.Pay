@@ -1,16 +1,18 @@
 ﻿// ======================================================================
-//  
-//          Copyright (C) 2016-2020 湖南心莱信息科技有限公司    
-//          All rights reserved
-//  
-//          filename : UnifiedorderRequest.cs
-//          description :
-//  
-//          created by 李文强 at  2018/04/10 17:10
-//          Blog：http://www.cnblogs.com/codelove/
-//          GitHub ： https://github.com/xin-lai
-//          Home：http://xin-lai.com
-//  
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : UnifiedorderRequest.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:46
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
 // ======================================================================
 
 using System;
@@ -19,7 +21,7 @@ using System.Xml.Serialization;
 namespace Magicodes.Pay.WeChat.Pay.Models
 {
     /// <summary>
-    /// 统一下单请求参数类
+    ///     统一下单请求参数类
     /// </summary>
     [XmlRoot("xml")]
     [Serializable]
@@ -138,6 +140,5 @@ namespace Magicodes.Pay.WeChat.Pay.Models
         /// </summary>
         [XmlElement("limit_pay")]
         public string LimitPay { get; set; }
-
     }
 }

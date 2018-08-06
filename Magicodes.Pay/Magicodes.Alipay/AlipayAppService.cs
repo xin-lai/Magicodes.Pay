@@ -1,20 +1,36 @@
-﻿using Alipay.AopSdk.Core;
-using Alipay.AopSdk.Core.Domain;
-using Alipay.AopSdk.Core.Request;
-using Alipay.AopSdk.Core.Response;
-using Magicodes.Alipay.Dto;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : AlipayAppService.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-16 15:42
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using Alipay.AopSdk.Core;
+using Alipay.AopSdk.Core.Domain;
+using Alipay.AopSdk.Core.Request;
 using Alipay.AopSdk.Core.Util;
+using Magicodes.Alipay.Dto;
+using Newtonsoft.Json;
 
 namespace Magicodes.Alipay
 {
     /// <summary>
-    /// 支付宝支付
+    ///     支付宝支付
     /// </summary>
     public class AlipayAppService : IAlipayAppService
     {
@@ -29,7 +45,7 @@ namespace Magicodes.Alipay
         public static Func<IAlipaySettings> GetPayConfigFunc { get; set; }
 
         /// <summary>
-        /// APP支付
+        ///     APP支付
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -38,7 +54,7 @@ namespace Magicodes.Alipay
             var client = GetClient();
 
             var request = new AlipayTradeAppPayRequest();
-            var model = new AlipayTradeAppPayModel()
+            var model = new AlipayTradeAppPayModel
             {
                 Body = input.Body,
                 DisablePayChannels = input.DisablePayChannels,
@@ -53,7 +69,7 @@ namespace Magicodes.Alipay
                 StoreId = input.StoreId,
                 Subject = input.Subject,
                 TimeoutExpress = input.TimeoutExpress,
-                TotalAmount = input.TotalAmount.ToString(),
+                TotalAmount = input.TotalAmount.ToString()
             };
             request.SetBizModel(model);
             request.SetNotifyUrl(input.NotifyUrl ?? alipaySettings.Notify);
@@ -63,14 +79,15 @@ namespace Magicodes.Alipay
                 LoggerAction?.Invoke("Error", "支付宝支付请求参数错误：" + JsonConvert.SerializeObject(model));
                 throw new AlipayExcetion("支付宝支付请求参数错误,请检查!");
             }
-            return Task.FromResult(new AppPayOutput()
+
+            return Task.FromResult(new AppPayOutput
             {
                 Response = response
             });
         }
 
         /// <summary>
-        /// Wap支付
+        ///     Wap支付
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -79,7 +96,7 @@ namespace Magicodes.Alipay
             var client = GetClient();
 
             var request = new AlipayTradeWapPayRequest();
-            var model = new AlipayTradeWapPayModel()
+            var model = new AlipayTradeWapPayModel
             {
                 Body = input.Body,
                 DisablePayChannels = input.DisablePayChannels,
@@ -99,24 +116,25 @@ namespace Magicodes.Alipay
             };
             request.SetBizModel(model);
             request.SetNotifyUrl(input.NotifyUrl ?? alipaySettings.Notify);
-            var response = client.pageExecute<AlipayTradeWapPayResponse>(request);
+            var response = client.pageExecute(request);
             if (response.IsError)
             {
                 LoggerAction?.Invoke("Error", "支付宝支付请求参数错误：" + JsonConvert.SerializeObject(model));
                 throw new AlipayExcetion("支付宝支付请求参数错误,请检查!");
             }
-            return Task.FromResult(new WapPayOutput()
+
+            return Task.FromResult(new WapPayOutput
             {
                 Body = response.Body
             });
         }
 
         /// <summary>
-        /// 支付回调通知处理
+        ///     支付回调通知处理
         /// </summary>
         /// <param name="dic"></param>
         /// <returns></returns>
-        public bool PayNotifyHandler(Dictionary<string,string> dic)
+        public bool PayNotifyHandler(Dictionary<string, string> dic)
         {
             try
             {
@@ -124,7 +142,7 @@ namespace Magicodes.Alipay
                 var alipaySignPublicKey = config.AlipaySignPublicKey;
                 var charset = config.CharSet;
                 var signtype = config.SignType;
-                bool flag = AlipaySignature.RSACheckV1(dic, alipaySignPublicKey, charset, signtype, false);
+                var flag = AlipaySignature.RSACheckV1(dic, alipaySignPublicKey, charset, signtype, false);
                 return flag;
             }
             catch (Exception e)
@@ -140,16 +158,16 @@ namespace Magicodes.Alipay
             try
             {
                 var client =
-                     new DefaultAopClient(
-                        serverUrl: alipaySettings.Gatewayurl,
-                        appId: alipaySettings.AppId,
-                        privateKeyPem: alipaySettings.PrivateKey,
-                        format: "json",
-                        version: "1.0",
-                        signType: alipaySettings.SignType,
-                        alipayPulicKey: alipaySettings.AlipayPublicKey,
-                        charset: alipaySettings.CharSet,
-                        keyFromFile: alipaySettings.IsKeyFromFile);
+                    new DefaultAopClient(
+                        alipaySettings.Gatewayurl,
+                        alipaySettings.AppId,
+                        alipaySettings.PrivateKey,
+                        "json",
+                        "1.0",
+                        alipaySettings.SignType,
+                        alipaySettings.AlipayPublicKey,
+                        alipaySettings.CharSet,
+                        alipaySettings.IsKeyFromFile);
                 return client;
             }
             catch (Exception ex)

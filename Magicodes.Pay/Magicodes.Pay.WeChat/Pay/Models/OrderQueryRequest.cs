@@ -1,4 +1,21 @@
-﻿using System.Xml.Serialization;
+﻿// ======================================================================
+//   
+//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           All rights reserved
+//   
+//           filename : OrderQueryRequest.cs
+//           description :
+//   
+//           created by 雪雁 at  2018-07-31 10:11
+//           Mail: wenqiang.li@xin-lai.com
+//           QQ群：85318032（技术交流）
+//           Blog：http://www.cnblogs.com/codelove/
+//           GitHub：https://github.com/xin-lai
+//           Home：http://xin-lai.com
+//   
+// ======================================================================
+
+using System.Xml.Serialization;
 
 namespace Magicodes.Pay.WeChat.Pay.Models
 {
