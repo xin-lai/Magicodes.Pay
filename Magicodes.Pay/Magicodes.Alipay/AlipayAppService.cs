@@ -15,17 +15,17 @@
 //   
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net;
-using System.Threading.Tasks;
 using Alipay.AopSdk.Core;
 using Alipay.AopSdk.Core.Domain;
 using Alipay.AopSdk.Core.Request;
 using Alipay.AopSdk.Core.Util;
 using Magicodes.Alipay.Dto;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Magicodes.Alipay
 {
@@ -36,10 +36,7 @@ namespace Magicodes.Alipay
     {
         private readonly IAlipaySettings alipaySettings;
 
-        public AlipayAppService()
-        {
-            alipaySettings = GetPayConfigFunc();
-        }
+        public AlipayAppService() => alipaySettings = GetPayConfigFunc();
 
         public static Action<string, string> LoggerAction { get; set; }
         public static Func<IAlipaySettings> GetPayConfigFunc { get; set; }
