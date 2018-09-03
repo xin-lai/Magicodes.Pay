@@ -15,13 +15,13 @@
 //   
 // ======================================================================
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Magicodes.Pay.WeChat.Config;
 using Magicodes.Pay.WeChat.Helper;
 using Magicodes.Pay.WeChat.Pay.Dto;
 using Magicodes.Pay.WeChat.Pay.Models;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Magicodes.Pay.WeChat
 {
@@ -43,15 +43,30 @@ namespace Magicodes.Pay.WeChat
         /// <returns></returns>
         public MiniProgramPayOutput MiniProgramPay(MiniProgramPayInput input)
         {
-            if (input == null) throw new ArgumentNullException(nameof(input));
-            if (input.TotalFee <= 0) throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
-            if (string.IsNullOrWhiteSpace(input.OpenId))
-                throw new ArgumentNullException("OpenId必须填写!", nameof(input.OpenId));
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
 
-            if (string.IsNullOrWhiteSpace(input.Body)) throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
+            if (input.TotalFee <= 0)
+            {
+                throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
+            }
+
+            if (string.IsNullOrWhiteSpace(input.OpenId))
+            {
+                throw new ArgumentNullException("OpenId必须填写!", nameof(input.OpenId));
+            }
+
+            if (string.IsNullOrWhiteSpace(input.Body))
+            {
+                throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
+            }
 
             if (string.IsNullOrWhiteSpace(input.SpbillCreateIp))
+            {
                 throw new ArgumentNullException("终端IP必须填写!", nameof(input.SpbillCreateIp));
+            }
 
             var url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
             var config = GetConfig();
@@ -72,7 +87,7 @@ namespace Magicodes.Pay.WeChat
                 SpbillCreateIp = input.SpbillCreateIp,
                 TimeExpire = input.TimeExpire,
                 TimeStart = input.TimeStart,
-                TotalFee = ((int) (input.TotalFee * 100)).ToString(),
+                TotalFee = ((int)(input.TotalFee * 100)).ToString(),
                 NonceStr = weChatPayHelper.GetNoncestr(),
                 NotifyUrl = config.PayNotifyUrl
             };
@@ -109,15 +124,30 @@ namespace Magicodes.Pay.WeChat
         private static IWeChatPayConfig GetConfig()
         {
             var config = WeChatPayHelper.GetPayConfigFunc();
-            if (config == null) throw new ArgumentNullException("请配置支付配置信息!", "PayConfig");
+            if (config == null)
+            {
+                throw new ArgumentNullException("请配置支付配置信息!", "PayConfig");
+            }
+
             if (string.IsNullOrWhiteSpace(config.PayAppId))
+            {
                 throw new ArgumentNullException("PayAppId必须配置!", nameof(config.PayAppId));
+            }
+
             if (string.IsNullOrWhiteSpace(config.MchId))
+            {
                 throw new ArgumentNullException("MchId(商户Id)必须配置!", nameof(config.MchId));
+            }
+
             if (string.IsNullOrWhiteSpace(config.PayNotifyUrl))
+            {
                 throw new ArgumentNullException("PayNotifyUrl(支付回调地址)必须配置!", nameof(config.PayNotifyUrl));
+            }
+
             if (string.IsNullOrWhiteSpace(config.TenPayKey))
+            {
                 throw new ArgumentNullException("TenPayKey(支付密钥)必须配置!", nameof(config.TenPayKey));
+            }
 
             return config;
         }
@@ -130,12 +160,25 @@ namespace Magicodes.Pay.WeChat
         /// <returns></returns>
         public AppPayOutput AppPay(AppPayInput input)
         {
-            if (input == null) throw new ArgumentNullException(nameof(input));
-            if (input.TotalFee <= 0) throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
-            if (string.IsNullOrWhiteSpace(input.Body)) throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            if (input.TotalFee <= 0)
+            {
+                throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
+            }
+
+            if (string.IsNullOrWhiteSpace(input.Body))
+            {
+                throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
+            }
 
             if (string.IsNullOrWhiteSpace(input.SpbillCreateIp))
+            {
                 throw new ArgumentNullException("终端IP必须填写!", nameof(input.SpbillCreateIp));
+            }
 
             var url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
@@ -155,7 +198,7 @@ namespace Magicodes.Pay.WeChat
                 SpbillCreateIp = input.SpbillCreateIp,
                 TimeExpire = input.TimeExpire,
                 TimeStart = input.TimeStart,
-                TotalFee = ((int) (input.TotalFee * 100)).ToString(),
+                TotalFee = ((int)(input.TotalFee * 100)).ToString(),
                 NonceStr = weChatPayHelper.GetNoncestr(),
                 NotifyUrl = config.PayNotifyUrl
             };
@@ -246,7 +289,7 @@ namespace Magicodes.Pay.WeChat
             if (!string.IsNullOrWhiteSpace(outPutXml))
             {
             }
-            else if (string.IsNullOrWhiteSpace(result.TransactionId))
+            else if (string.IsNullOrWhiteSpace(result?.TransactionId))
             {
                 error = "支付结果中微信订单号不存在";
                 outPutXml = string.Format(Fail_Xml_Tpl, error);
@@ -286,7 +329,9 @@ namespace Magicodes.Pay.WeChat
             var url = "https://api.mch.weixin.qq.com/pay/orderquery";
             //检测必填参数
             if (string.IsNullOrWhiteSpace(input.TransactionId) && string.IsNullOrWhiteSpace(input.OutTradeNo))
+            {
                 throw new WeChatPayException("订单查询接口中，out_trade_no、transaction_id至少填一个！");
+            }
 
             var config = GetConfig();
             var req = new OrderQueryRequest
@@ -308,12 +353,9 @@ namespace Magicodes.Pay.WeChat
         /// </summary>
         /// <param name="transactionId"></param>
         /// <returns></returns>
-        private bool QueryOrder(string transactionId)
+        private bool QueryOrder(string transactionId) => OrderQuery(new OrderQueryInput
         {
-            return OrderQuery(new OrderQueryInput
-            {
-                TransactionId = transactionId
-            }).IsSuccess();
-        }
+            TransactionId = transactionId
+        }).IsSuccess();
     }
 }
