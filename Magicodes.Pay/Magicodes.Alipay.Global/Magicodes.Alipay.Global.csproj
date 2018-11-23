@@ -10,7 +10,7 @@
       交流QQ群：85318032
       小店地址：https://shop113059108.taobao.com/
     </Description>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
