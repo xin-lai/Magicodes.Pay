@@ -15,9 +15,9 @@
 //   
 // ======================================================================
 
-using Magicodes.Alipay.Global.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Magicodes.Alipay.Global.Dto;
 
 namespace Magicodes.Alipay.Global
 {

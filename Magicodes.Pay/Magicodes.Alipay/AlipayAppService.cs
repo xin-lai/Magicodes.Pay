@@ -15,17 +15,17 @@
 //   
 // ======================================================================
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Net;
+using System.Threading.Tasks;
 using Alipay.AopSdk.Core;
 using Alipay.AopSdk.Core.Domain;
 using Alipay.AopSdk.Core.Request;
 using Alipay.AopSdk.Core.Util;
 using Magicodes.Alipay.Dto;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Magicodes.Alipay
 {
@@ -34,9 +34,12 @@ namespace Magicodes.Alipay
     /// </summary>
     public class AlipayAppService : IAlipayAppService
     {
-        private readonly IAlipaySettings alipaySettings;
+        private readonly IAlipaySettings _alipaySettings;
 
-        public AlipayAppService() => alipaySettings = GetPayConfigFunc();
+        public AlipayAppService()
+        {
+            _alipaySettings = GetPayConfigFunc();
+        }
 
         public static Action<string, string> LoggerAction { get; set; }
         public static Func<IAlipaySettings> GetPayConfigFunc { get; set; }
@@ -69,7 +72,7 @@ namespace Magicodes.Alipay
                 TotalAmount = input.TotalAmount.ToString()
             };
             request.SetBizModel(model);
-            request.SetNotifyUrl(input.NotifyUrl ?? alipaySettings.Notify);
+            request.SetNotifyUrl(input.NotifyUrl ?? _alipaySettings.Notify);
             var response = client.SdkExecute(request);
             if (response.IsError)
             {
@@ -112,7 +115,7 @@ namespace Magicodes.Alipay
                 QuitUrl = input.QuitUrl
             };
             request.SetBizModel(model);
-            request.SetNotifyUrl(input.NotifyUrl ?? alipaySettings.Notify);
+            request.SetNotifyUrl(input.NotifyUrl ?? _alipaySettings.Notify);
             var response = client.pageExecute(request);
             if (response.IsError)
             {
@@ -135,10 +138,9 @@ namespace Magicodes.Alipay
         {
             try
             {
-                var config = GetPayConfigFunc();
-                var alipaySignPublicKey = config.AlipaySignPublicKey;
-                var charset = config.CharSet;
-                var signtype = config.SignType;
+                var alipaySignPublicKey = _alipaySettings.AlipaySignPublicKey;
+                var charset = _alipaySettings.CharSet;
+                var signtype = _alipaySettings.SignType;
                 var flag = AlipaySignature.RSACheckV1(dic, alipaySignPublicKey, charset, signtype, false);
                 return flag;
             }
@@ -156,15 +158,15 @@ namespace Magicodes.Alipay
             {
                 var client =
                     new DefaultAopClient(
-                        alipaySettings.Gatewayurl,
-                        alipaySettings.AppId,
-                        alipaySettings.PrivateKey,
+                        _alipaySettings.Gatewayurl,
+                        _alipaySettings.AppId,
+                        _alipaySettings.PrivateKey,
                         "json",
                         "1.0",
-                        alipaySettings.SignType,
-                        alipaySettings.AlipayPublicKey,
-                        alipaySettings.CharSet,
-                        alipaySettings.IsKeyFromFile);
+                        _alipaySettings.SignType,
+                        _alipaySettings.AlipayPublicKey,
+                        _alipaySettings.CharSet,
+                        _alipaySettings.IsKeyFromFile);
                 return client;
             }
             catch (Exception ex)

@@ -15,8 +15,6 @@
 //   
 // ======================================================================
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Magicodes.Alipay.Global
 {
     /// <summary>
@@ -66,7 +64,7 @@ namespace Magicodes.Alipay.Global
         public string ReturnUrl { get; set; }
 
         /// <summary>
-        /// 结算币种
+        ///     结算币种
         /// </summary>
         public string Currency { get; set; } = "USD";
     }

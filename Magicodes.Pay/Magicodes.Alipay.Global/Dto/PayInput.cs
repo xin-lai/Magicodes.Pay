@@ -45,7 +45,7 @@ namespace Magicodes.Alipay.Global.Dto
         public string TradeNo { get; set; }
 
         /// <summary>
-        /// 结算币种
+        ///     结算币种
         /// </summary>
         [MaxLength(10)]
         public string Currency { get; set; }
@@ -58,7 +58,7 @@ namespace Magicodes.Alipay.Global.Dto
 
 
         /// <summary>
-        /// 范围为0.01～1000000.00,如果商户网站使用人民币进行标价就是用这个参数来替换total_fee参数，rmb_fee和total_fee不能同时使用
+        ///     范围为0.01～1000000.00,如果商户网站使用人民币进行标价就是用这个参数来替换total_fee参数，rmb_fee和total_fee不能同时使用
         /// </summary>
         [Range(0.01, 1000000)]
         public decimal RmbFee { get; set; }
@@ -71,19 +71,19 @@ namespace Magicodes.Alipay.Global.Dto
         public string TimeoutRule { get; set; }
 
         /// <summary>
-        /// 快捷登录返回的安全令牌。快捷登录的需要传。
+        ///     快捷登录返回的安全令牌。快捷登录的需要传。
         /// </summary>
         [MaxLength(40)]
         public string AuthToken { get; set; }
 
         /// <summary>
-        /// YYYY-MM-DD HH:MM:SS 这里请使用北京时间以便于和支付宝系统时间匹配，此参数必须要和order_valid_time参数一起使用，控制从跳转到买家登陆的有效时间
+        ///     YYYY-MM-DD HH:MM:SS 这里请使用北京时间以便于和支付宝系统时间匹配，此参数必须要和order_valid_time参数一起使用，控制从跳转到买家登陆的有效时间
         /// </summary>
         public DateTime? OrderGmtCreate { get; set; }
 
 
         /// <summary>
-        /// 最大值为2592000，单位为秒，此参数必须要和order_gmt_create参数一起使用，控制从跳转到买家登陆的有效时间	
+        ///     最大值为2592000，单位为秒，此参数必须要和order_gmt_create参数一起使用，控制从跳转到买家登陆的有效时间
         /// </summary>
         public int? OrderValidTime { get; set; }
 
@@ -94,13 +94,13 @@ namespace Magicodes.Alipay.Global.Dto
         public string Supplier { get; set; }
 
         /// <summary>
-        ///     由支付机构给二级商户分配的唯一ID	
+        ///     由支付机构给二级商户分配的唯一ID
         /// </summary>
         [MaxLength(64)]
         public string SecondaryMerchantId { get; set; }
 
         /// <summary>
-        ///  由支付机构给二级商户分配的唯一名称
+        ///     由支付机构给二级商户分配的唯一名称
         /// </summary>
         [MaxLength(128)]
         public string SecondaryMerchantName { get; set; }

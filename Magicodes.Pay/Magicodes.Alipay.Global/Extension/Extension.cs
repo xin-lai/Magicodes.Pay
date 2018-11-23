@@ -26,7 +26,7 @@ namespace Magicodes.Alipay.Global.Extension
     public static class Extension
     {
         /// <summary>
-        /// 除去数组中的空值和签名参数并以字母a到z的顺序排序
+        ///     除去数组中的空值和签名参数并以字母a到z的顺序排序
         /// </summary>
         /// <param name="dicArrayPre">过滤前的参数组</param>
         /// <returns>过滤后的参数组</returns>
@@ -34,23 +34,21 @@ namespace Magicodes.Alipay.Global.Extension
         {
             var dicArray = new Dictionary<string, string>();
             foreach (var temp in dicArrayPre)
-            {
-                if (temp.Key.ToLower() != "sign" && temp.Key.ToLower() != "sign_type" && !string.IsNullOrEmpty(temp.Value))
-                {
+                if (temp.Key.ToLower() != "sign" && temp.Key.ToLower() != "sign_type" &&
+                    !string.IsNullOrEmpty(temp.Value))
                     dicArray.Add(temp.Key, temp.Value);
-                }
-            }
 
             return dicArray;
         }
 
         /// <summary>
-        /// 生成请求时的签名
+        ///     生成请求时的签名
         /// </summary>
         /// <param name="sPara">请求给支付宝的参数数组</param>
         /// <param name="alipaySettings"></param>
         /// <returns>签名结果</returns>
-        private static string BuildRequestMysign(this Dictionary<string, string> sPara, IGlobalAlipaySettings alipaySettings)
+        private static string BuildRequestMysign(this Dictionary<string, string> sPara,
+            IGlobalAlipaySettings alipaySettings)
         {
             //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
             var prestr = sPara.CreateLinkString();
@@ -71,7 +69,7 @@ namespace Magicodes.Alipay.Global.Extension
         }
 
         /// <summary>
-        /// 签名字符串
+        ///     签名字符串
         /// </summary>
         /// <param name="prestr">需要签名的字符串</param>
         /// <param name="key">密钥</param>
@@ -85,16 +83,13 @@ namespace Magicodes.Alipay.Global.Extension
 
             MD5 md5 = new MD5CryptoServiceProvider();
             var t = md5.ComputeHash(Encoding.GetEncoding(inputCharset).GetBytes(prestr));
-            foreach (var t1 in t)
-            {
-                sb.Append(t1.ToString("x").PadLeft(2, '0'));
-            }
+            foreach (var t1 in t) sb.Append(t1.ToString("x").PadLeft(2, '0'));
 
             return sb.ToString();
         }
 
         /// <summary>
-        /// 验证签名
+        ///     验证签名
         /// </summary>
         /// <param name="prestr">需要签名的字符串</param>
         /// <param name="sign">签名结果</param>
@@ -108,17 +103,14 @@ namespace Magicodes.Alipay.Global.Extension
         }
 
         /// <summary>
-        /// 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+        ///     把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         /// </summary>
         /// <param name="dicArray">需要拼接的数组</param>
         /// <returns>拼接完成以后的字符串</returns>
         public static string CreateLinkString(this Dictionary<string, string> dicArray)
         {
             var prestr = new StringBuilder();
-            foreach (var temp in dicArray)
-            {
-                prestr.Append(temp.Key + "=" + temp.Value + "&");
-            }
+            foreach (var temp in dicArray) prestr.Append(temp.Key + "=" + temp.Value + "&");
 
             //去掉最後一個&字符
             var nLen = prestr.Length;
@@ -128,7 +120,7 @@ namespace Magicodes.Alipay.Global.Extension
         }
 
         /// <summary>
-        /// 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串，并对参数值做urlencode
+        ///     把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串，并对参数值做urlencode
         /// </summary>
         /// <param name="dicArray">需要拼接的数组</param>
         /// <returns>拼接完成以后的字符串</returns>
@@ -136,9 +128,7 @@ namespace Magicodes.Alipay.Global.Extension
         {
             var prestr = new StringBuilder();
             foreach (var temp in dicArray)
-            {
                 prestr.Append(temp.Key + "=" + HttpUtility.UrlEncode(temp.Value, Encoding.UTF8) + "&");
-            }
 
             //去掉最後一個&字符
             var nLen = prestr.Length;
@@ -148,7 +138,7 @@ namespace Magicodes.Alipay.Global.Extension
         }
 
         /// <summary>
-        /// 获取文件的md5摘要
+        ///     获取文件的md5摘要
         /// </summary>
         /// <param name="sFile">文件流</param>
         /// <returns>MD5摘要结果</returns>
@@ -157,15 +147,12 @@ namespace Magicodes.Alipay.Global.Extension
             MD5 md5 = new MD5CryptoServiceProvider();
             var result = md5.ComputeHash(sFile);
             var sb = new StringBuilder(32);
-            foreach (var t in result)
-            {
-                sb.Append(t.ToString("x").PadLeft(2, '0'));
-            }
+            foreach (var t in result) sb.Append(t.ToString("x").PadLeft(2, '0'));
             return sb.ToString();
         }
 
         /// <summary>
-        /// 获取文件的md5摘要
+        ///     获取文件的md5摘要
         /// </summary>
         /// <param name="dataFile">文件流</param>
         /// <returns>MD5摘要结果</returns>
@@ -174,20 +161,18 @@ namespace Magicodes.Alipay.Global.Extension
             MD5 md5 = new MD5CryptoServiceProvider();
             var result = md5.ComputeHash(dataFile);
             var sb = new StringBuilder(32);
-            foreach (var t in result)
-            {
-                sb.Append(t.ToString("x").PadLeft(2, '0'));
-            }
+            foreach (var t in result) sb.Append(t.ToString("x").PadLeft(2, '0'));
             return sb.ToString();
         }
 
         /// <summary>
-        /// 生成要请求给支付宝的参数数组
+        ///     生成要请求给支付宝的参数数组
         /// </summary>
         /// <param name="sParaTemp">请求前的参数数组</param>
         /// <param name="alipaySettings"></param>
         /// <returns>要请求的参数数组</returns>
-        public static Dictionary<string, string> BuildRequestPara(this SortedDictionary<string, string> sParaTemp, IGlobalAlipaySettings alipaySettings)
+        public static Dictionary<string, string> BuildRequestPara(this SortedDictionary<string, string> sParaTemp,
+            IGlobalAlipaySettings alipaySettings)
         {
             //待签名请求参数数组
             //签名结果
@@ -207,12 +192,13 @@ namespace Magicodes.Alipay.Global.Extension
         }
 
         /// <summary>
-        /// 生成要请求给支付宝的参数数组
+        ///     生成要请求给支付宝的参数数组
         /// </summary>
         /// <param name="sParaTemp">请求前的参数数组</param>
         /// <param name="alipaySettings"></param>
         /// <returns>要请求的参数数组字符串</returns>
-        public static string BuildRequestParaToString(this SortedDictionary<string, string> sParaTemp, IGlobalAlipaySettings alipaySettings)
+        public static string BuildRequestParaToString(this SortedDictionary<string, string> sParaTemp,
+            IGlobalAlipaySettings alipaySettings)
         {
             //待签名请求参数数组
             var sPara = BuildRequestPara(sParaTemp, alipaySettings);
@@ -223,16 +209,16 @@ namespace Magicodes.Alipay.Global.Extension
             return strRequestData;
         }
 
-        public static string GetHtmlSubmitForm(this Dictionary<string, string> dicPara, string gatewayurl, string charSet)
+        public static string GetHtmlSubmitForm(this Dictionary<string, string> dicPara, string gatewayurl,
+            string charSet)
         {
             var sbHtml = new StringBuilder();
 
-            sbHtml.Append("<form id='alipaysubmit' name='alipaysubmit' action='" + gatewayurl + "_input_charset=" + charSet + "' method='get'>");
+            sbHtml.Append("<form id='alipaysubmit' name='alipaysubmit' action='" + gatewayurl + "_input_charset=" +
+                          charSet + "' method='get'>");
 
             foreach (var temp in dicPara)
-            {
                 sbHtml.Append("<input type='hidden' name='" + temp.Key + "' value='" + temp.Value + "'/>");
-            }
 
             //submit按钮控件请不要含有name属性
             sbHtml.Append("<input type='submit' value='支付宝' style='display:none;'></form>");
@@ -241,7 +227,6 @@ namespace Magicodes.Alipay.Global.Extension
 
             return sbHtml.ToString();
         }
-
 
 
         ///// <summary>

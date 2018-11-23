@@ -64,7 +64,7 @@ namespace Magicodes.Alipay.Global
         string ReturnUrl { get; set; }
 
         /// <summary>
-        /// 结算币种
+        ///     结算币种
         /// </summary>
         string Currency { get; set; }
     }
