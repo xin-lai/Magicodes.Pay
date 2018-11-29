@@ -16,6 +16,7 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Magicodes.Alipay.Global.Dto
@@ -124,5 +125,10 @@ namespace Magicodes.Alipay.Global.Dto
         /// </summary>
         [MaxLength(256)]
         public string ReturnUrl { get; set; }
+
+        /// <summary>
+        /// 分账信息
+        /// </summary>
+        public List<SplitFundInfoDto> SplitFundInfo { get; set; }
     }
 }

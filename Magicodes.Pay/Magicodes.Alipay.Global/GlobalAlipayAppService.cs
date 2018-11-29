@@ -15,12 +15,12 @@
 //   
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Magicodes.Alipay.Global.Dto;
 using Magicodes.Alipay.Global.Extension;
 using Magicodes.Alipay.Global.Helper;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Magicodes.Alipay.Global
 {
@@ -29,10 +29,7 @@ namespace Magicodes.Alipay.Global
     {
         private readonly IGlobalAlipaySettings _alipaySettings;
 
-        public GlobalAlipayAppService()
-        {
-            _alipaySettings = GetPayConfigFunc();
-        }
+        public GlobalAlipayAppService() => _alipaySettings = GetPayConfigFunc();
 
         public static Action<string, string> LoggerAction { get; set; }
         public static Func<IGlobalAlipaySettings> GetPayConfigFunc { get; set; }
@@ -60,30 +57,70 @@ namespace Magicodes.Alipay.Global
                 {"body", input.Body}
             };
             if (input.RmbFee > 0)
+            {
                 sParaTemp.Add("rmb_fee", input.RmbFee.ToString());
+            }
             else
+            {
                 sParaTemp.Add("total_fee", input.TotalFee.ToString());
+            }
 
-            if (!string.IsNullOrWhiteSpace(input.TimeoutRule)) sParaTemp.Add("timeout_rule", input.TimeoutRule);
+            if (!string.IsNullOrWhiteSpace(input.TimeoutRule))
+            {
+                sParaTemp.Add("timeout_rule", input.TimeoutRule);
+            }
 
-            if (!string.IsNullOrWhiteSpace(input.AuthToken)) sParaTemp.Add("auth_token", input.AuthToken);
+            if (!string.IsNullOrWhiteSpace(input.AuthToken))
+            {
+                sParaTemp.Add("auth_token", input.AuthToken);
+            }
 
-            if (!string.IsNullOrWhiteSpace(input.Supplier)) sParaTemp.Add("supplier", input.Supplier);
+            if (!string.IsNullOrWhiteSpace(input.Supplier))
+            {
+                sParaTemp.Add("supplier", input.Supplier);
+            }
 
             if (!string.IsNullOrWhiteSpace(input.SecondaryMerchantId))
+            {
                 sParaTemp.Add("secondary_merchant_id", input.SecondaryMerchantId);
+            }
 
             if (!string.IsNullOrWhiteSpace(input.SecondaryMerchantName))
+            {
                 sParaTemp.Add("secondary_merchant_name", input.SecondaryMerchantName);
+            }
 
             if (!string.IsNullOrWhiteSpace(input.SecondaryMerchantIndustry))
+            {
                 sParaTemp.Add("secondary_merchant_industry", input.SecondaryMerchantIndustry);
+            }
 
             if (input.OrderGmtCreate.HasValue)
+            {
                 sParaTemp.Add("order_gmt_create", input.OrderGmtCreate.Value.ToString("yyyy-MM-dd hh:mm:ss"));
+            }
 
             if (input.OrderValidTime.HasValue && input.OrderValidTime > 0)
+            {
                 sParaTemp.Add("order_valid_time", input.OrderValidTime.Value.ToString());
+            }
+
+            if (input.SplitFundInfo != null && input.SplitFundInfo.Count > 0)
+            {
+                foreach (var splitFundInfoDto in input.SplitFundInfo)
+                {
+                    if (input.RmbFee > 0)
+                    {
+                        splitFundInfoDto.Currency = "CNY";
+                    }
+                    else
+                    {
+                        splitFundInfoDto.Currency = input.Currency ?? _alipaySettings.Currency;
+                    }
+                }
+                //分账信息
+                sParaTemp.Add("split_fund_info", Newtonsoft.Json.JsonConvert.SerializeObject(input.SplitFundInfo));
+            }
 
             //过滤签名参数数组
             sParaTemp.FilterPara();
@@ -106,7 +143,11 @@ namespace Magicodes.Alipay.Global
             try
             {
                 var sArray = new SortedDictionary<string, string>();
-                foreach (var item in dic) sArray.Add(item.Key, item.Value);
+                foreach (var item in dic)
+                {
+                    sArray.Add(item.Key, item.Value);
+                }
+
                 var aliNotify = new NotifyHelper();
                 var verifyResult = aliNotify.Verify(sArray, dic["notify_id"], dic["sign"], _alipaySettings);
 
