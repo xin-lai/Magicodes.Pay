@@ -124,8 +124,14 @@ namespace Magicodes.Alipay.Global
             }
             else if (_alipaySettings.SplitFundInfo != null && _alipaySettings.SplitFundInfo.Count > 0)
             {
-                foreach (var splitFundInfoDto in _alipaySettings.SplitFundInfo)
+                input.SplitFundInfo = new List<SplitFundInfoDto>();
+                foreach (var splitFundInfo in _alipaySettings.SplitFundInfo)
                 {
+                    var splitFundInfoDto = new SplitFundInfoDto()
+                    {
+                        Desc = splitFundInfo.Desc,
+                        TransIn = splitFundInfo.TransIn
+                    };
                     if (input.RmbFee > 0)
                     {
                         splitFundInfoDto.Currency = "CNY";
@@ -134,10 +140,17 @@ namespace Magicodes.Alipay.Global
                     {
                         splitFundInfoDto.Currency = input.Currency ?? _alipaySettings.Currency;
                     }
+
+                    if (splitFundInfo.AmountRate > 0)
+                    {
+                        var amount = input.TotalFee > 0 ? input.TotalFee : input.RmbFee;
+                        //日元取整数,其他的保留两位小数
+                        splitFundInfoDto.Amount = splitFundInfoDto.Currency == "JPY" ? decimal.Floor(splitFundInfo.AmountRate * amount) : decimal.Round(splitFundInfo.AmountRate * amount, 2);
+                    }
                 }
                 //分账信息
                 sParaTemp.Add("split_fund_info", Newtonsoft.Json.JsonConvert.SerializeObject(_alipaySettings.SplitFundInfo));
-            } 
+            }
             #endregion
 
             //过滤签名参数数组

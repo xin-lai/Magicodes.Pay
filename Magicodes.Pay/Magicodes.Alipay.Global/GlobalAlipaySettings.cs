@@ -74,6 +74,6 @@ namespace Magicodes.Alipay.Global
         /// <summary>
         /// 分账信息
         /// </summary>
-        public List<SplitFundInfoDto> SplitFundInfo { get; set; }
+        public List<SplitFundSettingInfoDto> SplitFundInfo { get; set; }
     }
 }
