@@ -15,6 +15,9 @@
 //   
 // ======================================================================
 
+using System.Collections.Generic;
+using Magicodes.Alipay.Global.Dto;
+
 namespace Magicodes.Alipay.Global
 {
     /// <summary>
@@ -67,5 +70,10 @@ namespace Magicodes.Alipay.Global
         ///     结算币种
         /// </summary>
         string Currency { get; set; }
+
+        /// <summary>
+        /// 分账信息
+        /// </summary>
+        List<SplitFundInfoDto> SplitFundInfo { get; set; }
     }
 }

@@ -105,6 +105,7 @@ namespace Magicodes.Alipay.Global
                 sParaTemp.Add("order_valid_time", input.OrderValidTime.Value.ToString());
             }
 
+            #region 设置分账信息
             if (input.SplitFundInfo != null && input.SplitFundInfo.Count > 0)
             {
                 foreach (var splitFundInfoDto in input.SplitFundInfo)
@@ -121,6 +122,23 @@ namespace Magicodes.Alipay.Global
                 //分账信息
                 sParaTemp.Add("split_fund_info", Newtonsoft.Json.JsonConvert.SerializeObject(input.SplitFundInfo));
             }
+            else if (_alipaySettings.SplitFundInfo != null && _alipaySettings.SplitFundInfo.Count > 0)
+            {
+                foreach (var splitFundInfoDto in _alipaySettings.SplitFundInfo)
+                {
+                    if (input.RmbFee > 0)
+                    {
+                        splitFundInfoDto.Currency = "CNY";
+                    }
+                    else
+                    {
+                        splitFundInfoDto.Currency = input.Currency ?? _alipaySettings.Currency;
+                    }
+                }
+                //分账信息
+                sParaTemp.Add("split_fund_info", Newtonsoft.Json.JsonConvert.SerializeObject(_alipaySettings.SplitFundInfo));
+            } 
+            #endregion
 
             //过滤签名参数数组
             sParaTemp.FilterPara();
