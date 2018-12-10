@@ -18,12 +18,12 @@
 namespace Magicodes.Pay.WeChat.Config
 {
     /// <summary>
-    ///     小程序配置信息
+    ///     微信支付配置信息
     /// </summary>
     public interface IWeChatPayConfig
     {
         /// <summary>
-        ///     小程序ID
+        ///     APPId
         /// </summary>
         string PayAppId { get; set; }
 
