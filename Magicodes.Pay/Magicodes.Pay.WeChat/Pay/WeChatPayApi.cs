@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 namespace Magicodes.Pay.WeChat
 {
     /// <summary>
-    ///     小程序支付接口
+    ///     微信支付接口
     /// </summary>
     public class WeChatPayApi
     {
