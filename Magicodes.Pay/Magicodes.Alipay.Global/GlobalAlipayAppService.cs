@@ -18,6 +18,7 @@
 using Magicodes.Alipay.Global.Dto;
 using Magicodes.Alipay.Global.Extension;
 using Magicodes.Alipay.Global.Helper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -47,15 +48,31 @@ namespace Magicodes.Alipay.Global
             {
                 {"service", "create_forex_trade"},
                 {"partner", _alipaySettings.Partner},
-                {"_input_charset", _alipaySettings.CharSet.ToLower()},
+                {"_input_charset", _alipaySettings.CharSet.ToUpper()},
                 {"sign_type", _alipaySettings.SignType},
                 {"notify_url", input.NotifyUrl ?? _alipaySettings.Notify},
                 {"return_url", input.ReturnUrl ?? _alipaySettings.ReturnUrl},
                 {"currency", input.Currency ?? _alipaySettings.Currency},
                 {"out_trade_no", input.TradeNo ?? Guid.NewGuid().ToString("N")},
                 {"subject", input.Subject},
-                {"body", input.Body}
+                {"product_code", "NEW_OVERSEAS_SELLER"},
             };
+            if (!string.IsNullOrWhiteSpace(input.Body))
+            {
+                //商品信息，不支持特殊字符。格式：[{"goods_name":"名称1","quantity":"数量1"},{"goods_name":"名称2","quantity":"数量2"}]。
+                if (!input.Body.StartsWith("["))
+                {
+                    input.Body = JsonConvert.SerializeObject(new List<object>()
+                    {
+                        new
+                        {
+                            goods_name = input.Body,
+                            quantity = 1
+                        }
+                    });
+                }
+                sParaTemp.Add("body", input.Body);
+            }
             if (input.RmbFee > 0)
             {
                 sParaTemp.Add("rmb_fee", input.RmbFee.ToString());
@@ -149,13 +166,14 @@ namespace Magicodes.Alipay.Global
                     }
                 }
                 //分账信息
-                sParaTemp.Add("split_fund_info", Newtonsoft.Json.JsonConvert.SerializeObject(_alipaySettings.SplitFundInfo));
+                sParaTemp.Add("split_fund_info", Newtonsoft.Json.JsonConvert.SerializeObject(input.SplitFundInfo));
             }
             #endregion
 
             //过滤签名参数数组
             sParaTemp.FilterPara();
             var dic = sParaTemp.BuildRequestPara(_alipaySettings);
+            LoggerAction?.Invoke("Debug", "支付参数：" + JsonConvert.SerializeObject(dic));
             var html = dic.GetHtmlSubmitForm(_alipaySettings.Gatewayurl, _alipaySettings.CharSet);
             return Task.FromResult(new PayOutput
             {

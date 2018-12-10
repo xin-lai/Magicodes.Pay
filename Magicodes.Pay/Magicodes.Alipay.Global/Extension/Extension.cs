@@ -214,7 +214,7 @@ namespace Magicodes.Alipay.Global.Extension
         {
             var sbHtml = new StringBuilder();
 
-            sbHtml.Append("<form id='alipaysubmit' name='alipaysubmit' action='" + gatewayurl + "_input_charset=" +
+            sbHtml.Append("<form id='alipaysubmit' name='alipaysubmit' action='" + gatewayurl + "' _input_charset=" +
                           charSet + "' method='get'>");
 
             foreach (var temp in dicPara)
