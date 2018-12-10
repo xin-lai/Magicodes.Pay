@@ -116,3 +116,6 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
 
 回调代码请参考此代码:https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
 
+回调逻辑参考:
+<img src="res/30.png">
+
