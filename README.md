@@ -4,17 +4,16 @@
 
 相关配置请参考此代码:https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
 
-<img src="res/1.png">
-<img src="res/2.png">
+![参考](res/1.png)
+![参考](res/2.png)
 
 支付相关代码可以参考:
 https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Services/PayAppService.cs
 
 界面参考:
-<img src="res/10.png">
-<img src="res/11.png">
-<img src="res/12.png">
-
+![参考](res/10.png)
+![参考](res/11.png)
+![参考](res/12.png)
 ## 微信支付
 
             if (WeChatPayApi == null)
@@ -90,7 +89,7 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
 
 ### 分账
 
-<img src="res/14.png">
+![参考](res/14.png)
 
 ## 支付回调
 
@@ -111,11 +110,10 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
                     AsyncHelper.RunSync(async () => await paymentCallbackManager.ExecuteCallback(key, outTradeNo, transactionId, totalFee, data));
                 }
             }
-
-<img src="res/20.png">
+![参考](res/20.png)
 
 回调代码请参考此代码:https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
 
 回调逻辑参考:
-<img src="res/30.png">
+![回调逻辑](res/30.png)
 
