@@ -1,4 +1,6 @@
 # Magicodes.Pay
+
+## 主要功能
 Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前支持以下支付方式和功能：
 * 支付宝APP支付
 * 支付宝Wap支付
@@ -162,4 +164,32 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
 
 回调逻辑参考:
 ![回调逻辑](res/30.png)
+
+## 官方订阅号
+
+关注“magiccodes”订阅号免费获取：
+
+* 最新文章、教程、文档
+* 视频教程
+* 基础版免费授权
+* 模板
+* 解决方案
+* 编程心得和理念
+
+![官方订阅号](res/wechat.jpg)
+
+## 相关QQ群
+
+编程交流群<85318032>
+
+产品交流群<897857351>
+
+## 官方博客
+
+<http://www.cnblogs.com/codelove/>
+
+## 其他开源库地址
+
+<https://gitee.com/xl_wenqiang/Magicodes.Admin.Core>
+<https://github.com/xin-lai>
 
