@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 //   
-//           Copyright (C) 2018-2020 湖南心莱信息科技有限公司    
+//           Copyright (C) 2019-2020 湖南心莱信息科技有限公司    
 //           All rights reserved
 //   
 //           filename : WeChatPayApi.cs
@@ -15,14 +15,14 @@
 //   
 // ======================================================================
 
-using Magicodes.Pay.WeChat.Config;
-using Magicodes.Pay.WeChat.Helper;
-using Magicodes.Pay.WeChat.Pay.Dto;
-using Magicodes.Pay.WeChat.Pay.Models;
 using System;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Magicodes.Pay.WeChat.Config;
+using Magicodes.Pay.WeChat.Helper;
+using Magicodes.Pay.WeChat.Pay.Dto;
+using Magicodes.Pay.WeChat.Pay.Models;
 
 namespace Magicodes.Pay.WeChat
 {
@@ -31,12 +31,13 @@ namespace Magicodes.Pay.WeChat
     /// </summary>
     public class WeChatPayApi
     {
-        private const string Fail_Xml_Tpl =
+        private const string FailXmlTpl =
             "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[{0}]]></return_msg></xml>";
 
-        private readonly WeChatPayHelper weChatPayHelper = new WeChatPayHelper();
+        private readonly WeChatPayHelper _weChatPayHelper = new WeChatPayHelper();
 
         #region 小程序统一下单接口
+
         /// <summary>
         ///     小程序支付
         ///     小程序统一下单接口
@@ -45,30 +46,17 @@ namespace Magicodes.Pay.WeChat
         /// <returns></returns>
         public MiniProgramPayOutput MiniProgramPay(MiniProgramPayInput input)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
+            if (input == null) throw new ArgumentNullException(nameof(input));
 
-            if (input.TotalFee <= 0)
-            {
-                throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
-            }
+            if (input.TotalFee <= 0) throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
 
             if (string.IsNullOrWhiteSpace(input.OpenId))
-            {
                 throw new ArgumentNullException("OpenId必须填写!", nameof(input.OpenId));
-            }
 
-            if (string.IsNullOrWhiteSpace(input.Body))
-            {
-                throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
-            }
+            if (string.IsNullOrWhiteSpace(input.Body)) throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
 
             if (string.IsNullOrWhiteSpace(input.SpbillCreateIp))
-            {
                 throw new ArgumentNullException("终端IP必须填写!", nameof(input.SpbillCreateIp));
-            }
 
             var url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
             var config = GetConfig();
@@ -85,18 +73,18 @@ namespace Magicodes.Pay.WeChat
                 GoodsTag = input.GoodsTag,
                 LimitPay = input.LimitPay,
                 OpenId = input.OpenId,
-                OutTradeNo = input.OutTradeNo ?? weChatPayHelper.GenerateOutTradeNo(),
+                OutTradeNo = input.OutTradeNo ?? _weChatPayHelper.GenerateOutTradeNo(),
                 SpbillCreateIp = input.SpbillCreateIp,
                 TimeExpire = input.TimeExpire,
                 TimeStart = input.TimeStart,
-                TotalFee = ((int)(input.TotalFee * 100)).ToString(),
-                NonceStr = weChatPayHelper.GetNoncestr(),
+                TotalFee = ((int) (input.TotalFee * 100)).ToString(),
+                NonceStr = _weChatPayHelper.GetNoncestr(),
                 NotifyUrl = config.PayNotifyUrl
             };
-            var dictionary = weChatPayHelper.GetDictionaryByType(model);
-            model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+            var dictionary = _weChatPayHelper.GetDictionaryByType(model);
+            model.Sign = _weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
 
-            var result = weChatPayHelper.PostXML<UnifiedorderResult>(url, model);
+            var result = _weChatPayHelper.PostXML<UnifiedorderResult>(url, model);
             if (result.IsSuccess())
             {
                 var data = new
@@ -105,7 +93,7 @@ namespace Magicodes.Pay.WeChat
                     nonceStr = result.NonceStr,
                     package = "prepay_id=" + result.PrepayId,
                     signType = "MD5",
-                    timeStamp = weChatPayHelper.GetTimestamp()
+                    timeStamp = _weChatPayHelper.GetTimestamp()
                 };
                 return new MiniProgramPayOutput
                 {
@@ -113,7 +101,7 @@ namespace Magicodes.Pay.WeChat
                     Package = data.package,
                     NonceStr = data.nonceStr,
                     PaySign =
-                        weChatPayHelper.CreateMd5Sign(weChatPayHelper.GetDictionaryByType(data), config.TenPayKey),
+                        _weChatPayHelper.CreateMd5Sign(_weChatPayHelper.GetDictionaryByType(data), config.TenPayKey),
                     SignType = data.signType,
                     TimeStamp = data.timeStamp
                 };
@@ -126,37 +114,27 @@ namespace Magicodes.Pay.WeChat
         #endregion
 
         #region  获取支付配置
+
         /// <summary>
-        /// 获取支付配置
+        ///     获取支付配置
         /// </summary>
         /// <returns></returns>
         private static IWeChatPayConfig GetConfig()
         {
             var config = WeChatPayHelper.GetPayConfigFunc();
-            if (config == null)
-            {
-                throw new ArgumentNullException("请配置支付配置信息!", "PayConfig");
-            }
+            if (config == null) throw new ArgumentNullException("请配置支付配置信息!", "PayConfig");
 
             if (string.IsNullOrWhiteSpace(config.PayAppId))
-            {
                 throw new ArgumentNullException("PayAppId必须配置!", nameof(config.PayAppId));
-            }
 
             if (string.IsNullOrWhiteSpace(config.MchId))
-            {
                 throw new ArgumentNullException("MchId(商户Id)必须配置!", nameof(config.MchId));
-            }
 
             if (string.IsNullOrWhiteSpace(config.PayNotifyUrl))
-            {
                 throw new ArgumentNullException("PayNotifyUrl(支付回调地址)必须配置!", nameof(config.PayNotifyUrl));
-            }
 
             if (string.IsNullOrWhiteSpace(config.TenPayKey))
-            {
                 throw new ArgumentNullException("TenPayKey(支付密钥)必须配置!", nameof(config.TenPayKey));
-            }
 
             return config;
         }
@@ -164,6 +142,7 @@ namespace Magicodes.Pay.WeChat
         #endregion
 
         #region APP统一下单接口
+
         /// <summary>
         ///     APP支付
         ///     APP统一下单接口
@@ -172,25 +151,14 @@ namespace Magicodes.Pay.WeChat
         /// <returns></returns>
         public AppPayOutput AppPay(AppPayInput input)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
+            if (input == null) throw new ArgumentNullException(nameof(input));
 
-            if (input.TotalFee <= 0)
-            {
-                throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
-            }
+            if (input.TotalFee <= 0) throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
 
-            if (string.IsNullOrWhiteSpace(input.Body))
-            {
-                throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
-            }
+            if (string.IsNullOrWhiteSpace(input.Body)) throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
 
             if (string.IsNullOrWhiteSpace(input.SpbillCreateIp))
-            {
                 throw new ArgumentNullException("终端IP必须填写!", nameof(input.SpbillCreateIp));
-            }
 
             var url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
@@ -206,17 +174,17 @@ namespace Magicodes.Pay.WeChat
                 FeeType = input.FeeType,
                 GoodsTag = input.GoodsTag,
                 LimitPay = input.LimitPay,
-                OutTradeNo = input.OutTradeNo ?? weChatPayHelper.GenerateOutTradeNo(),
+                OutTradeNo = input.OutTradeNo ?? _weChatPayHelper.GenerateOutTradeNo(),
                 SpbillCreateIp = input.SpbillCreateIp,
                 TimeExpire = input.TimeExpire,
                 TimeStart = input.TimeStart,
-                TotalFee = ((int)(input.TotalFee * 100)).ToString(),
-                NonceStr = weChatPayHelper.GetNoncestr(),
+                TotalFee = ((int) (input.TotalFee * 100)).ToString(),
+                NonceStr = _weChatPayHelper.GetNoncestr(),
                 NotifyUrl = config.PayNotifyUrl
             };
             model.Sign = CreateSign(model);
 
-            var result = weChatPayHelper.PostXML<UnifiedorderResult>(url, model);
+            var result = _weChatPayHelper.PostXML<UnifiedorderResult>(url, model);
             if (result.IsSuccess())
             {
                 var data = new
@@ -226,7 +194,7 @@ namespace Magicodes.Pay.WeChat
                     partnerid = result.Mch_Id,
                     prepayid = result.PrepayId,
                     package = "Sign=WXPay",
-                    timestamp = weChatPayHelper.GetTimestamp()
+                    timestamp = _weChatPayHelper.GetTimestamp()
                 };
                 return new AppPayOutput
                 {
@@ -235,7 +203,7 @@ namespace Magicodes.Pay.WeChat
                     PrepayId = result.PrepayId,
                     NonceStr = data.noncestr,
                     PaySign =
-                        weChatPayHelper.CreateMd5Sign(weChatPayHelper.GetDictionaryByType(data), config.TenPayKey),
+                        _weChatPayHelper.CreateMd5Sign(_weChatPayHelper.GetDictionaryByType(data), config.TenPayKey),
                     SignType = "MD5",
                     TimeStamp = data.timestamp,
                     Package = data.package
@@ -249,12 +217,14 @@ namespace Magicodes.Pay.WeChat
         #endregion
 
         #region 生成签名
+
         private string CreateSign<T>(T model)
         {
             var config = GetConfig();
-            var dictionary = weChatPayHelper.GetDictionaryByType(model);
-            return weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+            var dictionary = _weChatPayHelper.GetDictionaryByType(model);
+            return _weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
         }
+
         #endregion
 
         #region 支付回调处理
@@ -267,7 +237,7 @@ namespace Magicodes.Pay.WeChat
         public PayNotifyOutput PayNotifyHandler(Stream inputStream)
         {
             PayNotifyOutput result = null;
-            var data = weChatPayHelper.PostInput(inputStream);
+            var data = _weChatPayHelper.PostInput(inputStream);
             try
             {
                 result = XmlHelper.DeserializeObject<PayNotifyOutput>(data);
@@ -280,9 +250,11 @@ namespace Magicodes.Pay.WeChat
 
             return result;
         }
+
         #endregion
 
         #region 处理支付回调参数
+
         /// <summary>
         ///     处理支付回调参数
         /// </summary>
@@ -292,7 +264,7 @@ namespace Magicodes.Pay.WeChat
         public Task<string> PayNotifyHandler(Stream inputStream, Action<PayNotifyOutput, string> payHandlerFunc)
         {
             PayNotifyOutput result = null;
-            var data = weChatPayHelper.PostInput(inputStream);
+            var data = _weChatPayHelper.PostInput(inputStream);
             var outPutXml = string.Empty;
             var error = string.Empty;
             try
@@ -302,7 +274,7 @@ namespace Magicodes.Pay.WeChat
             catch (Exception ex)
             {
                 WeChatPayHelper.LoggerAction?.Invoke("Error", "解析支付回调参数出错：" + data + "  Exception:" + ex);
-                outPutXml = string.Format(Fail_Xml_Tpl, "解析支付回调参数出错");
+                outPutXml = string.Format(FailXmlTpl, "解析支付回调参数出错");
                 error = ex.ToString();
             }
 
@@ -312,18 +284,18 @@ namespace Magicodes.Pay.WeChat
             else if (string.IsNullOrWhiteSpace(result?.TransactionId))
             {
                 error = "支付结果中微信订单号不存在";
-                outPutXml = string.Format(Fail_Xml_Tpl, error);
+                outPutXml = string.Format(FailXmlTpl, error);
             }
             else if (!result.IsSuccess())
             {
-                outPutXml = string.Format(Fail_Xml_Tpl, "回调处理失败");
+                outPutXml = string.Format(FailXmlTpl, "回调处理失败");
                 error = $"回调处理失败：ErrCode:{result.ErrCode} \nErrCodeDes:{result.ErrCodeDes}";
             }
             //查询订单，判断订单真实性
             else if (!QueryOrder(result.TransactionId))
             {
                 error = "订单不存在";
-                outPutXml = string.Format(Fail_Xml_Tpl, error);
+                outPutXml = string.Format(FailXmlTpl, error);
             }
 
             payHandlerFunc?.Invoke(result, error);
@@ -332,9 +304,11 @@ namespace Magicodes.Pay.WeChat
                 ? outPutXml
                 : "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
         }
+
         #endregion
 
         #region 订单查询
+
         /// <summary>
         ///     订单查询
         ///     该接口提供所有微信支付订单的查询，商户可以通过查询订单接口主动查询订单状态，完成下一步的业务逻辑。
@@ -351,30 +325,29 @@ namespace Magicodes.Pay.WeChat
             var url = "https://api.mch.weixin.qq.com/pay/orderquery";
             //检测必填参数
             if (string.IsNullOrWhiteSpace(input.TransactionId) && string.IsNullOrWhiteSpace(input.OutTradeNo))
-            {
                 throw new WeChatPayException("订单查询接口中，out_trade_no、transaction_id至少填一个！");
-            }
 
             var config = GetConfig();
             var req = new OrderQueryRequest
             {
                 AppId = config.PayAppId,
                 MchId = config.MchId,
-                NonceStr = weChatPayHelper.GetNoncestr(),
+                NonceStr = _weChatPayHelper.GetNoncestr(),
                 OutTradeNo = input.OutTradeNo,
                 TransactionId = input.TransactionId,
                 SignType = "MD5"
             };
             req.Sign = CreateSign(req);
 
-            return weChatPayHelper.PostXML<OrderQueryOutput>(url, req);
+            return _weChatPayHelper.PostXML<OrderQueryOutput>(url, req);
         }
 
         #endregion
 
         #region 企业付款
+
         /// <summary>
-        /// 企业付款（提现）
+        ///     企业付款（提现）
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -383,18 +356,12 @@ namespace Magicodes.Pay.WeChat
             //发红包接口地址
             var url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
             if (string.IsNullOrEmpty(model.PartnerTradeNo))
-            {
                 throw new ArgumentNullException("商户单号不能为空!", nameof(model.PartnerTradeNo));
-            }
 
             if (string.IsNullOrEmpty(model.Amount))
-            {
                 throw new ArgumentNullException("必须输入企业付款金额!", nameof(model.PartnerTradeNo));
-            }
             if (string.IsNullOrEmpty(model.Desc))
-            {
                 throw new ArgumentNullException("必须输入企业付款说明信息!", nameof(model.PartnerTradeNo));
-            }
             EnterpriseResult result = null;
             try
             {
@@ -411,56 +378,46 @@ namespace Magicodes.Pay.WeChat
                 var cer = new X509Certificate2(cert, password,
                     X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
 
-                var dictionary = weChatPayHelper.GetDictionaryByType(model);
-                model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+                var dictionary = _weChatPayHelper.GetDictionaryByType(model);
+                model.Sign = _weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
 
-                result = weChatPayHelper.PostXML<EnterpriseResult>(url, model, cer);
+                result = _weChatPayHelper.PostXML<EnterpriseResult>(url, model, cer);
             }
             catch (Exception ex)
             {
                 WeChatPayHelper.LoggerAction?.Invoke(nameof(WeChatPayApi), ex.ToString());
             }
+
             return result;
         }
+
         #endregion
 
         #region 退款申请接口
 
         /// <summary>
-        /// 退款申请接口
+        ///     退款申请接口
         /// </summary>
-        /// <param name="model">The model<see cref="RefundRequest"/></param>
+        /// <param name="model">The model<see cref="RefundRequest" /></param>
         /// <returns></returns>
         public RefundOutput Refund(RefundRequest model)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-            if (model.TotalFee <0)
-            {
-                throw new WeChatPayException("订单额不能小于0！");
-            }
-            if(model.RefundFee<0){
-                throw new WeChatPayException("退款金额不能小于0！");
-            }
+            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (model.TotalFee < 0) throw new WeChatPayException("订单额不能小于0！");
+            if (model.RefundFee < 0) throw new WeChatPayException("退款金额不能小于0！");
             if (string.IsNullOrEmpty(model.OutTradeNo) && string.IsNullOrEmpty(model.TransactionId))
-            {
                 throw new WeChatPayException("商户订单号与微信订单号必须传入其中一个！");
-            }
-            if (model.TotalFee < model.RefundFee)
-            {
-                throw new WeChatPayException("退款金额不能大于订单金额！");
-            }
+            if (model.TotalFee < model.RefundFee) throw new WeChatPayException("退款金额不能大于订单金额！");
             var url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 
             RefundOutput result = null;
             try
             {
-                var config = GetConfig();;
+                var config = GetConfig();
+                ;
                 model.AppId = config.PayAppId;
                 model.MchId = config.MchId;
-                model.NonceStr = weChatPayHelper.GetNoncestr();
+                model.NonceStr = _weChatPayHelper.GetNoncestr();
                 model.OpUserId = config.MchId;
 
                 //本地或者服务器的证书位置（证书在微信支付申请成功发来的通知邮件中）
@@ -473,26 +430,28 @@ namespace Magicodes.Pay.WeChat
                 var cer = new X509Certificate2(cert, password,
                     X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
 
-                var dictionary = weChatPayHelper.GetDictionaryByType(model);
+                var dictionary = _weChatPayHelper.GetDictionaryByType(model);
 
-                model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
-                result = weChatPayHelper.PostXML<RefundOutput>(url, model, cer);
+                model.Sign = _weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+                result = _weChatPayHelper.PostXML<RefundOutput>(url, model, cer);
             }
             catch (Exception ex)
             {
                 WeChatPayHelper.LoggerAction?.Invoke(nameof(WeChatPayApi), ex.ToString());
             }
+
             return result;
         }
 
         #endregion
 
         #region 普通红包发送
+
         /// <summary>
-        /// 普通红包发送
+        ///     普通红包发送
         /// </summary>
-        /// <param name="model">The model<see cref="NormalRedPackInput"/></param>
-        /// <returns>The <see cref="NormalRedPackOutput"/></returns>
+        /// <param name="model">The model<see cref="NormalRedPackInput" /></param>
+        /// <returns>The <see cref="NormalRedPackOutput" /></returns>
         public NormalRedPackOutput SendNormalRedPack(NormalRedPackInput model)
         {
             //发红包接口地址
@@ -515,32 +474,37 @@ namespace Magicodes.Pay.WeChat
                 //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
                 //X509Certificate cer = new X509Certificate(cert, password);
 
-                var dictionary = weChatPayHelper.GetDictionaryByType(model);
-                model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+                var dictionary = _weChatPayHelper.GetDictionaryByType(model);
+                model.Sign = _weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
                 //var dict = PayUtil.GetAuthors(model);
 
-                result = weChatPayHelper.PostXML<NormalRedPackOutput>(url, model, cer);
+                result = _weChatPayHelper.PostXML<NormalRedPackOutput>(url, model, cer);
             }
             catch (Exception ex)
             {
                 WeChatPayHelper.LoggerAction?.Invoke(nameof(WeChatPayApi), ex.ToString());
             }
+
             return result;
         }
+
         #endregion
 
         #region 查询订单是否存在
+
         /// <summary>
         ///     查询订单是否存在
         /// </summary>
         /// <param name="transactionId"></param>
         /// <returns></returns>
-        private bool QueryOrder(string transactionId) => OrderQuery(new OrderQueryInput
+        private bool QueryOrder(string transactionId)
         {
-            TransactionId = transactionId
-        }).IsSuccess();
+            return OrderQuery(new OrderQueryInput
+            {
+                TransactionId = transactionId
+            }).IsSuccess();
+        }
 
         #endregion
     }
-
 }
