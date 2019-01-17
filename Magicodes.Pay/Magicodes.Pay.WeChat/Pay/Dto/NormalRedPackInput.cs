@@ -8,11 +8,11 @@ namespace Magicodes.Pay.WeChat.Pay.Dto
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Defines the <see cref="NormalRedPackRequest" />
+    /// Defines the <see cref="NormalRedPackInput" />
     /// </summary>
     [XmlRoot("xml")]
     [Serializable]
-    public class NormalRedPackRequest
+    public class NormalRedPackInput
     {
         /// <summary>
         /// Gets or sets the NonceStr

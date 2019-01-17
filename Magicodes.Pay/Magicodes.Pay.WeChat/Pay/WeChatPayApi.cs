@@ -431,37 +431,37 @@ namespace Magicodes.Pay.WeChat
         /// </summary>
         /// <param name="model">The model<see cref="RefundRequest"/></param>
         /// <returns></returns>
-        public RefundResult Refund(RefundRequest model)
+        public RefundOutput Refund(RefundRequest model)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            if (model.Total_fee <0)
+            if (model.TotalFee <0)
             {
-                throw new ArgumentNullException("订单额不能小于0！" ,nameof(model.Total_fee));
+                throw new WeChatPayException("订单额不能小于0！");
             }
-            if(model.Refund_fee<0){
-                throw new ArgumentNullException("退款金额不能小于0！", nameof(model.Total_fee));
+            if(model.RefundFee<0){
+                throw new WeChatPayException("退款金额不能小于0！");
             }
-            if (string.IsNullOrEmpty(model.Out_trade_no) && string.IsNullOrEmpty(model.Transaction_id))
+            if (string.IsNullOrEmpty(model.OutTradeNo) && string.IsNullOrEmpty(model.TransactionId))
             {
-                throw new ArgumentNullException("商户订单号与微信订单号必须传入其中一个！");
+                throw new WeChatPayException("商户订单号与微信订单号必须传入其中一个！");
             }
-            if (model.Total_fee < model.Refund_fee)
+            if (model.TotalFee < model.RefundFee)
             {
-                throw new ArgumentNullException("退款金额不能大于订单金额！", nameof(model.Total_fee));
+                throw new WeChatPayException("退款金额不能大于订单金额！");
             }
             var url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 
-            RefundResult result = null;
+            RefundOutput result = null;
             try
             {
                 var config = GetConfig();;
                 model.AppId = config.PayAppId;
-                model.Mch_Id = config.MchId;
+                model.MchId = config.MchId;
                 model.NonceStr = weChatPayHelper.GetNoncestr();
-                model.Op_user_id = config.MchId;
+                model.OpUserId = config.MchId;
 
                 //本地或者服务器的证书位置（证书在微信支付申请成功发来的通知邮件中）
                 var cert = config.PayCertPath;
@@ -476,7 +476,7 @@ namespace Magicodes.Pay.WeChat
                 var dictionary = weChatPayHelper.GetDictionaryByType(model);
 
                 model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
-                result = weChatPayHelper.PostXML<RefundResult>(url, model, cer);
+                result = weChatPayHelper.PostXML<RefundOutput>(url, model, cer);
             }
             catch (Exception ex)
             {
@@ -491,14 +491,14 @@ namespace Magicodes.Pay.WeChat
         /// <summary>
         /// 普通红包发送
         /// </summary>
-        /// <param name="model">The model<see cref="NormalRedPackRequest"/></param>
-        /// <returns>The <see cref="NormalRedPackResult"/></returns>
-        public NormalRedPackResult SendNormalRedPack(NormalRedPackRequest model)
+        /// <param name="model">The model<see cref="NormalRedPackInput"/></param>
+        /// <returns>The <see cref="NormalRedPackOutput"/></returns>
+        public NormalRedPackOutput SendNormalRedPack(NormalRedPackInput model)
         {
             //发红包接口地址
             var url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
 
-            NormalRedPackResult result = null;
+            NormalRedPackOutput result = null;
             var config = GetConfig();
             try
             {
@@ -519,7 +519,7 @@ namespace Magicodes.Pay.WeChat
                 model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
                 //var dict = PayUtil.GetAuthors(model);
 
-                result = weChatPayHelper.PostXML<NormalRedPackResult>(url, model, cer);
+                result = weChatPayHelper.PostXML<NormalRedPackOutput>(url, model, cer);
             }
             catch (Exception ex)
             {

@@ -8,11 +8,11 @@ namespace Magicodes.Pay.WeChat.Pay.Dto
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Defines the <see cref="NormalRedPackResult" />
+    /// Defines the <see cref="NormalRedPackOutput" />
     /// </summary>
     [XmlRoot("xml")]
     [Serializable]
-    public class NormalRedPackResult : Result
+    public class NormalRedPackOutput : PayOutputBase
     {
         /// <summary>
         /// Gets or sets the MchBillno
@@ -26,7 +26,7 @@ namespace Magicodes.Pay.WeChat.Pay.Dto
         /// 商户号，微信支付分配的商户号
         /// </summary>
         [XmlAttribute("mch_id")]
-        public string mch_id { get; set; }
+        public string mchId { get; set; }
 
         /// <summary>
         /// Gets or sets the WxAppId
@@ -55,5 +55,12 @@ namespace Magicodes.Pay.WeChat.Pay.Dto
         /// </summary>
         [XmlAttribute("send_listid")]
         public string SendListId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Sign
+        /// 签名
+        /// </summary>
+        [XmlAttribute("sign")]
+        public string Sign { get; set; }
     }
 }

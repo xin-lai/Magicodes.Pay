@@ -66,7 +66,7 @@ namespace Magicodes.Pay.WeChat.Pay.Dto
         ///     是否支付成功
         /// </summary>
         /// <returns></returns>
-        public bool IsSuccess()
+        public virtual bool IsSuccess()
         {
             return PayReturnCode == "SUCCESS" && ResultCode == "SUCCESS";
         }
