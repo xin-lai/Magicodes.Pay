@@ -21,6 +21,7 @@ using Magicodes.Pay.WeChat.Pay.Dto;
 using Magicodes.Pay.WeChat.Pay.Models;
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Magicodes.Pay.WeChat
@@ -35,6 +36,7 @@ namespace Magicodes.Pay.WeChat
 
         private readonly WeChatPayHelper weChatPayHelper = new WeChatPayHelper();
 
+        #region 小程序统一下单接口
         /// <summary>
         ///     小程序支付
         ///     小程序统一下单接口
@@ -121,6 +123,13 @@ namespace Magicodes.Pay.WeChat
             throw new WeChatPayException("支付错误，请联系客服或重新支付！");
         }
 
+        #endregion
+
+        #region  获取支付配置
+        /// <summary>
+        /// 获取支付配置
+        /// </summary>
+        /// <returns></returns>
         private static IWeChatPayConfig GetConfig()
         {
             var config = WeChatPayHelper.GetPayConfigFunc();
@@ -152,6 +161,9 @@ namespace Magicodes.Pay.WeChat
             return config;
         }
 
+        #endregion
+
+        #region APP统一下单接口
         /// <summary>
         ///     APP支付
         ///     APP统一下单接口
@@ -234,12 +246,18 @@ namespace Magicodes.Pay.WeChat
             throw new WeChatPayException("支付错误，请联系客服或重新支付！");
         }
 
+        #endregion
+
+        #region 生成签名
         private string CreateSign<T>(T model)
         {
             var config = GetConfig();
             var dictionary = weChatPayHelper.GetDictionaryByType(model);
             return weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
         }
+        #endregion
+
+        #region 支付回调处理
 
         /// <summary>
         ///     支付回调通知处理
@@ -262,7 +280,9 @@ namespace Magicodes.Pay.WeChat
 
             return result;
         }
+        #endregion
 
+        #region 处理支付回调参数
         /// <summary>
         ///     处理支付回调参数
         /// </summary>
@@ -312,7 +332,9 @@ namespace Magicodes.Pay.WeChat
                 ? outPutXml
                 : "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
         }
+        #endregion
 
+        #region 订单查询
         /// <summary>
         ///     订单查询
         ///     该接口提供所有微信支付订单的查询，商户可以通过查询订单接口主动查询订单状态，完成下一步的业务逻辑。
@@ -348,6 +370,166 @@ namespace Magicodes.Pay.WeChat
             return weChatPayHelper.PostXML<OrderQueryOutput>(url, req);
         }
 
+        #endregion
+
+        #region 企业付款
+        /// <summary>
+        /// 企业付款（提现）
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public EnterpriseResult EnterprisePayment(EnterpriseRequest model)
+        {
+            //发红包接口地址
+            var url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+            if (string.IsNullOrEmpty(model.PartnerTradeNo))
+            {
+                throw new ArgumentNullException("商户单号不能为空!", nameof(model.PartnerTradeNo));
+            }
+
+            if (string.IsNullOrEmpty(model.Amount))
+            {
+                throw new ArgumentNullException("必须输入企业付款金额!", nameof(model.PartnerTradeNo));
+            }
+            if (string.IsNullOrEmpty(model.Desc))
+            {
+                throw new ArgumentNullException("必须输入企业付款说明信息!", nameof(model.PartnerTradeNo));
+            }
+            EnterpriseResult result = null;
+            try
+            {
+                var config = GetConfig();
+                model.MchAppId = config.PayAppId;
+                model.MchId = config.MchId;
+                //本地或者服务器的证书位置（证书在微信支付申请成功发来的通知邮件中）
+                var cert = config.PayCertPath;
+
+                //商户证书调用或安装都需要使用到密码，该密码的值为微信商户号（mch_id）
+                var password = config.MchId;
+
+                //调用证书
+                var cer = new X509Certificate2(cert, password,
+                    X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
+
+                var dictionary = weChatPayHelper.GetDictionaryByType(model);
+                model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+
+                result = weChatPayHelper.PostXML<EnterpriseResult>(url, model, cer);
+            }
+            catch (Exception ex)
+            {
+                WeChatPayHelper.LoggerAction?.Invoke(nameof(WeChatPayApi), ex.ToString());
+            }
+            return result;
+        }
+        #endregion
+
+        #region 退款申请接口
+
+        /// <summary>
+        /// 退款申请接口
+        /// </summary>
+        /// <param name="model">The model<see cref="RefundRequest"/></param>
+        /// <returns></returns>
+        public RefundResult Refund(RefundRequest model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            if (model.Total_fee <0)
+            {
+                throw new ArgumentNullException("订单额不能小于0！" ,nameof(model.Total_fee));
+            }
+            if(model.Refund_fee<0){
+                throw new ArgumentNullException("退款金额不能小于0！", nameof(model.Total_fee));
+            }
+            if (string.IsNullOrEmpty(model.Out_trade_no) && string.IsNullOrEmpty(model.Transaction_id))
+            {
+                throw new ArgumentNullException("商户订单号与微信订单号必须传入其中一个！");
+            }
+            if (model.Total_fee < model.Refund_fee)
+            {
+                throw new ArgumentNullException("退款金额不能大于订单金额！", nameof(model.Total_fee));
+            }
+            var url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
+
+            RefundResult result = null;
+            try
+            {
+                var config = GetConfig();;
+                model.AppId = config.PayAppId;
+                model.Mch_Id = config.MchId;
+                model.NonceStr = weChatPayHelper.GetNoncestr();
+                model.Op_user_id = config.MchId;
+
+                //本地或者服务器的证书位置（证书在微信支付申请成功发来的通知邮件中）
+                var cert = config.PayCertPath;
+
+                //商户证书调用或安装都需要使用到密码，该密码的值为微信商户号（mch_id）
+                var password = config.MchId;
+
+                //调用证书
+                var cer = new X509Certificate2(cert, password,
+                    X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
+
+                var dictionary = weChatPayHelper.GetDictionaryByType(model);
+
+                model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+                result = weChatPayHelper.PostXML<RefundResult>(url, model, cer);
+            }
+            catch (Exception ex)
+            {
+                WeChatPayHelper.LoggerAction?.Invoke(nameof(WeChatPayApi), ex.ToString());
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region 普通红包发送
+        /// <summary>
+        /// 普通红包发送
+        /// </summary>
+        /// <param name="model">The model<see cref="NormalRedPackRequest"/></param>
+        /// <returns>The <see cref="NormalRedPackResult"/></returns>
+        public NormalRedPackResult SendNormalRedPack(NormalRedPackRequest model)
+        {
+            //发红包接口地址
+            var url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+
+            NormalRedPackResult result = null;
+            var config = GetConfig();
+            try
+            {
+                model.WxAppId = config.PayAppId;
+                model.MchId = config.MchId;
+                //本地或者服务器的证书位置（证书在微信支付申请成功发来的通知邮件中）
+                var cert = config.PayCertPath;
+                //私钥（在安装证书时设置）
+                var password = config.CertPassword;
+
+                //调用证书
+                var cer = new X509Certificate2(cert, password,
+                    X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
+                //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                //X509Certificate cer = new X509Certificate(cert, password);
+
+                var dictionary = weChatPayHelper.GetDictionaryByType(model);
+                model.Sign = weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+                //var dict = PayUtil.GetAuthors(model);
+
+                result = weChatPayHelper.PostXML<NormalRedPackResult>(url, model, cer);
+            }
+            catch (Exception ex)
+            {
+                WeChatPayHelper.LoggerAction?.Invoke(nameof(WeChatPayApi), ex.ToString());
+            }
+            return result;
+        }
+        #endregion
+
+        #region 查询订单是否存在
         /// <summary>
         ///     查询订单是否存在
         /// </summary>
@@ -357,5 +539,8 @@ namespace Magicodes.Pay.WeChat
         {
             TransactionId = transactionId
         }).IsSuccess();
+
+        #endregion
     }
+
 }

@@ -41,5 +41,13 @@ namespace Magicodes.Pay.WeChat.Config
         ///     支付密钥
         /// </summary>
         string TenPayKey { get; set; }
+        /// <summary>
+        /// 商户证书相对路径
+        /// </summary>
+        string PayCertPath { get; set; }
+        /// <summary>
+        /// 证书密钥（商户id）
+        /// </summary>
+         string CertPassword { get; set; }
     }
 }
