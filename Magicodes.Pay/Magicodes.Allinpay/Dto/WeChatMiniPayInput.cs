@@ -38,15 +38,5 @@ namespace Magicodes.Allinpay.Dto
         ///     微信小程序-用户小程序的openid
         /// </summary>
         public string OpenId { get; set; }
-
-        /// <summary>
-        ///     接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数
-        /// </summary>
-        public string NotifyUrl { get; set; }
-
-        /// <summary>
-        ///     微信小程序/微信公众号/APP的appid
-        /// </summary>
-        public string WeChatAppId { get; set; }
     }
 }

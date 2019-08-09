@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>湖南心莱信息科技有限公司</Company>
+    <Description>
+      通联支付支付信息核心库。
+      官方网址：http://xin-lai.com
+      开源库地址:https://github.com/xin-lai
+      博客地址：http://www.cnblogs.com/codelove/
+      交流QQ群：85318032
+      小店地址：https://shop113059108.taobao.com/
+</Description>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

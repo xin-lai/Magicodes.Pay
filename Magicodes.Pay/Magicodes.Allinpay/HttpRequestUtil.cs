@@ -12,7 +12,7 @@ namespace Magicodes.Allinpay
         {
             var client = new HttpClient();
             var content = new FormUrlEncodedContent(data);
-            var respMsg = await client.PostAsync("url", content);
+            var respMsg = await client.PostAsync(url, content);
             var msgBody = await respMsg.Content.ReadAsStringAsync();
             return msgBody;
         }

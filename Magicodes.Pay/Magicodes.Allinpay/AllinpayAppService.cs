@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Magicodes.Allinpay.Dto;
@@ -28,7 +29,7 @@ namespace Magicodes.Allinpay
         /// <returns></returns>
         public Task<WeChatMiniPayOutput> WeChatMiniPay(WeChatMiniPayInput input)
         {
-            var allinpayDefaultClient = new AllinpayDefaultClient(_allinpaySettings.CusId, _allinpaySettings.AppId,_allinpaySettings.AppKey);
+            var allinpayDefaultClient = new AllinpayDefaultClient(_allinpaySettings);
             var response = allinpayDefaultClient.WeChatMiniPay(input);
             if (response.RetCode== "FAIL")
             {
@@ -42,6 +43,28 @@ namespace Magicodes.Allinpay
             });
         }
 
-        
+        /// <summary>
+        ///     支付回调通知处理
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        public bool PayNotifyHandler(Dictionary<string, string> dic)
+        {
+            try
+            {
+                var allinpayKey = _allinpaySettings.AppKey;
+                if (!dic.ContainsKey("sign"))//如果不包含sign,则不进行处理
+                {
+                    LoggerAction?.Invoke("Error", "sign is null");
+                    return false;
+                }
+                return AllinpayUtil.ValidSign(dic, allinpayKey);
+            }
+            catch (Exception e)
+            {
+                LoggerAction?.Invoke("Error", e.Message);
+                return false;
+            }
+        }
     }
 }

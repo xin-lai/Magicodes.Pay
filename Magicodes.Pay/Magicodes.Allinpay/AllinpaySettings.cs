@@ -23,11 +23,21 @@
         /// <summary>
         ///     接口网关
         /// </summary>
-        public string ApiGateWay { get; set; } = "https://vsp.allinpay.com/apiweb/unitorder";
+        public string ApiGateWay { get; set; }
 
         /// <summary>
         ///     版本
         /// </summary>
-        public string Version { get; set; } = "11";
+        public string Version { get; set; }
+
+        /// <summary>
+        ///     回调地址
+        /// </summary>
+        public string NotifyUrl { get; set; }
+
+        /// <summary>
+        ///     微信AppId
+        /// </summary>
+        public string WeChatAppId { get; set; }
     }
 }

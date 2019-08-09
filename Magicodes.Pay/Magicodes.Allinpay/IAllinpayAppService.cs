@@ -9,5 +9,7 @@ namespace Magicodes.Allinpay
     public interface IAllinpayAppService
     {
         Task<WeChatMiniPayOutput> WeChatMiniPay(WeChatMiniPayInput input);
+
+        bool PayNotifyHandler(Dictionary<string, string> dic);
     }
 }

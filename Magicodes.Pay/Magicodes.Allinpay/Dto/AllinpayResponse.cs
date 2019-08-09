@@ -8,18 +8,13 @@ namespace Magicodes.Allinpay.Dto
     [Serializable]
     public class AllinpayResponse
     {
-        [JsonProperty("retcode")]
-        public string RetCode { get; set; }
+        [JsonProperty("retcode")] public string RetCode { get; set; }
 
-        [JsonProperty("retmsg")]
-        public AllinpayResponseDetail RetMsg { get; set; }
-    }
+        [JsonProperty("retmsg")] public string RetMsg { get; set; }
 
-    public class AllinpayResponseDetail
-    {
-        [JsonProperty("cusid")] public string RetCode { get; set; }
+        [JsonProperty("cusid")] public string Cusid { get; set; }
 
-        [JsonProperty("appid")] public string RetMsg { get; set; }
+        [JsonProperty("appid")] public string Appid { get; set; }
 
         [JsonProperty("trxid")] public string TrxId { get; set; }
 

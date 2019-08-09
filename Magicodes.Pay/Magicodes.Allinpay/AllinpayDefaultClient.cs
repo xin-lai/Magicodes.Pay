@@ -7,39 +7,12 @@ namespace Magicodes.Allinpay
 {
     public class AllinpayDefaultClient
     {
-        /// <summary>
-        ///     接口网关
-        /// </summary>
-        private readonly string _apiGateWay;
+        private readonly IAllinpaySettings _allinpaySettings;
 
-        /// <summary>
-        ///     平台分配的APPID
-        /// </summary>
-        private readonly string _appId;
 
-        /// <summary>
-        ///     平台分配的AppKey
-        /// </summary>
-        private readonly string _appKey;
-
-        /// <summary>
-        ///     实际交易的商户号
-        /// </summary>
-        private readonly string _cusId;
-
-        /// <summary>
-        ///     版本
-        /// </summary>
-        private readonly string _version;
-
-        public AllinpayDefaultClient(string cusId, string appId, string appKey,
-            string apiGateWay = "https://vsp.allinpay.com/apiweb/unitorder", string version = "11")
+        public AllinpayDefaultClient(IAllinpaySettings allinpaySettings)
         {
-            _cusId = cusId;
-            _appId = appId;
-            _appKey = appKey;
-            _version = version;
-            _apiGateWay = apiGateWay;
+            _allinpaySettings = allinpaySettings;
         }
 
         public AllinpayResponse WeChatMiniPay(WeChatMiniPayInput input)
@@ -51,11 +24,11 @@ namespace Magicodes.Allinpay
             paramDic.Add("body", input.Body);
             paramDic.Add("remark", input.Remark);
             paramDic.Add("acct", input.OpenId);
-            paramDic.Add("sub_appid", input.WeChatAppId);
-            paramDic.Add("notify_url", input.NotifyUrl);
+            paramDic.Add("sub_appid", _allinpaySettings.WeChatAppId);
+            paramDic.Add("notify_url", _allinpaySettings.NotifyUrl);
             paramDic.Add("validtime", input.ValidTime);
-            paramDic.Add("sign", AllinpayUtil.SignParam(paramDic, _appKey));
-            var result = HttpRequestUtil.PostAsync($"{_apiGateWay}/pay", paramDic).Result;
+            paramDic.Add("sign", AllinpayUtil.SignParam(paramDic, _allinpaySettings.AppKey));
+            var result = HttpRequestUtil.PostAsync($"{_allinpaySettings.ApiGateWay}/pay", paramDic).Result;
             var response = JsonConvert.DeserializeObject<AllinpayResponse>(result);
             return response;
         }
@@ -64,9 +37,9 @@ namespace Magicodes.Allinpay
         {
             var paramDic = new Dictionary<string, string>
             {
-                {"cusid", _cusId},
-                {"appid", _appId},
-                {"version", _version},
+                {"cusid", _allinpaySettings.CusId},
+                {"appid", _allinpaySettings.AppId},
+                {"version", _allinpaySettings.Version},
                 {"randomstr", DateTime.Now.ToFileTime().ToString()}
             };
             return paramDic;

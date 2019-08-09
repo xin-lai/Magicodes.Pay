@@ -29,5 +29,15 @@
         ///     版本
         /// </summary>
         string Version { get; set; }
+
+        /// <summary>
+        ///     回调地址
+        /// </summary>
+        string NotifyUrl { get; set; }
+
+        /// <summary>
+        ///     微信AppId
+        /// </summary>
+        string WeChatAppId { get; set; }
     }
 }
