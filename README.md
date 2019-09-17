@@ -2,7 +2,7 @@
 
 ## Nuget
 
-| Ãû³Æ     |      Nuget      | 
+| åç§°     |      Nuget      | 
 |----------|:-------------:|
 | Magicodes.Alipay  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Alipay)](https://www.nuget.org/packages/Magicodes.Alipay) |
 | Magicodes.Alipay.Global |    [![NuGet](https://buildstats.info/nuget/Magicodes.Alipay.Global)](https://www.nuget.org/packages/Magicodes.Alipay.Global)   |
@@ -10,75 +10,75 @@
 | Magicodes.PayNotify | [![NuGet](https://buildstats.info/nuget/Magicodes.PayNotify)](https://www.nuget.org/packages/Magicodes.PayNotify) |
 
 
-## Ö÷Òª¹¦ÄÜ
-Magicodes.Pay£¬ÊÇĞÄÀ³¿Æ¼¼ÍÅ¶ÓÌá¹©µÄÍ³Ò»Ö§¸¶¿â£¬Ïà¹Ø¿â¾ùÊ¹ÓÃ.NET±ê×¼¿â±àĞ´£¬Ö§³Ö.NET FrameworkÒÔ¼°.NET Core¡£Ä¿Ç°Ö§³ÖÒÔÏÂÖ§¸¶·½Ê½ºÍ¹¦ÄÜ£º
-* Ö§¸¶±¦Ö§¸¶
-  * APPÖ§¸¶
-  * WapÖ§¸¶
-* Ö§¸¶±¦¹ú¼ÊÖ§¸¶
-  * Ö§³Ö·ÖÕË
-* Î¢ĞÅÖ§¸¶
-  * Ğ¡³ÌĞòÖ§¸¶
-  * APPÖ§¸¶
-  * ¶©µ¥²éÑ¯
-  * ÆóÒµ¸¶¿î£¨ÌáÏÖ£©
-  * ÍË¿îÉêÇë
-  * ÆÕÍ¨ºì°ü
-* Í³Ò»Ö§¸¶»Øµ÷´¦Àí
-* Ö§³ÖÈÕÖ¾º¯Êı×¢Èë£¨²»ÒÀÀµÖ§¸¶¿â£©
-* Ö§³ÖÖ§¸¶ÅäÖÃº¯Êı×¢Èë£¬ÒÔ±ãÓÚÖ§³Ö×Ô¶¨ÒåÅäÖÃ»ñÈ¡Âß¼­£¬ÒÔÓ¦ÓÃÓÚ²»Í¬µÄ³¡¾°£¨±ÈÈç´ÓÅäÖÃÎÄ¼ş¡¢ÓÃ»§ÉèÖÃ»ñÈ¡ÅäÖÃ£¬»òÕß¶à×â»§Ö§³Ö£©
+## ä¸»è¦åŠŸèƒ½
+Magicodes.Payï¼Œæ˜¯å¿ƒè±ç§‘æŠ€å›¢é˜Ÿæä¾›çš„ç»Ÿä¸€æ”¯ä»˜åº“ï¼Œç›¸å…³åº“å‡ä½¿ç”¨.NETæ ‡å‡†åº“ç¼–å†™ï¼Œæ”¯æŒ.NET Frameworkä»¥åŠ.NET Coreã€‚ç›®å‰æ”¯æŒä»¥ä¸‹æ”¯ä»˜æ–¹å¼å’ŒåŠŸèƒ½ï¼š
+* æ”¯ä»˜å®æ”¯ä»˜
+  * APPæ”¯ä»˜
+  * Wapæ”¯ä»˜
+* æ”¯ä»˜å®å›½é™…æ”¯ä»˜
+  * æ”¯æŒåˆ†è´¦
+* å¾®ä¿¡æ”¯ä»˜
+  * å°ç¨‹åºæ”¯ä»˜
+  * APPæ”¯ä»˜
+  * è®¢å•æŸ¥è¯¢
+  * ä¼ä¸šä»˜æ¬¾ï¼ˆæç°ï¼‰
+  * é€€æ¬¾ç”³è¯·
+  * æ™®é€šçº¢åŒ…
+* ç»Ÿä¸€æ”¯ä»˜å›è°ƒå¤„ç†
+* æ”¯æŒæ—¥å¿—å‡½æ•°æ³¨å…¥ï¼ˆä¸ä¾èµ–æ”¯ä»˜åº“ï¼‰
+* æ”¯æŒæ”¯ä»˜é…ç½®å‡½æ•°æ³¨å…¥ï¼Œä»¥ä¾¿äºæ”¯æŒè‡ªå®šä¹‰é…ç½®è·å–é€»è¾‘ï¼Œä»¥åº”ç”¨äºä¸åŒçš„åœºæ™¯ï¼ˆæ¯”å¦‚ä»é…ç½®æ–‡ä»¶ã€ç”¨æˆ·è®¾ç½®è·å–é…ç½®ï¼Œæˆ–è€…å¤šç§Ÿæˆ·æ”¯æŒï¼‰
 
-Ä¿Ç°´Ë¿âÎÒÃÇÔÚºÜ¶àÏîÄ¿ÉÏÒÑ¾­½øĞĞÁËÑéÖ¤£¬ÓÉÓÚÏîÄ¿¸Ï¹¤£¬Ğí¶à¹¦ÄÜÎÒÃÇ²¢Ã»ÓĞÌí¼Ó¡¢Ç¨ÒÆ»òÕßÖØ¹¹¹ıÀ´£¬ÔÚºóĞøµÄ¹ı³ÌÖĞ£¬ÎÒÃÇ»áÖğ²½À´Íê³ÉÕâĞ©¹¤×÷¡£Í¬Ê±£¬ÔÚMagicodes.Admin¿ªÔ´¿âÖĞ£¬ÎÒÃÇÒ²±àĞ´ÁËÏà¹ØµÄDemoºÍÊµÏÖ¡£
+ç›®å‰æ­¤åº“æˆ‘ä»¬åœ¨å¾ˆå¤šé¡¹ç›®ä¸Šå·²ç»è¿›è¡Œäº†éªŒè¯ï¼Œç”±äºé¡¹ç›®èµ¶å·¥ï¼Œè®¸å¤šåŠŸèƒ½æˆ‘ä»¬å¹¶æ²¡æœ‰æ·»åŠ ã€è¿ç§»æˆ–è€…é‡æ„è¿‡æ¥ï¼Œåœ¨åç»­çš„è¿‡ç¨‹ä¸­ï¼Œæˆ‘ä»¬ä¼šé€æ­¥æ¥å®Œæˆè¿™äº›å·¥ä½œã€‚åŒæ—¶ï¼Œåœ¨Magicodes.Adminå¼€æºåº“ä¸­ï¼Œæˆ‘ä»¬ä¹Ÿç¼–å†™äº†ç›¸å…³çš„Demoå’Œå®ç°ã€‚
 
-Magicodes.Admin¿ªÔ´¿âµØÖ·£ºhttps://gitee.com/xl_wenqiang/Magicodes.Admin.Core
+Magicodes.Adminå¼€æºåº“åœ°å€ï¼šhttps://gitee.com/xl_wenqiang/Magicodes.Admin.Core
 
-Õû¸öÖ§¸¶ÊµÏÖÕâ¿é£¬ÎÒÃÇÔÚMagicodes.Admin¿ªÔ´¿âÖĞÒÑ¾­Ìá¹©ÁËÍ³Ò»Ö§¸¶µÄDemo£¬¶øÇÒÎÒÃÇ½«»áÌá¹©¸ù¾İÇëÇóÍ·À´×Ô¶¯µ÷ÓÃÏà¹ØÖ§¸¶µÄ¹¦ÄÜ¡£ÈçÏÂÍ¼ËùÊ¾£º
-![²Î¿¼](res/40.png)
+æ•´ä¸ªæ”¯ä»˜å®ç°è¿™å—ï¼Œæˆ‘ä»¬åœ¨Magicodes.Adminå¼€æºåº“ä¸­å·²ç»æä¾›äº†ç»Ÿä¸€æ”¯ä»˜çš„Demoï¼Œè€Œä¸”æˆ‘ä»¬å°†ä¼šæä¾›æ ¹æ®è¯·æ±‚å¤´æ¥è‡ªåŠ¨è°ƒç”¨ç›¸å…³æ”¯ä»˜çš„åŠŸèƒ½ã€‚å¦‚ä¸‹å›¾æ‰€ç¤ºï¼š
+![å‚è€ƒ](res/40.png)
 
-ÔÚ¸÷¸öÒµÎñÖ§¸¶³¡¾°ÖĞ£¬ÎÒÃÇ¿ÉÒÔ·Ç³£·½±ãµÄµ÷ÓÃ´ËÍ³Ò»Ö§¸¶£¬ÈçÏÂÍ¼ËùÊ¾£º
-![²Î¿¼](res/41.png)
-![²Î¿¼](res/42.png)
+åœ¨å„ä¸ªä¸šåŠ¡æ”¯ä»˜åœºæ™¯ä¸­ï¼Œæˆ‘ä»¬å¯ä»¥éå¸¸æ–¹ä¾¿çš„è°ƒç”¨æ­¤ç»Ÿä¸€æ”¯ä»˜ï¼Œå¦‚ä¸‹å›¾æ‰€ç¤ºï¼š
+![å‚è€ƒ](res/41.png)
+![å‚è€ƒ](res/42.png)
 
 ## VNext
 
-ÕâÊÇÄ¿Ç°µÄÏÂ¸ö°æ±¾µÄ¹æ»®£º
+è¿™æ˜¯ç›®å‰çš„ä¸‹ä¸ªç‰ˆæœ¬çš„è§„åˆ’ï¼š
 
-* Ö§¸¶±¦PCÖ§¸¶
-* Î¢ĞÅH5Ö§¸¶
-* Ìá¹©Ä¬ÈÏµÄ»Øµ÷¹ÜÀíÂß¼­£¬Ö§³Ö»Øµ÷´¦Àíº¯ÊıµÄ×¢Èë
+* æ”¯ä»˜å®PCæ”¯ä»˜
+* å¾®ä¿¡H5æ”¯ä»˜
+* æä¾›é»˜è®¤çš„å›è°ƒç®¡ç†é€»è¾‘ï¼Œæ”¯æŒå›è°ƒå¤„ç†å‡½æ•°çš„æ³¨å…¥
 
-¾ßÌå¹¦ÄÜÎÒÃÇ»á¸ù¾İÏîÄ¿µÄÇé¿öÀ´µü´ú£¬Èç¹ûÄãÓĞºÃµÄ½¨Òé»òÕßÒâ¼û£¬¿ÉÒÔ¹Ø×¢ÎÒÃÇµÄ¹«ÖÚºÅ¡°magiccodes¡±À´Ìá½»ÄúµÄÒâ¼û»òÕßÒâ¼û¡£
+å…·ä½“åŠŸèƒ½æˆ‘ä»¬ä¼šæ ¹æ®é¡¹ç›®çš„æƒ…å†µæ¥è¿­ä»£ï¼Œå¦‚æœä½ æœ‰å¥½çš„å»ºè®®æˆ–è€…æ„è§ï¼Œå¯ä»¥å…³æ³¨æˆ‘ä»¬çš„å…¬ä¼—å·â€œmagiccodesâ€æ¥æäº¤æ‚¨çš„æ„è§æˆ–è€…æ„è§ã€‚
 
-## ÈçºÎÅäÖÃ
+## å¦‚ä½•é…ç½®
 
-Ïà¹Ø¿âµÄÅäÖÃÏà¶Ô±È½Ï¼òµ¥£¬Ò»°ã¾ùÊ¹ÓÃÏà¹ØBuilderÀàÀ´ÅäÖÃ×Ô¶¨ÒåÈÕÖ¾Âß¼­¡¢ÅäÖÃ»ñÈ¡Âß¼­µÈ£¬¾ßÌå¿ÉÒÔ²éÔÄBuilderÄ¿Â¼ÏÂµÄ´úÂë¡£
+ç›¸å…³åº“çš„é…ç½®ç›¸å¯¹æ¯”è¾ƒç®€å•ï¼Œä¸€èˆ¬å‡ä½¿ç”¨ç›¸å…³Builderç±»æ¥é…ç½®è‡ªå®šä¹‰æ—¥å¿—é€»è¾‘ã€é…ç½®è·å–é€»è¾‘ç­‰ï¼Œå…·ä½“å¯ä»¥æŸ¥é˜…Builderç›®å½•ä¸‹çš„ä»£ç ã€‚
 
-### ÅäÖÃ²Î¿¼
+### é…ç½®å‚è€ƒ
 
-Ïà¹ØÅäÖÃÇë²Î¿¼´Ë´úÂë:https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
+ç›¸å…³é…ç½®è¯·å‚è€ƒæ­¤ä»£ç :https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
 
-²¿·Ö´úÂëÈçÏÂËùÊ¾£º
+éƒ¨åˆ†ä»£ç å¦‚ä¸‹æ‰€ç¤ºï¼š
 
-![²Î¿¼](res/1.png)
-![²Î¿¼](res/2.png)
+![å‚è€ƒ](res/1.png)
+![å‚è€ƒ](res/2.png)
 
-Ö§¸¶Ïà¹Ø´úÂë¿ÉÒÔ²Î¿¼:
+æ”¯ä»˜ç›¸å…³ä»£ç å¯ä»¥å‚è€ƒ:
 https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Services/PayAppService.cs
 
-### ÅäÖÃ½çÃæ²Î¿¼
+### é…ç½®ç•Œé¢å‚è€ƒ
 
-ÈçÏÂÍ¼ËùÊ¾:
-![²Î¿¼](res/10.png)
-![²Î¿¼](res/11.png)
-![²Î¿¼](res/12.png)
+å¦‚ä¸‹å›¾æ‰€ç¤º:
+![å‚è€ƒ](res/10.png)
+![å‚è€ƒ](res/11.png)
+![å‚è€ƒ](res/12.png)
 
 ## Demo
 
-### Î¢ĞÅÖ§¸¶Demo
+### å¾®ä¿¡æ”¯ä»˜Demo
 
             if (WeChatPayApi == null)
             {
-                throw new UserFriendlyException("Ö§¸¶Î´¿ª·Å£¬ÇëÁªÏµ¹ÜÀíÔ±£¡");
+                throw new UserFriendlyException("æ”¯ä»˜æœªå¼€æ”¾ï¼Œè¯·è”ç³»ç®¡ç†å‘˜ï¼");
             }
             var appPayInput = new WeChat.Pay.Dto.AppPayInput
             {
@@ -98,11 +98,11 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
                 throw new UserFriendlyException(ex.Message);
             }
 
-### Ö§¸¶±¦Ö§¸¶Demo
+### æ”¯ä»˜å®æ”¯ä»˜Demo
 
             if (AlipayAppService == null)
             {
-                throw new UserFriendlyException("Ö§¸¶Î´¿ª·Å£¬ÇëÁªÏµ¹ÜÀíÔ±£¡");
+                throw new UserFriendlyException("æ”¯ä»˜æœªå¼€æ”¾ï¼Œè¯·è”ç³»ç®¡ç†å‘˜ï¼");
             }
             var appPayInput = new Alipay.Dto.AppPayInput
             {
@@ -122,11 +122,11 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
                 throw new UserFriendlyException(ex.Message);
             }
 
-### Ö§¸¶±¦¹ú¼ÊÖ§¸¶Demo
+### æ”¯ä»˜å®å›½é™…æ”¯ä»˜Demo
 
             if (GlobalAlipayAppService == null)
             {
-                throw new UserFriendlyException("Ö§¸¶Î´¿ª·Å£¬ÇëÁªÏµ¹ÜÀíÔ±£¡");
+                throw new UserFriendlyException("æ”¯ä»˜æœªå¼€æ”¾ï¼Œè¯·è”ç³»ç®¡ç†å‘˜ï¼");
             }
             var payInput = new Alipay.Global.Dto.PayInput
             {
@@ -146,22 +146,22 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
             }
 
 
-### ¹ú¼ÊÖ§¸¶±¦·ÖÕË²Î¿¼½çÃæ
+### å›½é™…æ”¯ä»˜å®åˆ†è´¦å‚è€ƒç•Œé¢
 
-![²Î¿¼](res/14.png)
+![å‚è€ƒ](res/14.png)
 
-## Ö§¸¶»Øµ÷
+## æ”¯ä»˜å›è°ƒ
 
-### Ä¿µÄ
+### ç›®çš„
 
-Í³Ò»»Øµ÷´¦ÀíÂß¼­ºÍ»Øµ÷´¦ÀíµØÖ·
+ç»Ÿä¸€å›è°ƒå¤„ç†é€»è¾‘å’Œå›è°ƒå¤„ç†åœ°å€
 
-### ´úÂë²Î¿¼
+### ä»£ç å‚è€ƒ
 
 
-![²Î¿¼](res/20.png)
+![å‚è€ƒ](res/20.png)
 
-ÉÏÍ¼µÄPayAction²Î¿¼£º
+ä¸Šå›¾çš„PayActionå‚è€ƒï¼š
 
             void PayAction(string key, string outTradeNo, string transactionId, int totalFee, JObject data)
             {
@@ -170,41 +170,41 @@ https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magico
                     var paymentCallbackManager = paymentCallbackManagerObj?.Object;
                     if (paymentCallbackManager == null)
                     {
-                        throw new ApplicationException("Ö§¸¶»Øµ÷¹ÜÀíÆ÷Òì³££¬ÎŞ·¨Ö´ĞĞ»Øµ÷£¡");
+                        throw new ApplicationException("æ”¯ä»˜å›è°ƒç®¡ç†å™¨å¼‚å¸¸ï¼Œæ— æ³•æ‰§è¡Œå›è°ƒï¼");
                     }
                     AsyncHelper.RunSync(async () => await paymentCallbackManager.ExecuteCallback(key, outTradeNo, transactionId, totalFee, data));
                 }
             }
 
-ÍêÕû»Øµ÷´úÂëÇë²Î¿¼´Ë´úÂë:https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
+å®Œæ•´å›è°ƒä»£ç è¯·å‚è€ƒæ­¤ä»£ç :https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
 
-»Øµ÷Âß¼­²Î¿¼:
-![»Øµ÷Âß¼­](res/30.png)
+å›è°ƒé€»è¾‘å‚è€ƒ:
+![å›è°ƒé€»è¾‘](res/30.png)
 
-## ¹Ù·½¶©ÔÄºÅ
+## å®˜æ–¹è®¢é˜…å·
 
-¹Ø×¢¡°magiccodes¡±¶©ÔÄºÅÃâ·Ñ»ñÈ¡£º
+å…³æ³¨â€œéº¦æ‰£èŠæŠ€æœ¯â€è®¢é˜…å·å…è´¹è·å–ï¼š
 
-* ×îĞÂÎÄÕÂ¡¢½Ì³Ì¡¢ÎÄµµ
-* ÊÓÆµ½Ì³Ì
-* »ù´¡°æÃâ·ÑÊÚÈ¨
-* Ä£°å
-* ½â¾ö·½°¸
-* ±à³ÌĞÄµÃºÍÀíÄî
+* æœ€æ–°æ–‡ç« ã€æ•™ç¨‹ã€æ–‡æ¡£
+* è§†é¢‘æ•™ç¨‹
+* åŸºç¡€ç‰ˆå…è´¹æˆæƒ
+* æ¨¡æ¿
+* è§£å†³æ–¹æ¡ˆ
+* ç¼–ç¨‹å¿ƒå¾—å’Œç†å¿µ
 
-![¹Ù·½¶©ÔÄºÅ](res/wechat.jpg)
+![å®˜æ–¹è®¢é˜…å·](res/wechat.jpg)
 
-## Ïà¹ØQQÈº
+## ç›¸å…³QQç¾¤
 
-±à³Ì½»Á÷Èº<85318032>
+ç¼–ç¨‹äº¤æµç¾¤<85318032>
 
-²úÆ·½»Á÷Èº<897857351>
+äº§å“äº¤æµç¾¤<897857351>
 
-## ¹Ù·½²©¿Í
+## å®˜æ–¹åšå®¢
 
 <http://www.cnblogs.com/codelove/>
 
-## ÆäËû¿ªÔ´¿âµØÖ·
+## å…¶ä»–å¼€æºåº“åœ°å€
 
 <https://gitee.com/xl_wenqiang/Magicodes.Admin.Core>
 <https://github.com/xin-lai>
