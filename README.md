@@ -30,7 +30,7 @@ Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使�
 
 目前此库我们在很多项目上已经进行了验证，由于项目赶工，许多功能我们并没有添加、迁移或者重构过来，在后续的过程中，我们会逐步来完成这些工作。同时，在Magicodes.Admin开源库中，我们也编写了相关的Demo和实现。
 
-Magicodes.Admin开源库地址：https://gitee.com/xl_wenqiang/Magicodes.Admin.Core
+Magicodes.Admin开源库地址：https://gitee.com/magicodes/Magicodes.Admin.Core
 
 整个支付实现这块，我们在Magicodes.Admin开源库中已经提供了统一支付的Demo，而且我们将会提供根据请求头来自动调用相关支付的功能。如下图所示：
 ![参考](res/40.png)
