@@ -16,7 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magicodes.Alipay.Global", "Magicodes.Alipay.Global\Magicodes.Alipay.Global.csproj", "{42FEC100-6F4E-4687-96F1-A4E871329B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magicodes.Allinpay", "Magicodes.Allinpay\Magicodes.Allinpay.csproj", "{C94CED60-40ED-490C-996E-168FF9931CFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magicodes.Allinpay", "Magicodes.Allinpay\Magicodes.Allinpay.csproj", "{C94CED60-40ED-490C-996E-168FF9931CFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magicodes.Pay.Abp", "Magicodes.Pay.Abp\Magicodes.Pay.Abp.csproj", "{EC4E7279-10B2-46FB-ADDF-C65064323F11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magicodes.Pay.Tests", "Magicodes.Pay.Tests\Magicodes.Pay.Tests.csproj", "{D404EFC7-17FE-4930-90FD-6FE399659031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +48,14 @@ Global
 		{C94CED60-40ED-490C-996E-168FF9931CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C94CED60-40ED-490C-996E-168FF9931CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C94CED60-40ED-490C-996E-168FF9931CFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC4E7279-10B2-46FB-ADDF-C65064323F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC4E7279-10B2-46FB-ADDF-C65064323F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC4E7279-10B2-46FB-ADDF-C65064323F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC4E7279-10B2-46FB-ADDF-C65064323F11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D404EFC7-17FE-4930-90FD-6FE399659031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D404EFC7-17FE-4930-90FD-6FE399659031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D404EFC7-17FE-4930-90FD-6FE399659031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D404EFC7-17FE-4930-90FD-6FE399659031}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
