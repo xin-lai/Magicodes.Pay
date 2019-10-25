@@ -1,13 +1,19 @@
-﻿using Abp.Modules;
+﻿using System.IO;
+using Abp.EntityFrameworkCore;
+using Abp.Modules;
+using Abp.Reflection.Extensions;
 using Abp.TestBase;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 using Castle.MicroKernel.Registration;
+using Magicodes.Pay.Tests.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
-namespace Magicodes.Admin.Tests.Custom.App_Payment
+namespace Magicodes.Pay.Tests
 {
     [DependsOn(
-       typeof(AbpTestBaseModule))]
+       typeof(AbpTestBaseModule),
+       typeof(AbpEntityFrameworkCoreModule),
+       typeof(PayModule)
+       )]
     public class TestModule : AbpModule
     {
         public override void PreInitialize()
@@ -17,6 +23,12 @@ namespace Magicodes.Admin.Tests.Custom.App_Payment
                 );
 
             IocManager.Register<IConfiguration>();
+        }
+
+        public override void Initialize()
+        {
+            ServiceCollectionRegistrar.Register(IocManager);
+            IocManager.RegisterAssemblyByConvention(typeof(TestModule).GetAssembly());
         }
 
         private static IConfiguration GetConfiguration()

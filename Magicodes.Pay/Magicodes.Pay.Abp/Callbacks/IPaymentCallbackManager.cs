@@ -6,7 +6,7 @@ namespace Magicodes.Pay.Abp.Callbacks
     /// <summary>
     /// 支付回调管理器
     /// </summary>
-    public interface IPaymentCallbackManager : ITransientDependency
+    public interface IPaymentCallbackManager : ISingletonDependency
     {
         /// <summary>
         /// 注册回调逻辑
