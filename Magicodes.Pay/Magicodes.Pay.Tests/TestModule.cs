@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Castle.Core;
 using Castle.Core.Internal;
 using Magicodes.Pay.Abp.Callbacks;
+using Magicodes.Pay.Abp.Configs;
 
 
 namespace Magicodes.Pay.Tests
@@ -42,6 +43,15 @@ namespace Magicodes.Pay.Tests
                     .Configure(component => component.Named(component.Implementation.FullName))
                     .WithServiceFromInterface()
                 );
+
+            //注册自定义支付配置逻辑
+            IocManager.IocContainer.Register(
+                Classes.FromAssembly(typeof(TestModule).GetAssembly())
+                    .BasedOn<IPaymentConfigAction>()
+                    .LifestyleTransient()
+                    .Configure(component => component.Named(component.Implementation.FullName))
+                    .WithServiceFromInterface()
+            );
         }
 
         private static IConfiguration GetConfiguration()

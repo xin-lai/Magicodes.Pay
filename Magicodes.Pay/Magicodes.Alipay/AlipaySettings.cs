@@ -35,7 +35,7 @@ namespace Magicodes.Alipay
         /// <summary>
         ///     支付宝网关
         /// </summary>
-        public string Gatewayurl { get; set; } = "https://openapi.alipay.com/gateway.do";
+        public string GatewayUrl { get; set; } = "https://openapi.alipay.com/gateway.do";
 
         /// <summary>
         ///     商户私钥，您的原始格式RSA私钥

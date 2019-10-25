@@ -158,7 +158,7 @@ namespace Magicodes.Alipay
             {
                 var client =
                     new DefaultAopClient(
-                        _alipaySettings.Gatewayurl,
+                        _alipaySettings.GatewayUrl,
                         _alipaySettings.AppId,
                         _alipaySettings.PrivateKey,
                         "json",

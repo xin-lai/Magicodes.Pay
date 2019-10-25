@@ -28,6 +28,7 @@ using Magicodes.Alipay;
 using Magicodes.Allinpay;
 using Magicodes.Allinpay.Dto;
 using Magicodes.Pay.Abp.Callbacks;
+using Magicodes.Pay.Abp.Configs;
 using Magicodes.Pay.Abp.Services.Dto;
 using Magicodes.Pay.Abp.TransactionLogs;
 using Magicodes.Pay.WeChat;

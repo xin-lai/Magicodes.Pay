@@ -7,6 +7,7 @@ using Abp.UI;
 using Magicodes.Alipay;
 using Magicodes.Allinpay;
 using Magicodes.Pay.Abp.Callbacks;
+using Magicodes.Pay.Abp.Configs;
 using Magicodes.Pay.WeChat;
 using Magicodes.PayNotify.Models;
 using Newtonsoft.Json.Linq;

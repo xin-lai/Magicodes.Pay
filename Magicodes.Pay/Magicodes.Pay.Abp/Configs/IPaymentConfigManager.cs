@@ -17,7 +17,7 @@
 using Abp;
 using Abp.Dependency;
 
-namespace Magicodes.Pay.Abp
+namespace Magicodes.Pay.Abp.Configs
 {
     /// <summary>
     /// 支付配置管理器
