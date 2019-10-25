@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Dependency;
 using Abp.Domain.Uow;
 using Magicodes.Pay.Abp.TransactionLogs;
 

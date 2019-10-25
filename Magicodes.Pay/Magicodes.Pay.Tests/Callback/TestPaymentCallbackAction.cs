@@ -4,6 +4,7 @@ using Abp.Json;
 using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Abp.TransactionLogs;
 using Newtonsoft.Json.Linq;
+using Abp.Dependency;
 
 namespace Magicodes.Pay.Tests.Callback
 {

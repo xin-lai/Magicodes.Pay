@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Json;
 using Abp.Timing;
+using Abp.UI;
 using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Abp.TransactionLogs;
-using Xunit;
-using System.Linq;
-using Abp.UI;
-using Magicodes.Pay.Tests.Callback;
 using Shouldly;
+using Xunit;
 
-namespace Magicodes.Pay.Tests
+namespace Magicodes.Pay.Tests.Callback
 {
     public class PaymentCallbackManager_Tests : TestBase
     {
@@ -50,7 +47,6 @@ namespace Magicodes.Pay.Tests
         [Fact()]
         public async Task ExecuteCallback_Tests()
         {
-            await paymentCallbackManager.Register(new TestPaymentCallbackAction());
             await paymentCallbackManager.ExecuteCallback("缴费支付", outTradeNo, "aaaa", 100);
 
             UsingDbContext(context =>
@@ -64,9 +60,7 @@ namespace Magicodes.Pay.Tests
         [Fact()]
         public async Task ExecuteCallbackError_Tests()
         {
-            await paymentCallbackManager.Register(new TestPaymentCallbackErrorAction());
-            
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await paymentCallbackManager.ExecuteCallback("缴费支付", outTradeNo, "aaaa", 100));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await paymentCallbackManager.ExecuteCallback("缴费支付异常测试", outTradeNo, "aaaa", 100));
 
             UsingDbContext(context =>
             {

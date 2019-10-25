@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Abp.Json;
 using Abp.Runtime.Session;
@@ -16,8 +17,8 @@ namespace Magicodes.Pay.Abp.Callbacks
     /// </summary>
     public class PaymentCallbackManager : IPaymentCallbackManager
     {
-        protected List<IPaymentCallbackAction> PaymentCallbackActions { get; set; } =
-            new List<IPaymentCallbackAction>();
+        private readonly IIocResolver _iocResolver;
+        protected List<IPaymentCallbackAction> PaymentCallbackActions { get; set; }
 
         /// <summary>
         /// 
@@ -35,11 +36,14 @@ namespace Magicodes.Pay.Abp.Callbacks
         /// 
         /// </summary>
         /// <param name="transactionLogHelper"></param>
-        public PaymentCallbackManager(TransactionLogHelper transactionLogHelper)
+        /// <param name="iocResolver"></param>
+        public PaymentCallbackManager(TransactionLogHelper transactionLogHelper, IIocResolver iocResolver)
         {
             _transactionLogHelper = transactionLogHelper;
+            this._iocResolver = iocResolver;
             Logger = NullLogger.Instance;
             AbpSession = NullAbpSession.Instance;
+            PaymentCallbackActions = iocResolver.ResolveAll<IPaymentCallbackAction>()?.ToList();
         }
 
         /// <summary>
@@ -100,7 +104,7 @@ namespace Magicodes.Pay.Abp.Callbacks
                         $"支付金额不一致：要求支付金额为：{logInfo.Currency.CurrencyValue}，实际支付金额为：{totalFee}");
                 }
 
-                var paymentCallbackAction = PaymentCallbackActions.Find(p => p.Key == key);
+                var paymentCallbackAction = PaymentCallbackActions?.FirstOrDefault(p => p.Key == key);
                 if (paymentCallbackAction == null)
                 {
                     throw new UserFriendlyException($"Key：{key} 不存在，请使用Register方法进行注册");

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Abp.Dependency;
 using Abp.Domain.Uow;
 using Abp.Json;
 using Abp.UI;
@@ -13,7 +14,7 @@ namespace Magicodes.Pay.Tests.Callback
         /// <summary>
         /// 业务Key
         /// </summary>
-        public string Key { get; set; } = "缴费支付";
+        public string Key { get; set; } = "缴费支付异常测试";
 
         /// <summary>
         /// 执行回调

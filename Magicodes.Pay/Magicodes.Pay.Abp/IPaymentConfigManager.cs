@@ -22,7 +22,7 @@ namespace Magicodes.Pay.Abp
     /// <summary>
     /// 支付配置管理器
     /// </summary>
-    public interface IPaymentConfigManager : ITransientDependency, IShouldInitialize
+    public interface IPaymentConfigManager : ISingletonDependency, IShouldInitialize
     {
 
     }
