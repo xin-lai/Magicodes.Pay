@@ -26,7 +26,7 @@ namespace Magicodes.Pay.Abp.Allinpay
         /// <summary>
         /// 支付渠道
         /// </summary>
-        public override PayChannels PayChannel => PayChannels.WeChatMiniProgram;
+        public override PayChannels PayChannel => PayChannels.AllinWeChatMiniPay;
 
         /// <summary>
         /// 支付
