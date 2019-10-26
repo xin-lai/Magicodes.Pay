@@ -52,7 +52,7 @@ namespace Magicodes.Pay.Tests.Notifys
                 OutTradeNo = outTradeNo,
                 Currency = new Currency(1),
                 Name = "学费",
-                PayChannel = PayChannels.AliPay,
+                PayChannel = PayChannels.AliAppPay,
                 Terminal = Terminals.Ipad,
                 TransactionState = TransactionStates.NotPay,
                 TenantId = null

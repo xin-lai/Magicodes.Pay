@@ -5,14 +5,11 @@ using Abp.Dependency;
 using Abp.UI;
 using Magicodes.Pay.Abp.Dto;
 using Magicodes.Pay.Abp.Registers;
-using Magicodes.Pay.Abp.TransactionLogs;
 using Magicodes.Pay.Alipay.Global;
 using Magicodes.Pay.Alipay.Global.Builder;
 using Magicodes.Pay.Notify.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace Magicodes.Pay.Abp.Allinpay
+namespace Magicodes.Pay.Abp.Alipay.Global
 {
     /// <summary>
     /// 通联支付支付配置

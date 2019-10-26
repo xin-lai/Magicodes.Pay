@@ -20,6 +20,8 @@ using Abp;
 using Abp.Dependency;
 using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Abp.Registers;
+using Magicodes.Pay.Abp.Services;
+using Magicodes.Pay.Abp.TransactionLogs;
 using Magicodes.Pay.Notify.Models;
 
 namespace Magicodes.Pay.Abp
@@ -29,11 +31,6 @@ namespace Magicodes.Pay.Abp
     /// </summary>
     public interface IPaymentManager : ISingletonDependency, IShouldInitialize
     {
-        /// <summary>
-        /// 支付注册器
-        /// </summary>
-        List<IPaymentRegister> PaymentRegisters { get; }
-
         /// <summary>
         /// 执行支付回调通知
         /// </summary>
@@ -63,6 +60,12 @@ namespace Magicodes.Pay.Abp
         Task UnRegisterCallbackAction(IPaymentCallbackAction paymentCallbackAction);
 
         /// <summary>
+        /// 获取所有
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<IPaymentCallbackAction>> GitAllCallbackActions();
+
+        /// <summary>
         /// 执行回调逻辑
         /// </summary>
         /// <param name="key">支付业务关键字</param>
@@ -71,5 +74,12 @@ namespace Magicodes.Pay.Abp
         /// <param name="transactionId">微信支付订单号</param>
         /// <returns></returns>
         Task ExecuteCallback(string key, string outTradeNo, string transactionId, decimal totalFee);
+
+        /// <summary>
+        /// 获取支付服务
+        /// </summary>
+        /// <param name="payChannel"></param>
+        /// <returns></returns>
+        Task<IToPayService> GetPayService(PayChannels payChannel);
     }
 }

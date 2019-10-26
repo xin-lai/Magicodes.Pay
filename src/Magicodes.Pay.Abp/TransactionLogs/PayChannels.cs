@@ -11,9 +11,9 @@
         WeChatPay = 0,
 
         /// <summary>
-        /// 支付宝支付
+        /// 支付宝APP支付
         /// </summary>
-        AliPay = 1,
+        AliAppPay = 1,
 
         /// <summary>
         /// 余额支付
@@ -33,6 +33,11 @@
         /// <summary>
         /// 通联微信小程序
         /// </summary>
-        AllinWeChatMiniPay = 5
+        AllinWeChatMiniPay = 5,
+
+        /// <summary>
+        /// 微信APP支付
+        /// </summary>
+        WeChatAppPay = 6,
     }
 }

@@ -26,6 +26,7 @@ using Abp.UI;
 using Castle.Core.Logging;
 using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Abp.Registers;
+using Magicodes.Pay.Abp.Services;
 using Magicodes.Pay.Abp.TransactionLogs;
 using Magicodes.Pay.Notify;
 using Magicodes.Pay.Notify.Builder;
@@ -53,7 +54,7 @@ namespace Magicodes.Pay.Abp
 
         /// <summary>
         /// </summary>
-        protected List<IPaymentCallbackAction> PaymentCallbackActions { get; set; }
+        protected List<IPaymentCallbackAction> PaymentCallbackActions { get; private set; }
 
         /// <summary>
         /// </summary>
@@ -61,7 +62,12 @@ namespace Magicodes.Pay.Abp
 
         /// <summary>
         /// </summary>
-        public List<IPaymentRegister> PaymentRegisters { get; private set; }
+        protected List<IPaymentRegister> PaymentRegisters { get; private set; }
+
+        /// <summary>
+        /// 支付服务
+        /// </summary>
+        protected List<IToPayService> ToPayServices { get; private set; }
 
 
         /// <summary>
@@ -71,6 +77,7 @@ namespace Magicodes.Pay.Abp
         {
             PaymentRegisters = _iocManager.ResolveAll<IPaymentRegister>()?.ToList();
             PaymentCallbackActions = _iocManager.ResolveAll<IPaymentCallbackAction>()?.ToList();
+            ToPayServices = _iocManager.ResolveAll<IToPayService>()?.ToList();
 
             //日志函数
             void LogAction(string tag, string message)
@@ -139,6 +146,16 @@ namespace Magicodes.Pay.Abp
             await Task.FromResult(0);
         }
 
+
+        /// <summary>
+        /// 获取所有
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<IPaymentCallbackAction>> GitAllCallbackActions()
+        {
+            return await Task.FromResult(PaymentCallbackActions);
+        }
+
         /// <summary>
         ///     执行回调逻辑
         /// </summary>
@@ -168,6 +185,16 @@ namespace Magicodes.Pay.Abp
                     await paymentCallbackAction.Process(unitOfWork, logInfo);
                 });
             }
+        }
+
+        /// <summary>
+        /// 获取支付服务
+        /// </summary>
+        /// <param name="payChannel"></param>
+        /// <returns></returns>
+        public async Task<IToPayService> GetPayService(PayChannels payChannel)
+        {
+            return await Task.FromResult(ToPayServices.FirstOrDefault(p => p.PayChannel == payChannel));
         }
 
         /// <summary>

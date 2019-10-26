@@ -4,6 +4,7 @@ using Abp.Reflection.Extensions;
 using Castle.MicroKernel.Registration;
 using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Abp.Registers;
+using Magicodes.Pay.Abp.Services;
 
 namespace Magicodes.Pay.Abp.Alipay
 {
@@ -11,16 +12,25 @@ namespace Magicodes.Pay.Abp.Alipay
     {
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(AbpAlipayModule).GetAssembly());
+            var assembly = typeof(AbpAlipayModule).GetAssembly();
 
-            //注册自定义支付配置逻辑
+            IocManager.RegisterAssemblyByConvention(assembly);
+
             IocManager.IocContainer.Register(
-                Classes.FromAssembly(typeof(AbpAlipayModule).GetAssembly())
+                //注册自定义支付配置逻辑
+                Classes.FromAssembly(assembly)
                     .BasedOn<IPaymentRegister>()
+                    .LifestyleTransient()
+                    .Configure(component => component.Named(component.Implementation.FullName))
+                    .WithServiceFromInterface(),
+                //注册支付服务
+                Classes.FromAssembly(assembly)
+                    .BasedOn<IToPayService>()
                     .LifestyleTransient()
                     .Configure(component => component.Named(component.Implementation.FullName))
                     .WithServiceFromInterface()
             );
+
         }
     }
 }

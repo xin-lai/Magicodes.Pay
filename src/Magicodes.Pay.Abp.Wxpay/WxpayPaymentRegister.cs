@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Abp.Dependency;
 using Abp.UI;
@@ -10,7 +9,7 @@ using Magicodes.Pay.Wxpay.Builder;
 using Magicodes.Pay.Wxpay.Config;
 using Magicodes.Pay.Wxpay.Pay;
 
-namespace Magicodes.Pay.Abp.Allinpay
+namespace Magicodes.Pay.Abp.Wxpay
 {
     /// <summary>
     /// 通联支付支付配置

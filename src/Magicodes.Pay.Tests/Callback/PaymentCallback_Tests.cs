@@ -38,7 +38,7 @@ namespace Magicodes.Pay.Tests.Callback
                 OutTradeNo = outTradeNo,
                 Currency = new Currency(100),
                 Name = "学费",
-                PayChannel = PayChannels.AliPay,
+                PayChannel = PayChannels.AliAppPay,
                 Terminal = Terminals.Ipad,
                 TransactionState = TransactionStates.NotPay,
                 TenantId = null
