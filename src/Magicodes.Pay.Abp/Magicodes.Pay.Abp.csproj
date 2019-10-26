@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp" Version="4.6.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Magicodes.Alipay\Magicodes.Pay.Alipay.csproj" />
+    <ProjectReference Include="..\Magicodes.Allinpay\Magicodes.Pay.Allinpay.csproj" />
+    <ProjectReference Include="..\Magicodes.PayNotify\Magicodes.Pay.Notify.csproj" />
+  </ItemGroup>
+</Project>
