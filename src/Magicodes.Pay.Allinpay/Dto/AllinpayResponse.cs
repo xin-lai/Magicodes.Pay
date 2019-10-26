@@ -1,4 +1,7 @@
-﻿namespace Magicodes.Pay.Allinpay.Dto
+﻿using System;
+using Newtonsoft.Json;
+
+namespace Magicodes.Pay.Allinpay.Dto
 {
     [Serializable]
     public class AllinpayResponse

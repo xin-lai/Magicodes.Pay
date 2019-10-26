@@ -15,7 +15,11 @@
 //   
 // ======================================================================
 
+using System;
+using System.Threading.Tasks;
 using Magicodes.Pay.Notify.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Magicodes.Pay.Notify
 {
@@ -24,7 +28,7 @@ namespace Magicodes.Pay.Notify
     /// </summary>
     [AllowAnonymous]
     [Route("PayNotify")]
-    public class PayNotifyController : Controller
+    public class PayNotifyController : ControllerBase
     {
         internal static Action<string, string> LoggerAction = (tag, log) => { };
 

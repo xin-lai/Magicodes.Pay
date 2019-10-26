@@ -29,7 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Magicodes.Pay.Abp.Allinpay\Magicodes.Pay.Abp.Allinpay.csproj" />
     <ProjectReference Include="..\Magicodes.Pay.Abp\Magicodes.Pay.Abp.csproj" />
+    <ProjectReference Include="..\Magicodes.Pay.Allinpay\Magicodes.Pay.Allinpay.csproj" />
+    <ProjectReference Include="..\Magicodes.Pay.Notify\Magicodes.Pay.Notify.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,6 +15,8 @@
 //   
 // ======================================================================
 
+using System.Xml.Serialization;
+
 namespace Magicodes.Pay.Wxpay.Pay.Dto
 {
     /// <summary>

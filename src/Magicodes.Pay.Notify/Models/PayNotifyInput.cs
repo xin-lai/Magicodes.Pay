@@ -15,6 +15,8 @@
 //   
 // ======================================================================
 
+using Microsoft.AspNetCore.Http;
+
 namespace Magicodes.Pay.Notify.Models
 {
     public class PayNotifyInput

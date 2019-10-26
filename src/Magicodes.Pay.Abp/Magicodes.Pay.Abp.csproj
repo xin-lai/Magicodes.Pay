@@ -11,8 +11,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Magicodes.Alipay\Magicodes.Pay.Alipay.csproj" />
-    <ProjectReference Include="..\Magicodes.Allinpay\Magicodes.Pay.Allinpay.csproj" />
-    <ProjectReference Include="..\Magicodes.PayNotify\Magicodes.Pay.Notify.csproj" />
+    <ProjectReference Include="..\Magicodes.Pay.Notify\Magicodes.Pay.Notify.csproj" />
   </ItemGroup>
 </Project>

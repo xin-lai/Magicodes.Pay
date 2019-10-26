@@ -1,4 +1,6 @@
-﻿namespace Magicodes.Pay.Allinpay.Builder
+﻿using System;
+
+namespace Magicodes.Pay.Allinpay.Builder
 {
     /// <summary>
     ///  通联支付

@@ -15,6 +15,10 @@
 //   
 // ======================================================================
 
+using System;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Magicodes.Pay.Wxpay.Config;
 using Magicodes.Pay.Wxpay.Helper;
 using Magicodes.Pay.Wxpay.Pay.Dto;

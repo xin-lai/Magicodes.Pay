@@ -1,4 +1,7 @@
-﻿namespace Magicodes.Pay.Wxpay.Pay.Dto
+﻿using System;
+using System.Xml.Serialization;
+
+namespace Magicodes.Pay.Wxpay.Pay.Dto
 {
     /// <summary>
     /// Defines the <see cref="NormalRedPackInput" />

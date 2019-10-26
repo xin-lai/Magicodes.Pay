@@ -15,6 +15,8 @@
 //   
 // ======================================================================
 
+using System;
+using System.Threading.Tasks;
 using Magicodes.Pay.Notify.Models;
 
 namespace Magicodes.Pay.Notify.Builder

@@ -1,4 +1,7 @@
-﻿using Magicodes.Pay.Allinpay.Dto;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Magicodes.Pay.Allinpay.Dto;
 
 namespace Magicodes.Pay.Allinpay
 {

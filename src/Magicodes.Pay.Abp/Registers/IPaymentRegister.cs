@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Magicodes.Pay.Abp.Dto;
+using Magicodes.Pay.Notify.Models;
 
-namespace Magicodes.Pay.Abp.Configs
+namespace Magicodes.Pay.Abp.Registers
 {
     /// <summary>
-    /// 支付注册和配置逻辑
+    /// 支付注册器
     /// </summary>
-    public interface IPaymentConfigAction
+    public interface IPaymentRegister
     {
         /// <summary>
         /// 关键字
@@ -19,5 +21,12 @@ namespace Magicodes.Pay.Abp.Configs
         /// <param name="logAction"></param>
         /// <returns></returns>
         Task Build(Action<string, string> logAction);
+
+        /// <summary>
+        /// 支付回调处理
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyInput input);
     }
 }

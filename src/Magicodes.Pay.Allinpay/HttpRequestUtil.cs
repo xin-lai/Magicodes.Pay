@@ -1,4 +1,8 @@
-﻿namespace Magicodes.Pay.Allinpay
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Magicodes.Pay.Allinpay
 {
     public class HttpRequestUtil
     {

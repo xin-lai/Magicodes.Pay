@@ -15,6 +15,9 @@
 //   
 // ======================================================================
 
+using System;
+using System.Xml.Serialization;
+
 namespace Magicodes.Pay.Wxpay.Pay.Dto
 {
     [XmlRoot("xml")]

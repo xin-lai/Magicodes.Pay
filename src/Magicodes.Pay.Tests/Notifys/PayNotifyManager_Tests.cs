@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Json;
 using Abp.Timing;
-using Magicodes.Allinpay;
 using Magicodes.Pay.Abp;
 using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Abp.TransactionLogs;
+using Magicodes.Pay.Allinpay;
+using Magicodes.Pay.Notify.Models;
 using Magicodes.Pay.Tests.Callback;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -22,15 +23,13 @@ namespace Magicodes.Pay.Tests.Notifys
     /// </summary>
     public class PayNotifyManager_Tests : TestBase
     {
-        private IPaymentCallbackManager paymentCallbackManager;
-        private IPayNotifyManager payNotifyManager;
+        private IPaymentManager paymentManager;
         private IConfiguration configuration;
         private string outTradeNo = "8AFD62BF-EA24-4B92-B015-F8CB7A86C315";
 
         public PayNotifyManager_Tests()
         {
-            paymentCallbackManager = Resolve<IPaymentCallbackManager>();
-            payNotifyManager = Resolve<IPayNotifyManager>();
+            paymentManager = Resolve<IPaymentManager>();
             configuration = Resolve<IConfiguration>();
 
             UsingDbContext(context => context.TransactionLogs.Add(new TransactionLog()
@@ -44,7 +43,6 @@ namespace Magicodes.Pay.Tests.Notifys
                     IdCard = "430122200010016014",
                     Phone = "18812340001",
                     RecommendCode = "00001",
-                    Amount = 100,
                     Code = "CD001",
                     ReceiptCodes = "RC001",
                     ChargeProjectId = 1,
@@ -52,7 +50,7 @@ namespace Magicodes.Pay.Tests.Notifys
                     OpenId = "owWF25zT2BnOeQ68myWuQian7qHq"
                 }.ToJsonString(),
                 OutTradeNo = outTradeNo,
-                Currency = new Currency(100),
+                Currency = new Currency(1),
                 Name = "学费",
                 PayChannel = PayChannels.AliPay,
                 Terminal = Terminals.Ipad,
@@ -66,7 +64,7 @@ namespace Magicodes.Pay.Tests.Notifys
         [Fact(DisplayName = "通联支付回调测试")]
         public async Task Allinpay_ExecPayNotifyAsync_Test()
         {
-            await paymentCallbackManager.Register(new TestPaymentCallbackAction());
+            await paymentManager.RegisterCallbackAction(new TestPaymentCallbackAction());
 
             //Mock HttpRequest
             var httpRequestMock = Substitute.For<HttpRequest>();
@@ -106,7 +104,7 @@ namespace Magicodes.Pay.Tests.Notifys
             httpRequestMock.Form.Returns(new FormCollection(formDic, null));
 
             //执行支付回调
-            await payNotifyManager.ExecPayNotifyAsync(new PayNotify.Models.PayNotifyInput()
+            await paymentManager.ExecPayNotifyAsync(new PayNotifyInput()
             {
                 Provider = "allinpay",
                 Request = httpRequestMock

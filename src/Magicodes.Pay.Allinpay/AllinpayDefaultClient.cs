@@ -1,4 +1,7 @@
-﻿using Magicodes.Pay.Allinpay.Dto;
+﻿using System;
+using System.Collections.Generic;
+using Magicodes.Pay.Allinpay.Dto;
+using Newtonsoft.Json;
 
 namespace Magicodes.Pay.Allinpay
 {

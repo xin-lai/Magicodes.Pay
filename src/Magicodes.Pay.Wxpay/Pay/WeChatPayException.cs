@@ -15,6 +15,9 @@
 //   
 // ======================================================================
 
+using System;
+using System.Runtime.Serialization;
+
 namespace Magicodes.Pay.Wxpay.Pay
 {
     [Serializable]

@@ -15,6 +15,7 @@
 //   
 // ======================================================================
 
+using System;
 using Magicodes.Pay.Wxpay.Config;
 using Magicodes.Pay.Wxpay.Helper;
 

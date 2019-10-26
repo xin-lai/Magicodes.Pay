@@ -15,6 +15,11 @@
 //   
 // ======================================================================
 
+using System.IO;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+
 namespace Magicodes.Pay.Wxpay.Helper
 {
     public static class XmlHelper
