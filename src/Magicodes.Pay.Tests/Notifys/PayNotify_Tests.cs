@@ -21,13 +21,13 @@ namespace Magicodes.Pay.Tests.Notifys
     /// <summary>
     /// 支付回调通知测试
     /// </summary>
-    public class PayNotifyManager_Tests : TestBase
+    public class PayNotify_Tests : TestBase
     {
         private IPaymentManager paymentManager;
         private IConfiguration configuration;
         private string outTradeNo = "8AFD62BF-EA24-4B92-B015-F8CB7A86C315";
 
-        public PayNotifyManager_Tests()
+        public PayNotify_Tests()
         {
             paymentManager = Resolve<IPaymentManager>();
             configuration = Resolve<IConfiguration>();

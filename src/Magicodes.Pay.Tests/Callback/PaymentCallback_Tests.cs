@@ -12,12 +12,12 @@ using Xunit;
 
 namespace Magicodes.Pay.Tests.Callback
 {
-    public class PaymentCallbackManager_Tests : TestBase
+    public class PaymentCallback_Tests : TestBase
     {
         private IPaymentManager paymentManager;
         private string outTradeNo = "AAAAAAAAAAAAAAAAAAAAAAA";
 
-        public PaymentCallbackManager_Tests()
+        public PaymentCallback_Tests()
         {
             paymentManager = Resolve<IPaymentManager>();
 

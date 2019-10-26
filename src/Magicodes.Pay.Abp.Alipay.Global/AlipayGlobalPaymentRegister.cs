@@ -5,68 +5,67 @@ using Abp.Dependency;
 using Abp.UI;
 using Magicodes.Pay.Abp.Dto;
 using Magicodes.Pay.Abp.Registers;
-using Magicodes.Pay.Alipay;
-using Magicodes.Pay.Alipay.Builder;
+using Magicodes.Pay.Abp.TransactionLogs;
+using Magicodes.Pay.Alipay.Global;
+using Magicodes.Pay.Alipay.Global.Builder;
 using Magicodes.Pay.Notify.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Magicodes.Pay.Abp.Alipay
+namespace Magicodes.Pay.Abp.Allinpay
 {
     /// <summary>
-    /// 支付宝支付配置
+    /// 通联支付支付配置
     /// </summary>
-    public class AlipayPaymentRegister : PaymentRegisterBase
+    public class AlipayGlobalPaymentRegister : PaymentRegisterBase
     {
         /// <summary>
         /// 关键字
         /// </summary>
-        public override string Key { get; set; } = "Alipay";
+        public override string Key { get; set; } = "Global.alipay";
 
         public override async Task Build(Action<string, string> logAction)
         {
             //注册支付API
-            if (IocManager.IsRegistered<IAlipayAppService>()) return;
+            if (IocManager.IsRegistered<IGlobalAlipayAppService>()) return;
 
-            AlipayBuilder.Create()
+            GlobalAlipayBuilder.Create()
                 .WithLoggerAction(logAction)
-                .RegisterGetPayConfigFunc(() => GetConfigFromConfigOrSettingsByKey<AlipaySettings>().Result).Build();
+                .RegisterGetPayConfigFunc(() => GetConfigFromConfigOrSettingsByKey<GlobalAlipaySettings>().Result).Build();
 
-            IocManager.Register<IAlipayAppService, AlipayAppService>(DependencyLifeStyle.Transient);
+            IocManager.Register<IGlobalAlipayAppService, GlobalAlipayAppService>(DependencyLifeStyle.Transient);
             await Task.FromResult(0);
         }
 
-
         public override async Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyInput input)
         {
-            using (var obj = IocManager.ResolveAsDisposable<IAlipayAppService>())
+            using (var obj = IocManager.ResolveAsDisposable<IGlobalAlipayAppService>())
             {
                 var api = obj.Object;
 
-                var dictionary = input.Request.Form.ToDictionary(p => p.Key,
-                    p2 => p2.Value.FirstOrDefault()?.ToString());
+                var dictionary = input.Request.Form.ToDictionary(p => p.Key, p2 => p2.Value.FirstOrDefault()?.ToString());
                 //签名校验
                 if (!api.PayNotifyHandler(dictionary))
                 {
                     throw new UserFriendlyException("支付宝支付签名错误！");
                 }
-
                 var outTradeNo = input.Request.Form["out_trade_no"];
                 var tradeNo = input.Request.Form["trade_no"];
                 var charset = input.Request.Form["charset"];
-                var totalFee = decimal.Parse(input.Request.Form["total_fee"]);
-                var businessParams = input.Request.Form["business_params"];
-                if (string.IsNullOrWhiteSpace(businessParams))
-                {
-                    throw new UserFriendlyException("自定义参数不允许为空！");
-                }
+                var totalFee = Convert.ToDecimal(input.Request.Form["total_fee"]);
+                //交易状态
+                string tradeStatus = input.Request.Form["trade_status"];
 
                 return await Task.FromResult(new ExecPayNotifyOutputDto()
                 {
-                    BusinessParams = businessParams,
+                    //待处理
+                    BusinessParams = null,
                     OutTradeNo = outTradeNo,
-                    TotalFee = totalFee,
                     TradeNo = tradeNo,
+                    TotalFee = totalFee,
                     SuccessResult = "success"
                 });
+
             }
         }
     }

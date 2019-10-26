@@ -3,10 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Magicodes.Pay.Abp\Magicodes.Pay.Abp.csproj" />
-    <ProjectReference Include="..\Magicodes.Pay.Allinpay\Magicodes.Pay.Allinpay.csproj" />
+    <ProjectReference Include="..\Magicodes.Pay.Alipay.Global\Magicodes.Pay.Alipay.Global.csproj" />
   </ItemGroup>
 
 </Project>

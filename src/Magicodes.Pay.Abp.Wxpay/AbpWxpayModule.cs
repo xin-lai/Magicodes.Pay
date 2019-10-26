@@ -5,15 +5,15 @@ using Magicodes.Pay.Abp.Registers;
 
 namespace Magicodes.Pay.Abp.Allinpay
 {
-    public class AbpAllinpayModule : AbpModule
+    public class AbpWxpayModule : AbpModule
     {
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(AbpAllinpayModule).GetAssembly());
+            IocManager.RegisterAssemblyByConvention(typeof(AbpWxpayModule).GetAssembly());
 
             //注册自定义支付配置逻辑
             IocManager.IocContainer.Register(
-                Classes.FromAssembly(typeof(AbpAllinpayModule).GetAssembly())
+                Classes.FromAssembly(typeof(AbpWxpayModule).GetAssembly())
                     .BasedOn<IPaymentRegister>()
                     .LifestyleTransient()
                     .Configure(component => component.Named(component.Implementation.FullName))

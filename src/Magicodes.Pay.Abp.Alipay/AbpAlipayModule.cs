@@ -13,15 +13,6 @@ namespace Magicodes.Pay.Abp.Alipay
         {
             IocManager.RegisterAssemblyByConvention(typeof(AbpAlipayModule).GetAssembly());
 
-            ////注册自定义支付回调逻辑
-            //IocManager.IocContainer.Register(
-            //    Classes.FromAssembly(typeof(TestModule).GetAssembly())
-            //        .BasedOn<IPaymentCallbackAction>()
-            //        .LifestyleTransient()
-            //        .Configure(component => component.Named(component.Implementation.FullName))
-            //        .WithServiceFromInterface()
-            //);
-
             //注册自定义支付配置逻辑
             IocManager.IocContainer.Register(
                 Classes.FromAssembly(typeof(AbpAlipayModule).GetAssembly())

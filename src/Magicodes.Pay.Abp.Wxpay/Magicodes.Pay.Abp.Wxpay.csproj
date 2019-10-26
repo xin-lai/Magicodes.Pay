@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Magicodes.Pay.Abp\Magicodes.Pay.Abp.csproj" />
-    <ProjectReference Include="..\Magicodes.Pay.Allinpay\Magicodes.Pay.Allinpay.csproj" />
+    <ProjectReference Include="..\Magicodes.Pay.Wxpay\Magicodes.Pay.Wxpay.csproj" />
   </ItemGroup>
 
 </Project>
