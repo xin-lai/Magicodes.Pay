@@ -15,6 +15,7 @@
 // ======================================================================
 
 using System.Threading.Tasks;
+using Abp.Dependency;
 using Abp.UI;
 using Magicodes.Pay.Abp.Services.Dto;
 
@@ -23,7 +24,7 @@ namespace Magicodes.Pay.Abp.Services
     /// <summary>
     ///  统一支付服务
     /// </summary>
-    public class PayAppService : IPayAppService
+    public class PayAppService : IPayAppService, ITransientDependency
     {
         private readonly IPaymentManager _paymentManager;
 
