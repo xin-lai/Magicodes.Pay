@@ -6,6 +6,7 @@ using Magicodes.Pay.Abp.Services;
 
 namespace Magicodes.Pay.Abp.Wxpay
 {
+    [DependsOn(typeof(PayModule))]
     public class AbpWxpayModule : AbpModule
     {
         public override void Initialize()

@@ -8,6 +8,9 @@ using Magicodes.Pay.Abp.TransactionLogs;
 
 namespace Magicodes.Pay.Abp.Callbacks
 {
+    /// <summary>
+    /// 回调逻辑
+    /// </summary>
     public interface IPaymentCallbackAction
     {
         /// <summary>

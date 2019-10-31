@@ -6,6 +6,7 @@ using Magicodes.Pay.Abp.Services;
 
 namespace Magicodes.Pay.Abp.Alipay.Global
 {
+    [DependsOn(typeof(PayModule))]
     public class AbpAlipayGlobalModule : AbpModule
     {
         public override void Initialize()

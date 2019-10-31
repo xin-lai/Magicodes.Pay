@@ -8,7 +8,7 @@ namespace Magicodes.Pay.Allinpay
     /// <summary>
     /// 通联支付服务
     /// </summary>
-    public class AllinpayAppService: IAllinpayAppService
+    public class AllinpayAppService : IAllinpayAppService
     {
         private readonly IAllinpaySettings _allinpaySettings;
 
@@ -29,9 +29,11 @@ namespace Magicodes.Pay.Allinpay
         {
             var allinpayDefaultClient = new AllinpayDefaultClient(_allinpaySettings);
             var response = allinpayDefaultClient.WeChatMiniPay(input);
-            if (response.RetCode== "FAIL")
+            if (response.RetCode == "FAIL")
             {
-                LoggerAction?.Invoke("Error", "通联支付请求参数错误");
+                LoggerAction?.Invoke("Error", "通联支付请求参数错误（FAIL）:" + _allinpaySettings);
+                LoggerAction?.Invoke("Error", "input:" + input);
+                LoggerAction?.Invoke("Error", "RetMsg:" + response.RetMsg + "    ErrMsg:" + response.ErrMsg);
                 throw new Exception("通联支付请求参数错误,请检查!");
             }
 

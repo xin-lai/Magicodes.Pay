@@ -6,6 +6,7 @@ using Magicodes.Pay.Abp.Services;
 
 namespace Magicodes.Pay.Abp.Allinpay
 {
+    [DependsOn(typeof(PayModule))]
     public class AbpAllinpayModule : AbpModule
     {
         public override void Initialize()

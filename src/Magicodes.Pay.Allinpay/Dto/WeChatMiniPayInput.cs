@@ -35,5 +35,11 @@
         ///     微信小程序-用户小程序的openid
         /// </summary>
         public string OpenId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => Newtonsoft.Json.JsonConvert.SerializeObject(this);
     }
 }

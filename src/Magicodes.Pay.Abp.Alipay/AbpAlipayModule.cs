@@ -8,6 +8,7 @@ using Magicodes.Pay.Abp.Services;
 
 namespace Magicodes.Pay.Abp.Alipay
 {
+    [DependsOn(typeof(PayModule))]
     public class AbpAlipayModule : AbpModule
     {
         public override void Initialize()

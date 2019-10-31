@@ -19,7 +19,6 @@ namespace Magicodes.Pay.Tests
     [DependsOn(
        typeof(AbpTestBaseModule),
        typeof(AbpEntityFrameworkCoreModule),
-       typeof(PayModule),
        typeof(AbpAllinpayModule)
        )]
     public class TestModule : AbpModule
@@ -30,7 +29,7 @@ namespace Magicodes.Pay.Tests
                 Component.For<IConfiguration>().Instance(GetConfiguration()).LifestyleSingleton()
                 );
 
-            IocManager.Register<IConfiguration>();
+            //IocManager.Register<IConfiguration>();
         }
 
         public override void Initialize()
@@ -38,23 +37,29 @@ namespace Magicodes.Pay.Tests
             ServiceCollectionRegistrar.Register(IocManager);
             IocManager.RegisterAssemblyByConvention(typeof(TestModule).GetAssembly());
 
-            //注册自定义支付回调逻辑
+
             IocManager.IocContainer.Register(
+                //注册自定义支付回调逻辑
                 Classes.FromAssembly(typeof(TestModule).GetAssembly())
                     .BasedOn<IPaymentCallbackAction>()
                     .LifestyleTransient()
                     .Configure(component => component.Named(component.Implementation.FullName))
-                    .WithServiceFromInterface()
-                );
-
-            //注册自定义支付配置逻辑
-            IocManager.IocContainer.Register(
+                    .WithServiceFromInterface(),
+                //注册自定义支付回调逻辑
+                Classes.FromAssembly(typeof(TestModule).GetAssembly())
+                    .BasedOn<IPaymentCallbackAction>()
+                    .LifestyleTransient()
+                    .Configure(component => component.Named(component.Implementation.FullName))
+                    .WithServiceFromInterface(),
+                //注册自定义支付配置逻辑
                 Classes.FromAssembly(typeof(TestModule).GetAssembly())
                     .BasedOn<IPaymentRegister>()
                     .LifestyleTransient()
                     .Configure(component => component.Named(component.Implementation.FullName))
-                    .WithServiceFromInterface()
-            );
+                    .WithServiceFromInterface());
+
+
+
         }
 
         private static IConfiguration GetConfiguration()

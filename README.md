@@ -4,19 +4,19 @@
 
 ### 新的包
 
-| 名称     |      Nuget      |
-|----------|:-------------:|
-| Magicodes.Pay.Alipay  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Alipay)](https://www.nuget.org/packages/Magicodes.Pay.Alipay) |
-| Magicodes.Pay.Notify  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Notify)](https://www.nuget.org/packages/Magicodes.Pay.Notify) |
-| Magicodes.Pay.Wxpay  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Wxpay)](https://www.nuget.org/packages/Magicodes.Pay.Wxpay) |
-| Magicodes.Pay.Alipay.Global  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Alipay.Global)](https://www.nuget.org/packages/Magicodes.Pay.Alipay.Global) |
-| Magicodes.Pay.Allinpay  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Allinpay) |
-| Magicodes.Pay.Abp  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp)](https://www.nuget.org/packages/Magicodes.Pay.Abp) |
-| Magicodes.Pay.Abp.Allinpay  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Allinpay) |
-| Magicodes.Pay.Abp.Wxpay  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Wxpay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Wxpay) |
-| Magicodes.Pay.Alipay.Global  |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Alipay.Global)](https://www.nuget.org/packages/Magicodes.Pay.Alipay.Global) |
+| 名称     |      说明      |      Nuget      |
+|----------|:-------------:|:-------------:|
+| Magicodes.Pay.Alipay  |支付宝支付库|  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Alipay)](https://www.nuget.org/packages/Magicodes.Pay.Alipay) |
+| Magicodes.Pay.Notify  |支付通用回调库|   [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Notify)](https://www.nuget.org/packages/Magicodes.Pay.Notify) |
+| Magicodes.Pay.Wxpay  |微信支付库|  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Wxpay)](https://www.nuget.org/packages/Magicodes.Pay.Wxpay) |
+| Magicodes.Pay.Alipay.Global |国际支付宝支付库 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Alipay.Global)](https://www.nuget.org/packages/Magicodes.Pay.Alipay.Global) |
+| Magicodes.Pay.Allinpay  | 通联支付库 | [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Allinpay) |
+| Magicodes.Pay.Abp  | ABP 支付通用封装库| [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp)](https://www.nuget.org/packages/Magicodes.Pay.Abp) |
+| Magicodes.Pay.Abp.Allinpay  |ABP 通联支付模块|  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Allinpay) |
+| Magicodes.Pay.Abp.Wxpay  | ABP 微信支付模块| [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Wxpay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Wxpay) |
+| Magicodes.Pay.Alipay.Global  | ABP 国际支付宝模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Alipay.Global)](https://www.nuget.org/packages/Magicodes.Pay.Alipay.Global) |
 
-### 已弃用的包
+### 已弃用的包，不再更新
 
 | 名称     |      Nuget      |
 |----------|:-------------:|
@@ -24,7 +24,6 @@
 | Magicodes.Alipay.Global |    [![NuGet](https://buildstats.info/nuget/Magicodes.Alipay.Global)](https://www.nuget.org/packages/Magicodes.Alipay.Global)   |
 | Magicodes.Pay.WeChat | [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.WeChat)](https://www.nuget.org/packages/Magicodes.Pay.WeChat) |
 | Magicodes.PayNotify | [![NuGet](https://buildstats.info/nuget/Magicodes.PayNotify)](https://www.nuget.org/packages/Magicodes.PayNotify) |
-
 
 ## 主要功能
 Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前支持以下支付方式和功能：
@@ -40,162 +39,86 @@ Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使�
   * 企业付款（提现）
   * 退款申请
   * 普通红包
+* 通联支付
+  * 小程序支付
 * 统一支付回调处理
 * 支持日志函数注入（不依赖支付库）
 * 支持支付配置函数注入，以便于支持自定义配置获取逻辑，以应用于不同的场景（比如从配置文件、用户设置获取配置，或者多租户支持）
+* 针对ABP提供模块封装，添加模块依赖即可立即使用。主要包括：
+  * 统一支付服务封装（见IPayAppService）
+  * 支付管理器封装（IPaymentManager），包含：
+    * 支付渠道注册（IPaymentRegister）
+    * 支付回调逻辑处理（IPaymentCallbackAction）
+    * 支付服务实现（IToPayService）
 
-目前此库我们在很多项目上已经进行了验证，由于项目赶工，许多功能我们并没有添加、迁移或者重构过来，在后续的过程中，我们会逐步来完成这些工作。同时，在Magicodes.Admin开源库中，我们也编写了相关的Demo和实现。
+## 开始使用
 
-Magicodes.Admin开源库地址：https://gitee.com/magicodes/Magicodes.Admin.Core
+如果使用Abp相关模块，则使用起来比较简单，具体您可以参考相关单元测试的编写。主要有以下步骤：
 
-整个支付实现这块，我们在Magicodes.Admin开源库中已经提供了统一支付的Demo，而且我们将会提供根据请求头来自动调用相关支付的功能。如下图所示：
-![参考](res/40.png)
+1. 引用对应的Abp支付的Nuget包
+如果仅需某个支付，仅需引用该支付的包。下面以通联支付为例，我们需要在工程中引用此包：
 
-在各个业务支付场景中，我们可以非常方便的调用此统一支付，如下图所示：
-![参考](res/41.png)
-![参考](res/42.png)
+| 名称     |      说明      |      Nuget      |
+|----------|:-------------:|:-------------:|
+| Magicodes.Pay.Abp.Allinpay  |ABP 通联支付模块|  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Allinpay) |
 
-## VNext
+2. 添加模块依赖
+在对应工程的Abp的模块（AbpModule）中，添加对“AbpAllinpayModule”的依赖，如：
 
-这是目前的下个版本的规划：
+````C#
+    [DependsOn(typeof(AbpAllinpayModule))]
+````
 
-* 支付宝PC支付
-* 微信H5支付
-* 提供默认的回调管理逻辑，支持回调处理函数的注入
+3. 在DbContext中添加名为“TransactionLogs”的DbSet
+整个支付过程中（无论是支付成功还是出现异常），均会记录交易日志。交易日志会记录交易过程中的一些信息，比如客户端信息、交易参数、自定义参数以及异常信息。因此我们需要针对EF添加对TransactionLog的支持。需要在DbContext中添加的完整代码如下所示：
 
-具体功能我们会根据项目的情况来迭代，如果你有好的建议或者意见，可以关注我们的公众号“magiccodes”来提交您的意见或者意见。
+````C#
+public DbSet<TransactionLog> TransactionLogs { get; set; }
+````
 
-## 如何配置
+1. 注册回调逻辑
+我们需要实现“IPaymentCallbackAction”接口来编写自定义的回调逻辑。如以下示例所示：
 
-相关库的配置相对比较简单，一般均使用相关Builder类来配置自定义日志逻辑、配置获取逻辑等，具体可以查阅Builder目录下的代码。
+````C#
+    public class TestPaymentCallbackAction : IPaymentCallbackAction
+    {
+        /// <summary>
+        /// 业务Key
+        /// </summary>
+        public string Key { get; set; } = "缴费支付";
 
-### 配置参考
+        /// <summary>
+        /// 执行回调
+        /// </summary>
+        /// <returns></returns>
+        public async Task Process(IUnitOfWorkManager unitOfWork, TransactionLog transactionLog)
+        {
+            var data = transactionLog.CustomData.FromJsonString<JObject>();
+            //业务处理
 
-相关配置请参考此代码:https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
+            await Task.FromResult(0);
+        }
+    }
+````
 
-部分代码如下所示：
+注意Key不要重复。
 
-![参考](res/1.png)
-![参考](res/2.png)
+1. 向容器中注册回调逻辑
 
-支付相关代码可以参考:
-https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Services/PayAppService.cs
+我们可以将回调逻辑写在一个公共的程序集，然后使用以下代码进行注册：
 
-### 配置界面参考
+````C#
+            IocManager.IocContainer.Register(
+                //注册自定义支付回调逻辑
+                Classes.FromAssembly(typeof(ApplicationCoreModule).GetAssembly())
+                    .BasedOn<IPaymentCallbackAction>()
+                    .LifestyleTransient()
+                    .Configure(component => component.Named(component.Implementation.FullName))
+                    .WithServiceFromInterface()
+            );
+````
 
-如下图所示:
-![参考](res/10.png)
-![参考](res/11.png)
-![参考](res/12.png)
-
-## Demo
-
-### 微信支付Demo
-
-            if (WeChatPayApi == null)
-            {
-                throw new UserFriendlyException("支付未开放，请联系管理员！");
-            }
-            var appPayInput = new WeChat.Pay.Dto.AppPayInput
-            {
-                Body = input.Body,
-                OutTradeNo = input.OutTradeNo,
-                Attach = input.CustomData,
-                TotalFee = input.TotalAmount,
-                SpbillCreateIp = _clientInfoProvider?.ClientIpAddress
-            };
-            try
-            {
-                var appPayOutput = WeChatPayApi.AppPay(appPayInput);
-                return Task.FromResult(appPayOutput);
-            }
-            catch (Exception ex)
-            {
-                throw new UserFriendlyException(ex.Message);
-            }
-
-### 支付宝支付Demo
-
-            if (AlipayAppService == null)
-            {
-                throw new UserFriendlyException("支付未开放，请联系管理员！");
-            }
-            var appPayInput = new Alipay.Dto.AppPayInput
-            {
-                Body = input.Body,
-                Subject = input.Subject,
-                TradeNo = input.OutTradeNo,
-                PassbackParams = input.CustomData,
-                TotalAmount = input.TotalAmount
-            };
-            try
-            {
-                var appPayOutput = await AlipayAppService.AppPay(appPayInput);
-                return appPayOutput.Response.Body;
-            }
-            catch (Exception ex)
-            {
-                throw new UserFriendlyException(ex.Message);
-            }
-
-### 支付宝国际支付Demo
-
-            if (GlobalAlipayAppService == null)
-            {
-                throw new UserFriendlyException("支付未开放，请联系管理员！");
-            }
-            var payInput = new Alipay.Global.Dto.PayInput
-            {
-                Body = input.Body,
-                Subject = input.Subject,
-                TradeNo = input.OutTradeNo,
-                //PassbackParams = input.CustomData,
-                TotalFee = input.TotalAmount,
-            };
-            try
-            {
-                return await GlobalAlipayAppService.Pay(payInput);
-            }
-            catch (Exception ex)
-            {
-                throw new UserFriendlyException(ex.Message);
-            }
-
-
-### 国际支付宝分账参考界面
-
-![参考](res/14.png)
-
-## 支付回调
-
-### 目的
-
-统一回调处理逻辑和回调处理地址
-
-### 代码参考
-
-
-![参考](res/20.png)
-
-上图的PayAction参考：
-
-            void PayAction(string key, string outTradeNo, string transactionId, int totalFee, JObject data)
-            {
-                using (var paymentCallbackManagerObj = iocManager.ResolveAsDisposable<PaymentCallbackManager>())
-                {
-                    var paymentCallbackManager = paymentCallbackManagerObj?.Object;
-                    if (paymentCallbackManager == null)
-                    {
-                        throw new ApplicationException("支付回调管理器异常，无法执行回调！");
-                    }
-                    AsyncHelper.RunSync(async () => await paymentCallbackManager.ExecuteCallback(key, outTradeNo, transactionId, totalFee, data));
-                }
-            }
-
-完整回调代码请参考此代码:https://gitee.com/xl_wenqiang/Magicodes.Admin.Core/blob/develop/src/unity/Magicodes.Pay/Startup/PayStartup.cs
-
-回调逻辑参考:
-![回调逻辑](res/30.png)
+除了上面的方式，我们还可以通过注入IPaymentManager对象，通过其RegisterCallbackAction方法来注册自定义的回调逻辑。
 
 ## 官方订阅号
 

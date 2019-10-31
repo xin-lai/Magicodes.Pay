@@ -39,5 +39,11 @@
         ///     微信AppId
         /// </summary>
         public string WeChatAppId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => Newtonsoft.Json.JsonConvert.SerializeObject(this);
     }
 }

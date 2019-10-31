@@ -86,7 +86,7 @@ namespace Magicodes.Pay.Abp.Registers
         /// <returns></returns>
         public virtual Task<TConfig> GetConfigFromConfigOrSettingsByKey<TConfig>() where TConfig : class, new()
         {
-            var settings = AppConfiguration.GetSection(key: Key)?.Get<TConfig>();
+            var settings = AppConfiguration?.GetSection(key: Key)?.Get<TConfig>();
             if (settings != null) return Task.FromResult(settings);
 
             using (var obj = IocManager.ResolveAsDisposable<ISettingManager>())

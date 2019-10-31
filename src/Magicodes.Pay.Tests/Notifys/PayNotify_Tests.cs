@@ -64,8 +64,6 @@ namespace Magicodes.Pay.Tests.Notifys
         [Fact(DisplayName = "通联支付回调测试")]
         public async Task Allinpay_ExecPayNotifyAsync_Test()
         {
-            await paymentManager.RegisterCallbackAction(new TestPaymentCallbackAction());
-
             //Mock HttpRequest
             var httpRequestMock = Substitute.For<HttpRequest>();
             //伪造支付参数
