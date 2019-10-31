@@ -20,12 +20,10 @@ namespace Magicodes.Pay.Tests.Callback
         public PaymentCallback_Tests()
         {
             paymentManager = Resolve<IPaymentManager>();
-
             UsingDbContext(context => context.TransactionLogs.Add(new TransactionLog()
             {
                 ClientIpAddress = "192.168.1.1",
                 ClientName = "OS",
-                CreationTime = Clock.Now,
                 CustomData = new
                 {
                     Name = "佩奇",
@@ -41,7 +39,6 @@ namespace Magicodes.Pay.Tests.Callback
                 PayChannel = PayChannels.AliAppPay,
                 Terminal = Terminals.Ipad,
                 TransactionState = TransactionStates.NotPay,
-                TenantId = null
             }));
         }
 
@@ -52,9 +49,10 @@ namespace Magicodes.Pay.Tests.Callback
 
             UsingDbContext(context =>
             {
-                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).TransactionState.ShouldBe(TransactionStates.Success);
-                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).PayTime.HasValue.ShouldBeTrue();
-                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).Exception.ShouldBeNull();
+                var log = context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo);
+                log.TransactionState.ShouldBe(TransactionStates.Success);
+                log.PayTime.HasValue.ShouldBeTrue();
+                log.Exception.ShouldBeNull();
             });
         }
 
@@ -67,7 +65,7 @@ namespace Magicodes.Pay.Tests.Callback
             {
                 //验证状态
                 context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).TransactionState.ShouldBe(TransactionStates.PayError);
-                
+
                 //验证异常日志
                 context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).Exception.ShouldNotBeNullOrEmpty();
                 context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).Exception.ShouldContain("支付报错");
