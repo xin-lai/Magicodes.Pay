@@ -1,5 +1,9 @@
 # Magicodes.Pay
 
+## 简介
+
+Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前已提供Abp模块的封装，支持开箱即用。
+
 ## Nuget
 
 ### 新的包
@@ -26,7 +30,7 @@
 | Magicodes.PayNotify | [![NuGet](https://buildstats.info/nuget/Magicodes.PayNotify)](https://www.nuget.org/packages/Magicodes.PayNotify) |
 
 ## 主要功能
-Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前支持以下支付方式和功能：
+Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前已提供Abp模块的封装，支持开箱即用。目前支持以下支付方式和功能：
 * 支付宝支付
   * APP支付
   * Wap支付
@@ -49,7 +53,10 @@ Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使�
   * 支付管理器封装（IPaymentManager），包含：
     * 支付渠道注册（IPaymentRegister）
     * 支付回调逻辑处理（IPaymentCallbackAction）
-    * 支付服务实现（IToPayService）
+    * 统一支付服务实现（IToPayService）
+  * 交易日志封装，自动记录客户端信息以及自动异常处理和记录
+  * 仅需编写一次回调逻辑，即可支持多个支付渠道
+  * 业务参数支持更大长度（500）
 
 ## 开始使用
 
@@ -76,7 +83,7 @@ Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使�
 public DbSet<TransactionLog> TransactionLogs { get; set; }
 ````
 
-1. 注册回调逻辑
+4. 注册回调逻辑
 我们需要实现“IPaymentCallbackAction”接口来编写自定义的回调逻辑。如以下示例所示：
 
 ````C#
@@ -100,10 +107,9 @@ public DbSet<TransactionLog> TransactionLogs { get; set; }
         }
     }
 ````
-
 注意Key不要重复。
 
-1. 向容器中注册回调逻辑
+5. 向容器中注册回调逻辑
 
 我们可以将回调逻辑写在一个公共的程序集，然后使用以下代码进行注册：
 
@@ -119,6 +125,35 @@ public DbSet<TransactionLog> TransactionLogs { get; set; }
 ````
 
 除了上面的方式，我们还可以通过注入IPaymentManager对象，通过其RegisterCallbackAction方法来注册自定义的回调逻辑。
+
+6. 发起支付
+
+通过容器获得IPayAppService，然后调用Pay方法即可。也可以自行封装：
+
+````C#
+        public async Task<object> Payment(PaymentInput input)
+        {
+            return await _payAppService.Pay(new PayInputBase()
+            {
+                Body = $"{input.Name} {input.ChargeProjectName}",
+                CustomData = input.ToJsonString(),
+                Key = "缴费支付",
+                OpenId = input.OpenId,
+                Subject = input.ChargeProjectName,
+                TotalAmount = input.Amount,
+                PayChannel = input.PayChannel
+            });
+        }
+````
+
+通过IPayAppService统一支付有如下好处：
+- 统一支付（无论支付宝还是微信各种端的支付，均可统一）
+- 自动记录交易日志以及进行相关逻辑处理
+- 自定义数据依赖交易日志进行存储，而不依赖支付渠道，因此支持无业务参数的支付渠道，也支持存储更多自定义数据
+
+## 非ABP集成
+
+请参考Abp相关模块的封装或者历史代码。
 
 ## 官方订阅号
 
@@ -139,12 +174,13 @@ public DbSet<TransactionLog> TransactionLogs { get; set; }
 
 产品交流群<897857351>
 
-## 官方博客
+## 官方博客/文档站
 
 <http://www.cnblogs.com/codelove/>
+<https://docs.xin-lai.com/>
 
 ## 其他开源库地址
 
-<https://gitee.com/xl_wenqiang/Magicodes.Admin.Core>
+<https://gitee.com/magicodes/Magicodes.Admin.Core>
 <https://github.com/xin-lai>
 
