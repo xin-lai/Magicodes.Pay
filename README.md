@@ -176,11 +176,11 @@ public DbSet<TransactionLog> TransactionLogs { get; set; }
 
 ## 官方博客/文档站
 
-<http://www.cnblogs.com/codelove/>
-<https://docs.xin-lai.com/>
+- <http://www.cnblogs.com/codelove/>
+- <https://docs.xin-lai.com/>
 
 ## 其他开源库地址
 
-<https://gitee.com/magicodes/Magicodes.Admin.Core>
-<https://github.com/xin-lai>
+- <https://gitee.com/magicodes/Magicodes.Admin.Core>
+- <https://github.com/xin-lai>
 
