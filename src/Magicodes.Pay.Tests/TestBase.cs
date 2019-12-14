@@ -8,9 +8,11 @@ namespace Magicodes.Pay.Tests
     {
         protected void UsingDbContext(Action<TestDbContext> action)
         {
-            using var context = LocalIocManager.Resolve<TestDbContext>();
-            action(context);
-            context.SaveChanges();
+            using (var context = LocalIocManager.Resolve<TestDbContext>())
+            {
+                action(context);
+                context.SaveChanges();
+            }
         }
     }
 }

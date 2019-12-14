@@ -174,6 +174,8 @@ namespace Magicodes.Pay.Abp
                     var data = logInfo.CustomData.FromJsonString<JObject>();
                     Logger?.Info($"正在执行【{key}】回调逻辑。data:{data?.ToJsonString()}");
 
+
+
                     if (!decimal.Equals(logInfo.Currency.CurrencyValue, totalFee))
                         throw new UserFriendlyException(
                             $"支付金额不一致：要求支付金额为：{logInfo.Currency.CurrencyValue}，实际支付金额为：{totalFee}");
