@@ -50,7 +50,7 @@ namespace Magicodes.Pay.Tests.Notifys
                     OpenId = "owWF25zT2BnOeQ68myWuQian7qHq"
                 }.ToJsonString(),
                 OutTradeNo = outTradeNo,
-                Currency = new Currency(1),
+                Currency = new Currency(0.01m),
                 Name = "学费",
                 PayChannel = PayChannels.AliAppPay,
                 Terminal = Terminals.Ipad,
@@ -84,7 +84,7 @@ namespace Magicodes.Pay.Tests.Notifys
                 { "termrefnum", "4200000447201910244661192735" },
                 { "termtraceno", "0" },
                 //金额
-                { "trxamt", "100" },
+                { "trxamt", "1" },
                 { "trxcode", "VSP501" },
                 { "trxdate", "20191024" },
                 { "trxid", "121964420000012121" },

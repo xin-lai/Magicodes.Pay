@@ -61,7 +61,7 @@ namespace Magicodes.Pay.Wxpay.Pay.Dto
         /// <summary>
         ///     订单总金额，单位为元
         /// </summary>
-        public int TotalFee { get; set; }
+        public decimal TotalFee { get; set; }
 
         /// <summary>
         ///     用户端实际ip

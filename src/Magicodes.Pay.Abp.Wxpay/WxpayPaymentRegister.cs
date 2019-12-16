@@ -49,7 +49,7 @@ namespace Magicodes.Pay.Abp.Wxpay
                     }
 
                     var outTradeNo = output.OutTradeNo;
-                    var totalFee = int.Parse(output.TotalFee);
+                    var totalFee = int.Parse(output.TotalFee) / 100;
                     outDto.TradeNo = output.TransactionId;
                     outDto.BusinessParams = output.Attach;
                     outDto.TotalFee = totalFee;

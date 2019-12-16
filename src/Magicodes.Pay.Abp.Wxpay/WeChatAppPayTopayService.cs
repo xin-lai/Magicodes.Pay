@@ -52,7 +52,7 @@ namespace Magicodes.Pay.Abp.Wxpay
                 Body = input.Body,
                 OutTradeNo = input.OutTradeNo,
                 Attach = input.Key,
-                TotalFee = (int)input.TotalAmount*100,
+                TotalFee = input.TotalAmount,
                 SpbillCreateIp = _clientInfoProvider?.ClientIpAddress
             };
             try
