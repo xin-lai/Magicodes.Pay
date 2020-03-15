@@ -34,6 +34,12 @@ Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使�
 
 | 名称     |      说明      |      Nuget      | GitHUb |
 |----------|:-------------:|:-------------:|:-------------:|
+| Magicodes.IE.Excel |Excel导入导出| [![NuGet](https://buildstats.info/nuget/Magicodes.IE.Excel)](https://www.nuget.org/packages/Magicodes.IE.Excel) |[dotnetcore](https://github.com/dotnetcore)/**[Magicodes.IE](https://github.com/dotnetcore/Magicodes.IE)**|
+| Magicodes.IE.Core |导入导出核心库| [![NuGet](https://buildstats.info/nuget/Magicodes.IE.Core)](https://www.nuget.org/packages/Magicodes.IE.Core) |[dotnetcore](https://github.com/dotnetcore)/**[Magicodes.IE](https://github.com/dotnetcore/Magicodes.IE)**|
+| Magicodes.IE.HTML | HTML导入导出|[![NuGet](https://buildstats.info/nuget/Magicodes.IE.HTML)](https://www.nuget.org/packages/Magicodes.IE.HTML) |[dotnetcore](https://github.com/dotnetcore)/**[Magicodes.IE](https://github.com/dotnetcore/Magicodes.IE)**|
+| Magicodes.IE.Pdf |Pdf导出| [![NuGet](https://buildstats.info/nuget/Magicodes.IE.Pdf)](https://www.nuget.org/packages/Magicodes.IE.Pdf) |[dotnetcore](https://github.com/dotnetcore)/**[Magicodes.IE](https://github.com/dotnetcore/Magicodes.IE)**|
+| Magicodes.IE.Word |Word导出| [![NuGet](https://buildstats.info/nuget/Magicodes.IE.Word)](https://www.nuget.org/packages/Magicodes.IE.Word) |[dotnetcore](https://github.com/dotnetcore)/**[Magicodes.IE](https://github.com/dotnetcore/Magicodes.IE)**|
+| Magicodes.IE.Csv |Csv导入导出| [![NuGet](https://buildstats.info/nuget/Magicodes.IE.Csv)](https://www.nuget.org/packages/Magicodes.IE.Csv) |[dotnetcore](https://github.com/dotnetcore)/**[Magicodes.IE](https://github.com/dotnetcore/Magicodes.IE)**|
 | Magicodes.WeChat.MiniProgram |小程序SDK |[![NuGet](https://buildstats.info/nuget/Magicodes.WeChat.MiniProgram)](https://www.nuget.org/packages/Magicodes.WeChat.MiniProgram) |**[Magicodes.WxMiniProgram.Sdk](https://github.com/xin-lai/Magicodes.WxMiniProgram.Sdk)**|
 | Magicodes.Sms.Aliyun |阿里云短信 | [![NuGet](https://buildstats.info/nuget/Magicodes.Sms.Aliyun)](https://www.nuget.org/packages/Magicodes.Sms.Aliyun) |[xin-lai](https://github.com/xin-lai)/**[Magicodes.Sms](https://github.com/xin-lai/Magicodes.Sms)**|
 | Magicodes.Sms.Core | 短信核心库 | [![NuGet](https://buildstats.info/nuget/Magicodes.Sms.Core)](https://www.nuget.org/packages/Magicodes.Sms.Core) |[xin-lai](https://github.com/xin-lai)/**[Magicodes.Sms](https://github.com/xin-lai/Magicodes.Sms)**|
