@@ -12,7 +12,7 @@ using Magicodes.Pay.Wxpay.Pay;
 namespace Magicodes.Pay.Abp.Wxpay
 {
     /// <summary>
-    /// 通联支付支付配置
+    /// 微信支付配置
     /// </summary>
     public class WxpayPaymentRegister : PaymentRegisterBase
     {
