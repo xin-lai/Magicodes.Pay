@@ -27,10 +27,10 @@
         /// <summary>
         /// 商户证书相对路径
         /// </summary>
-      public  string PayCertPath { get; set; }
+        public string PayCertPath { get; set; }
         /// <summary>
         /// 证书密钥（商户id）
         /// </summary>
-      public  string CertPassword { get; set; }
+        public string CertPassword { get; set; }
     }
 }

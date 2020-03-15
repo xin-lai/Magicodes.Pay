@@ -63,11 +63,6 @@ namespace Magicodes.Pay.Abp.TransactionLogs
         public bool IsNull => string.IsNullOrEmpty(Symbol);
 
         /// <summary>
-        /// NUll
-        /// </summary>
-        public static Currency Null => new Currency(0, null);
-
-        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
@@ -83,7 +78,7 @@ namespace Magicodes.Pay.Abp.TransactionLogs
         {
             if (string.IsNullOrWhiteSpace(currencyStr))
             {
-                return Null;
+                return new Currency(0, null);
             }
 
             var digitPos = -1;
@@ -94,7 +89,7 @@ namespace Magicodes.Pay.Abp.TransactionLogs
             {
             }
 
-            return digitPos < stringValue.Length ? new Currency(decimal.Parse(stringValue.Substring(digitPos)), symbol) : Null;
+            return digitPos < stringValue.Length ? new Currency(decimal.Parse(stringValue.Substring(digitPos)), symbol) : new Currency(0, null);
         }
 
         /// <summary>

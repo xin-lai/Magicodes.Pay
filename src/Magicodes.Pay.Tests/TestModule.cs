@@ -39,24 +39,26 @@ namespace Magicodes.Pay.Tests
 
 
             IocManager.IocContainer.Register(
+                ////注册自定义支付回调逻辑
+                //Classes.FromAssembly(typeof(TestModule).GetAssembly())
+                //    .BasedOn<IPaymentCallbackAction>()
+                //    .LifestyleTransient()
+                //    .Configure(component => component.Named(component.Implementation.FullName))
+                //    .WithServiceFromInterface(),
                 //注册自定义支付回调逻辑
                 Classes.FromAssembly(typeof(TestModule).GetAssembly())
                     .BasedOn<IPaymentCallbackAction>()
                     .LifestyleTransient()
                     .Configure(component => component.Named(component.Implementation.FullName))
-                    .WithServiceFromInterface(),
-                //注册自定义支付回调逻辑
-                Classes.FromAssembly(typeof(TestModule).GetAssembly())
-                    .BasedOn<IPaymentCallbackAction>()
-                    .LifestyleTransient()
-                    .Configure(component => component.Named(component.Implementation.FullName))
-                    .WithServiceFromInterface(),
-                //注册自定义支付配置逻辑
-                Classes.FromAssembly(typeof(TestModule).GetAssembly())
-                    .BasedOn<IPaymentRegister>()
-                    .LifestyleTransient()
-                    .Configure(component => component.Named(component.Implementation.FullName))
-                    .WithServiceFromInterface());
+                    .WithServiceFromInterface()
+                    //,
+                ////注册自定义支付配置逻辑
+                //Classes.FromAssembly(typeof(TestModule).GetAssembly())
+                //    .BasedOn<IPaymentRegister>()
+                //    .LifestyleTransient()
+                //    .Configure(component => component.Named(component.Implementation.FullName))
+                //    .WithServiceFromInterface()
+                    );
 
 
 
