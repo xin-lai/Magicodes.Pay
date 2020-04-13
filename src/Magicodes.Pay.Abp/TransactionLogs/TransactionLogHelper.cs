@@ -92,7 +92,7 @@ namespace Magicodes.Pay.Abp.TransactionLogs
             var cultureName = _settingManager.GetSettingValueAsync("Abp.Localization.DefaultLanguageName").Result;
             var log = new TransactionLog
             {
-                TenantId = AbpSession.TenantId,
+                //TenantId = AbpSession.TenantId,
                 CreatorUserId = AbpSession.UserId,
                 Currency = new Currency(transactionInfo.Amount, symbol),
                 Name = transactionInfo.Subject,
@@ -154,8 +154,6 @@ namespace Magicodes.Pay.Abp.TransactionLogs
             Exception exception = null;
             using (var uow = _unitOfWorkManager.Begin(TransactionScopeOption.Suppress))
             {
-                if (AbpSession.TenantId.HasValue)
-                    _unitOfWorkManager.Current.SetTenantId(AbpSession.TenantId);
 
                 var logInfo = await _transactionLogRepository.FirstOrDefaultAsync(p => p.OutTradeNo == outTradeNo);
                 if (logInfo == null)

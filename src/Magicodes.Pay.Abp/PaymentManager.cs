@@ -111,7 +111,7 @@ namespace Magicodes.Pay.Abp
             var result = await action.ExecPayNotifyAsync(input);
             if (result == null)
             {
-                throw new UserFriendlyException("ExecPayNotifyAsync必须处理并返回支付参数！");
+                throw new UserFriendlyException("ExecPayNotifyAsync必须处理z并返回支付参数！");
             }
             if (string.IsNullOrWhiteSpace(result.BusinessParams))
             {
