@@ -48,7 +48,7 @@ namespace Magicodes.Pay.Abp.Wxpay
                         throw new UserFriendlyException("自定义参数不允许为空！");
                     }
                     var outTradeNo = output.OutTradeNo;
-                    var totalFee = decimal.Parse(output.TotalFee);
+                    var totalFee = decimal.Parse(output.TotalFee) / 100;
                     outDto.TradeNo = output.TransactionId;
                     outDto.BusinessParams = output.Attach;
                     outDto.TotalFee = totalFee;
