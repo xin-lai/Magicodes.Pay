@@ -4,6 +4,8 @@
 
 Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前已提供Abp模块的封装，支持开箱即用。
 
+[![Build Status](https://dev.azure.com/xinlaiopencode/Magicodes.Pay/_apis/build/status/Magicodes.Pay-ASP.NET%20Core-CI?branchName=master)](https://dev.azure.com/xinlaiopencode/Magicodes.Pay/_build/latest?definitionId=13&branchName=master)
+
 ## Nuget
 
 ### 新的包
