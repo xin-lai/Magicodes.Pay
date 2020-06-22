@@ -8,6 +8,8 @@ namespace Magicodes.Pay.Allinpay
     {
         Task<WeChatMiniPayOutput> WeChatMiniPay(WeChatMiniPayInput input);
 
+        Task<JsApiPayOutput> WeChatJsApiPay(JsApiPayInput input);
+
         bool PayNotifyHandler(Dictionary<string, string> dic);
     }
 }

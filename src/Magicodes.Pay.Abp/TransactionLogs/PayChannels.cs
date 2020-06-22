@@ -39,5 +39,10 @@
         /// 微信APP支付
         /// </summary>
         WeChatAppPay = 6,
+
+        /// <summary>
+        /// 通联JSAPI
+        /// </summary>
+        AllinJsApiPay = 7,
     }
 }

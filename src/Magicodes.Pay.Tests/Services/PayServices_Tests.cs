@@ -26,11 +26,11 @@ namespace Magicodes.Pay.Tests.Services
                  var input = new PayInputBase()
                  {
                      Body = "缴费支付",
-                     CustomData = "{\"Name\":\"张6\",\"IdCard\":\"430626199811111111\",\"Phone\":\"18975061111\",\"Amount\":0.01,\"Remark\":\"\",\"OpenId\":\"ouiSX5OJ0OX-5W_1g4du5QZx-wsE\",\"PayChannel\":5}",
+                     CustomData = "{\"Name\":\"张6\",\"IdCard\":\"430626199811111111\",\"Phone\":\"18975061111\",\"Amount\":0.01,\"Remark\":\"\",\"OpenId\":\"ouiSX5OJ0OX-5W_1g4du5QZx-wsE\",\"PayChannel\":7}",
                      Key = "缴费支付",
                      OpenId = "ouiSX5OJ0OX-5W_1g4du5QZx-wsE",
                      OutTradeNo = "ouiSX5OJ0OX-5W_1g4du5QZx-wsE",
-                     PayChannel = Abp.TransactionLogs.PayChannels.AllinWeChatMiniPay,
+                     PayChannel = Abp.TransactionLogs.PayChannels.AllinJsApiPay,
                      Subject = "缴费",
                      TotalAmount = 0.01m
                  };

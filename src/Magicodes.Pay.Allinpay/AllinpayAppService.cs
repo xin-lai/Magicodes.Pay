@@ -44,6 +44,29 @@ namespace Magicodes.Pay.Allinpay
         }
 
         /// <summary>
+        ///     JSAPI支付
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<JsApiPayOutput> WeChatJsApiPay(JsApiPayInput input)
+        {
+            var allinpayDefaultClient = new AllinpayDefaultClient(_allinpaySettings);
+            var response = allinpayDefaultClient.WeChatJsApiPay(input);
+            if (response.RetCode == "FAIL")
+            {
+                LoggerAction?.Invoke("Error", "通联支付请求参数错误（FAIL）:" + _allinpaySettings);
+                LoggerAction?.Invoke("Error", "input:" + input);
+                LoggerAction?.Invoke("Error", "RetMsg:" + response.RetMsg + "    ErrMsg:" + response.ErrMsg);
+                throw new Exception("通联支付请求参数错误,请检查!");
+            }
+
+            return Task.FromResult(new JsApiPayOutput
+            {
+                Response = response
+            });
+        }
+
+        /// <summary>
         ///     支付回调通知处理
         /// </summary>
         /// <param name="dic"></param>

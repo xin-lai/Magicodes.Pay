@@ -33,6 +33,24 @@ namespace Magicodes.Pay.Allinpay
             return response;
         }
 
+        public AllinpayResponse WeChatJsApiPay(JsApiPayInput input)
+        {
+            var paramDic = BuildBasicParam();
+            paramDic.Add("trxamt", input.Amount.ToString());
+            paramDic.Add("reqsn", input.OrderNumber);
+            paramDic.Add("paytype", "W02");
+            paramDic.Add("body", input.Body);
+            paramDic.Add("remark", input.Remark);
+            paramDic.Add("acct", input.OpenId);
+            paramDic.Add("sub_appid", _allinpaySettings.WeChatAppId);
+            paramDic.Add("notify_url", _allinpaySettings.NotifyUrl);
+            paramDic.Add("validtime", input.ValidTime);
+            paramDic.Add("sign", AllinpayUtil.SignParam(paramDic, _allinpaySettings.AppKey));
+            var result = HttpRequestUtil.PostAsync($"{_allinpaySettings.ApiGateWay}/pay", paramDic).Result;
+            var response = JsonConvert.DeserializeObject<AllinpayResponse>(result);
+            return response;
+        }
+
         private Dictionary<string, string> BuildBasicParam()
         {
             var paramDic = new Dictionary<string, string>
