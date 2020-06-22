@@ -2,6 +2,7 @@
   <Import Project="..\..\common.props"></Import>
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;</TargetFrameworks>
+    <Version>1.2.0</Version>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Abp" Version="4.6.0" />
