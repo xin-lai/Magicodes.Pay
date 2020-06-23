@@ -178,7 +178,8 @@ public DbSet<TransactionLog> TransactionLogs { get; set; }
     "AppId": "testtesttesttesttesttest",
     "Version": "11",
     "NotifyUrl": "{域名}/PayNotify/{tenantId?}/{支付提供程序Key}",
-    "WeChatAppId": "testtesttesttesttesttest"
+    "WeChatAppId": "微信小程序支付的APPID",
+    "JsApiAppId":"JSAPI支付的APPID"
   }
 ````
 

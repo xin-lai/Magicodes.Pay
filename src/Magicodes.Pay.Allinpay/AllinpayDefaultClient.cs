@@ -42,7 +42,7 @@ namespace Magicodes.Pay.Allinpay
             paramDic.Add("body", input.Body);
             paramDic.Add("remark", input.Remark);
             paramDic.Add("acct", input.OpenId);
-            paramDic.Add("sub_appid", _allinpaySettings.WeChatAppId);
+            paramDic.Add("sub_appid", _allinpaySettings.JsApiAppId);
             paramDic.Add("notify_url", _allinpaySettings.NotifyUrl);
             paramDic.Add("validtime", input.ValidTime);
             paramDic.Add("sign", AllinpayUtil.SignParam(paramDic, _allinpaySettings.AppKey));

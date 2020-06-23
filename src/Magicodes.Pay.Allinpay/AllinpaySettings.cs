@@ -41,6 +41,11 @@
         public string WeChatAppId { get; set; }
 
         /// <summary>
+        ///     JsApiAppId
+        /// </summary>
+        public string JsApiAppId { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>

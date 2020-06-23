@@ -39,5 +39,10 @@
         ///     微信AppId
         /// </summary>
         string WeChatAppId { get; set; }
+
+        /// <summary>
+        ///     JsApiAppId
+        /// </summary>
+        string JsApiAppId { get; set; }
     }
 }
