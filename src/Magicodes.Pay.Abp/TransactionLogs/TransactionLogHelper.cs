@@ -170,10 +170,10 @@ namespace Magicodes.Pay.Abp.TransactionLogs
 
                 try
                 {
-                    await action(_unitOfWorkManager, logInfo);
-                    logInfo.TransactionState = TransactionStates.Success;
                     logInfo.PayTime = Clock.Now;
                     logInfo.TransactionId = transactionId;
+                    await action(_unitOfWorkManager, logInfo);
+                    logInfo.TransactionState = TransactionStates.Success;
                     await uow.CompleteAsync();
                 }
                 catch (Exception ex)
