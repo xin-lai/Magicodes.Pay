@@ -179,6 +179,7 @@ namespace Magicodes.Pay.Abp.TransactionLogs
                 catch (Exception ex)
                 {
                     logInfo.TransactionState = TransactionStates.PayError;
+                    logInfo.TransactionId = transactionId;
                     logInfo.PayTime = Clock.Now;
                     logInfo.Exception = ex.InnerException != null ? ex.InnerException.ToString().TruncateWithPostfix(2000) : ex.ToString().TruncateWithPostfix(2000);
                     await uow.CompleteAsync();
