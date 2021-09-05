@@ -216,6 +216,80 @@ namespace Magicodes.Pay.Wxpay.Pay
 
         #endregion
 
+        #region Native支付
+
+        /// <summary>
+        ///     Native支付
+        ///     Native统一下单接口
+        ///     https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1
+        /// </summary>
+        /// <returns></returns>
+        public NativePayOutput NativePay(NativePayInput input)
+        {
+            if (input == null) throw new ArgumentNullException(nameof(input));
+
+            if (input.TotalFee <= 0) throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
+
+            if (string.IsNullOrWhiteSpace(input.Body)) throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
+
+            if (string.IsNullOrWhiteSpace(input.SpbillCreateIp))
+                throw new ArgumentNullException("终端IP必须填写!", nameof(input.SpbillCreateIp));
+
+            var url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            var config = GetConfig();
+
+            var model = new NativeUnifiedorderRequest()
+            {
+                AppId = config.PayAppId,
+                MchId = config.MchId,
+                Attach = input.Attach,
+                Body = input.Body,
+                Detail = input.Detail,
+                FeeType = input.FeeType,
+                GoodsTag = input.GoodsTag,
+                LimitPay = input.LimitPay,
+                OutTradeNo = input.OutTradeNo ?? _weChatPayHelper.GenerateOutTradeNo(),
+                SpbillCreateIp = input.SpbillCreateIp,
+                TimeExpire = input.TimeExpire,
+                TimeStart = input.TimeStart,
+                TotalFee = ((int) (input.TotalFee * 100)).ToString(),
+                NonceStr = _weChatPayHelper.GetNoncestr(),
+                NotifyUrl = config.PayNotifyUrl
+            };
+            var dictionary = _weChatPayHelper.GetDictionaryByType(model);
+            model.Sign = _weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+
+            var result = _weChatPayHelper.PostXML<UnifiedorderResult>(url, model);
+            if (result.IsSuccess())
+            {
+                var data = new
+                {
+                    appId = result.AppId,
+                    nonceStr = result.NonceStr,
+                    package = "prepay_id=" + result.PrepayId,
+                    signType = "MD5",
+                    timeStamp = _weChatPayHelper.GetTimestamp(),
+                    codeUrl = result.CodeUrl
+                };
+                return new NativePayOutput
+                {
+                    AppId = data.appId,
+                    Package = data.package,
+                    NonceStr = data.nonceStr,
+                    PaySign =
+                        _weChatPayHelper.CreateMd5Sign(_weChatPayHelper.GetDictionaryByType(data), config.TenPayKey),
+                    SignType = data.signType,
+                    TimeStamp = data.timeStamp,
+                    CodeUrl = data.codeUrl
+                };
+            }
+
+            WeChatPayHelper.LoggerAction("Error", "支付错误：" + result.GetFriendlyMessage());
+            throw new WeChatPayException("支付错误，请联系客服或重新支付！");
+        }
+
+        #endregion
+
         #region 生成签名
 
         private string CreateSign<T>(T model)
