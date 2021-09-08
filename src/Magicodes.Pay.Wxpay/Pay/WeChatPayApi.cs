@@ -285,7 +285,7 @@ namespace Magicodes.Pay.Wxpay.Pay
             }
 
             WeChatPayHelper.LoggerAction("Error", "支付错误：" + result.GetFriendlyMessage());
-            throw new WeChatPayException("支付错误，请联系客服或重新支付！");
+            throw new WeChatPayException("生成付款码出错，请联系客服或重新支付！");
         }
 
         #endregion
