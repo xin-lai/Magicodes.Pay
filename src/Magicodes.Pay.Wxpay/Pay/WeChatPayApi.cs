@@ -18,11 +18,13 @@
 using System;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using Magicodes.Pay.Wxpay.Config;
 using Magicodes.Pay.Wxpay.Helper;
 using Magicodes.Pay.Wxpay.Pay.Dto;
 using Magicodes.Pay.Wxpay.Pay.Models;
+using Newtonsoft.Json;
 
 namespace Magicodes.Pay.Wxpay.Pay
 {
@@ -308,10 +310,10 @@ namespace Magicodes.Pay.Wxpay.Pay
         /// </summary>
         /// <param name="inputStream"></param>
         /// <returns></returns>
-        public PayNotifyOutput PayNotifyHandler(Stream inputStream)
+        public async Task<PayNotifyOutput> PayNotifyHandler(Stream inputStream)
         {
             PayNotifyOutput result = null;
-            var data = _weChatPayHelper.PostInput(inputStream);
+            var data = await _weChatPayHelper.PostInput(inputStream);
             try
             {
                 result = XmlHelper.DeserializeObject<PayNotifyOutput>(data);
@@ -335,10 +337,10 @@ namespace Magicodes.Pay.Wxpay.Pay
         /// <param name="inputStream">输入流</param>
         /// <param name="payHandlerFunc">支付处理逻辑函数</param>
         /// <returns>处理结果</returns>
-        public Task<string> PayNotifyHandler(Stream inputStream, Action<PayNotifyOutput, string> payHandlerFunc)
+        public async Task<string> PayNotifyHandler(Stream inputStream, Action<PayNotifyOutput, string> payHandlerFunc)
         {
             PayNotifyOutput result = null;
-            var data = _weChatPayHelper.PostInput(inputStream);
+            var data = await _weChatPayHelper.PostInput(inputStream);
             var outPutXml = string.Empty;
             var error = string.Empty;
             try
@@ -374,9 +376,9 @@ namespace Magicodes.Pay.Wxpay.Pay
 
             payHandlerFunc?.Invoke(result, error);
 
-            return Task.FromResult(!string.IsNullOrWhiteSpace(outPutXml)
+            return !string.IsNullOrWhiteSpace(outPutXml)
                 ? outPutXml
-                : "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
+                : "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
         }
 
         #endregion
@@ -579,6 +581,16 @@ namespace Magicodes.Pay.Wxpay.Pay
             }).IsSuccess();
         }
 
+        public string GetOpenId(string code)
+        {
+            var config = GetConfig();
+            string url =
+                $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={config.PayAppId}&secret={config.AppSecret}&code={code}&grant_type=authorization_code";
+            var httpResult = RequestUtility.HttpGet(url, Encoding.UTF8);
+            WeChatPayHelper.LoggerAction("Debug", "请求结果：" + httpResult);
+            var token =JsonConvert.DeserializeObject<AccessToken>(httpResult);
+            return token.openid;
+        }
         #endregion
     }
 }

@@ -22,6 +22,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Magicodes.Pay.Wxpay.Config;
 using static System.TimeZone;
@@ -195,12 +196,12 @@ namespace Magicodes.Pay.Wxpay.Helper
         ///     接收post数据
         /// </summary>
         /// <returns></returns>
-        internal string PostInput(Stream stream)
+        internal async Task<string> PostInput(Stream stream)
         {
             var count = 0;
             var buffer = new byte[1024];
             var builder = new StringBuilder();
-            while ((count = stream.Read(buffer, 0, 1024)) > 0)
+            while ((count = await stream.ReadAsync(buffer, 0, 1024)) > 0)
                 builder.Append(Encoding.UTF8.GetString(buffer, 0, count));
             return builder.ToString();
         }

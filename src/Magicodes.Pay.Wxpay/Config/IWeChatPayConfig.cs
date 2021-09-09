@@ -49,5 +49,9 @@ namespace Magicodes.Pay.Wxpay.Config
         /// 证书密钥（商户id）
         /// </summary>
          string CertPassword { get; set; }
+        /// <summary>
+        /// 身份密钥
+        /// </summary>
+        string AppSecret { get; set; }
     }
 }
