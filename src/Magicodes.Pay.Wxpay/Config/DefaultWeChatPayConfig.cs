@@ -32,5 +32,9 @@
         /// 证书密钥（商户id）
         /// </summary>
         public string CertPassword { get; set; }
+        /// <summary>
+        /// 身份密钥
+        /// </summary>
+        public string AppSecret { get; set; }
     }
 }

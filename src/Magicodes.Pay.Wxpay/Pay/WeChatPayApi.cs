@@ -18,11 +18,13 @@
 using System;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using Magicodes.Pay.Wxpay.Config;
 using Magicodes.Pay.Wxpay.Helper;
 using Magicodes.Pay.Wxpay.Pay.Dto;
 using Magicodes.Pay.Wxpay.Pay.Models;
+using Newtonsoft.Json;
 
 namespace Magicodes.Pay.Wxpay.Pay
 {
@@ -216,6 +218,80 @@ namespace Magicodes.Pay.Wxpay.Pay
 
         #endregion
 
+        #region Native支付
+
+        /// <summary>
+        ///     Native支付
+        ///     Native统一下单接口
+        ///     https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1
+        /// </summary>
+        /// <returns></returns>
+        public NativePayOutput NativePay(NativePayInput input)
+        {
+            if (input == null) throw new ArgumentNullException(nameof(input));
+
+            if (input.TotalFee <= 0) throw new ArgumentException("金额不能小于0!", nameof(input.TotalFee));
+
+            if (string.IsNullOrWhiteSpace(input.Body)) throw new ArgumentNullException("商品描述必须填写!", nameof(input.Body));
+
+            if (string.IsNullOrWhiteSpace(input.SpbillCreateIp))
+                throw new ArgumentNullException("终端IP必须填写!", nameof(input.SpbillCreateIp));
+
+            var url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            var config = GetConfig();
+
+            var model = new NativeUnifiedorderRequest()
+            {
+                AppId = config.PayAppId,
+                MchId = config.MchId,
+                Attach = input.Attach,
+                Body = input.Body,
+                Detail = input.Detail,
+                FeeType = input.FeeType,
+                GoodsTag = input.GoodsTag,
+                LimitPay = input.LimitPay,
+                OutTradeNo = input.OutTradeNo ?? _weChatPayHelper.GenerateOutTradeNo(),
+                SpbillCreateIp = input.SpbillCreateIp,
+                TimeExpire = input.TimeExpire,
+                TimeStart = input.TimeStart,
+                TotalFee = ((int) (input.TotalFee * 100)).ToString(),
+                NonceStr = _weChatPayHelper.GetNoncestr(),
+                NotifyUrl = config.PayNotifyUrl
+            };
+            var dictionary = _weChatPayHelper.GetDictionaryByType(model);
+            model.Sign = _weChatPayHelper.CreateMd5Sign(dictionary, config.TenPayKey); //生成Sign
+
+            var result = _weChatPayHelper.PostXML<UnifiedorderResult>(url, model);
+            if (result.IsSuccess())
+            {
+                var data = new
+                {
+                    appId = result.AppId,
+                    nonceStr = result.NonceStr,
+                    package = "prepay_id=" + result.PrepayId,
+                    signType = "MD5",
+                    timeStamp = _weChatPayHelper.GetTimestamp(),
+                    codeUrl = result.CodeUrl
+                };
+                return new NativePayOutput
+                {
+                    AppId = data.appId,
+                    Package = data.package,
+                    NonceStr = data.nonceStr,
+                    PaySign =
+                        _weChatPayHelper.CreateMd5Sign(_weChatPayHelper.GetDictionaryByType(data), config.TenPayKey),
+                    SignType = data.signType,
+                    TimeStamp = data.timeStamp,
+                    CodeUrl = data.codeUrl
+                };
+            }
+
+            WeChatPayHelper.LoggerAction("Error", "支付错误：" + result.GetFriendlyMessage());
+            throw new WeChatPayException("生成付款码出错，请联系客服或重新支付！");
+        }
+
+        #endregion
+
         #region 生成签名
 
         private string CreateSign<T>(T model)
@@ -234,10 +310,10 @@ namespace Magicodes.Pay.Wxpay.Pay
         /// </summary>
         /// <param name="inputStream"></param>
         /// <returns></returns>
-        public PayNotifyOutput PayNotifyHandler(Stream inputStream)
+        public async Task<PayNotifyOutput> PayNotifyHandler(Stream inputStream)
         {
             PayNotifyOutput result = null;
-            var data = _weChatPayHelper.PostInput(inputStream);
+            var data = await _weChatPayHelper.PostInput(inputStream);
             try
             {
                 result = XmlHelper.DeserializeObject<PayNotifyOutput>(data);
@@ -261,10 +337,10 @@ namespace Magicodes.Pay.Wxpay.Pay
         /// <param name="inputStream">输入流</param>
         /// <param name="payHandlerFunc">支付处理逻辑函数</param>
         /// <returns>处理结果</returns>
-        public Task<string> PayNotifyHandler(Stream inputStream, Action<PayNotifyOutput, string> payHandlerFunc)
+        public async Task<string> PayNotifyHandler(Stream inputStream, Action<PayNotifyOutput, string> payHandlerFunc)
         {
             PayNotifyOutput result = null;
-            var data = _weChatPayHelper.PostInput(inputStream);
+            var data = await _weChatPayHelper.PostInput(inputStream);
             var outPutXml = string.Empty;
             var error = string.Empty;
             try
@@ -300,9 +376,9 @@ namespace Magicodes.Pay.Wxpay.Pay
 
             payHandlerFunc?.Invoke(result, error);
 
-            return Task.FromResult(!string.IsNullOrWhiteSpace(outPutXml)
+            return !string.IsNullOrWhiteSpace(outPutXml)
                 ? outPutXml
-                : "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
+                : "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
         }
 
         #endregion
@@ -505,6 +581,16 @@ namespace Magicodes.Pay.Wxpay.Pay
             }).IsSuccess();
         }
 
+        public string GetOpenId(string code)
+        {
+            var config = GetConfig();
+            string url =
+                $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={config.PayAppId}&secret={config.AppSecret}&code={code}&grant_type=authorization_code";
+            var httpResult = RequestUtility.HttpGet(url, Encoding.UTF8);
+            WeChatPayHelper.LoggerAction("Debug", "请求结果：" + httpResult);
+            var token =JsonConvert.DeserializeObject<AccessToken>(httpResult);
+            return token.openid;
+        }
         #endregion
     }
 }
