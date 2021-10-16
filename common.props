@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>1.2.3</Version>
+    <Version>1.2.4</Version>
   </PropertyGroup>
   <PropertyGroup>
     <Authors>雪雁</Authors>
@@ -20,5 +20,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>1701;1702;1951</NoWarn>
   </PropertyGroup>
 </Project>
