@@ -22,9 +22,11 @@ using Abp.Configuration;
 using Abp.Dependency;
 using Abp.Domain.Uow;
 using Abp.Json;
+using Abp.Runtime.Session;
 using Abp.UI;
 using Castle.Core.Logging;
 using Magicodes.Pay.Abp.Callbacks;
+using Magicodes.Pay.Abp.Dto;
 using Magicodes.Pay.Abp.Registers;
 using Magicodes.Pay.Abp.Services;
 using Magicodes.Pay.Abp.TransactionLogs;
@@ -108,19 +110,26 @@ namespace Magicodes.Pay.Abp
                 input.Provider.Equals(p.Key, StringComparison.OrdinalIgnoreCase));
             if (action == null) throw new UserFriendlyException($"Provider：{input.Provider} 不存在，请确认是否已注册相关逻辑！");
 
-            var result = await action.ExecPayNotifyAsync(input);
-            if (result == null)
+            using (_iocManager.CreateScope())
             {
-                throw new UserFriendlyException("ExecPayNotifyAsync必须处理z并返回支付参数！");
+                var abpSession = _iocManager.Resolve<IAbpSession>();
+                using (abpSession.Use(input.TenantId, null))
+                {
+                    var result = await action.ExecPayNotifyAsync(input);
+                    if (result == null)
+                    {
+                        throw new UserFriendlyException("ExecPayNotifyAsync必须处理并返回支付参数！");
+                    }
+                    if (string.IsNullOrWhiteSpace(result.BusinessParams))
+                    {
+                        throw new UserFriendlyException("请配置自定义参数！");
+                    }
+                    //目前仅用支付参数的业务字段存储key，自定义数据在交易日志的CustomData中
+                    var key = result.BusinessParams.Contains("{") ? result.BusinessParams.FromJsonString<JObject>()["key"]?.ToString() : result.BusinessParams;
+                    await ExecuteCallback(key, result.OutTradeNo, result.TradeNo, result.TotalFee);
+                    return result.SuccessResult?.ToString();
+                }
             }
-            if (string.IsNullOrWhiteSpace(result.BusinessParams))
-            {
-                throw new UserFriendlyException("请配置自定义参数！");
-            }
-            //目前仅用支付参数的业务字段存储key，自定义数据在交易日志的CustomData中
-            var key = result.BusinessParams.Contains("{") ? result.BusinessParams.FromJsonString<JObject>()["key"]?.ToString() : result.BusinessParams;
-            await ExecuteCallback(key, result.OutTradeNo, result.TradeNo, result.TotalFee);
-            return result.SuccessResult?.ToString();
         }
 
         /// <summary>
