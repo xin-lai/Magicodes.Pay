@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp" Version="5.2.1" />
+    <PackageReference Include="Volo.Abp.Json" Version="5.2.1" />
+    <PackageReference Include="Volo.Abp.Settings" Version="5.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Magicodes.Pay.Notify\Magicodes.Pay.Notify.csproj" />
+  </ItemGroup>
+
+</Project>
