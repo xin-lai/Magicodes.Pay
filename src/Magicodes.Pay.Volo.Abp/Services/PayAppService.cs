@@ -22,6 +22,8 @@ using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Json;
 using Volo.Abp;
+using Microsoft.Extensions.Logging.Abstractions;
+using Volo.Abp.Timing;
 
 namespace Magicodes.Pay.Volo.Abp.Services
 {
@@ -32,18 +34,21 @@ namespace Magicodes.Pay.Volo.Abp.Services
     {
         private readonly IPaymentManager _paymentManager;
         private readonly TransactionLogHelper _transactionLogHelper;
-        private readonly Logger<PayAppService> logger;
+        private readonly IClock clock;
+
+        public ILogger<PayAppService> Logger { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="paymentManager"></param>
         /// <param name="transactionLogHelper"></param>
-        public PayAppService(IPaymentManager paymentManager, TransactionLogHelper transactionLogHelper,Logger<PayAppService> logger)
+        public PayAppService(IPaymentManager paymentManager, TransactionLogHelper transactionLogHelper, IClock clock)
         {
             _paymentManager = paymentManager;
             _transactionLogHelper = transactionLogHelper;
-            this.logger = logger;
+            this.clock = clock;
+            Logger = NullLogger<PayAppService>.Instance;
         }
 
         /// <summary>
@@ -53,7 +58,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
         /// <returns></returns>
         public virtual async Task<object> Pay(PayInputBase input)
         {
-            logger.LogDebug("准备发起支付：" + input);
+            Logger.LogDebug("准备发起支付：" + input);
             Exception exception = null;
             object output = null;
             if (input.OutTradeNo.IsNullOrWhiteSpace())
@@ -78,7 +83,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
             await CreateToPayTransactionInfo(input, exception);
             if (exception == null) return output;
 
-            logger.LogError("支付失败！", exception);
+            Logger.LogError("支付失败！", exception);
             throw new BusinessException("支付异常，请联系客服人员或稍后再试！");
         }
 
@@ -112,7 +117,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
         private string GenerateOutTradeNo()
         {
             var code = RandomHelper.GetRandom(1000, 9999);
-            return $"M{Clock.Now:yyyyMMddHHmmssfff}{code}";
+            return $"M{clock.Now:yyyyMMddHHmmssfff}{code}";
         }
 
     }

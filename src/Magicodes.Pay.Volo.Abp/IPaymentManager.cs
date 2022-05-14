@@ -16,27 +16,25 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp;
-using Abp.Dependency;
-using Magicodes.Pay.Abp.Registers;
 using Magicodes.Pay.Notify.Models;
 using Magicodes.Pay.Volo.Abp.Callbacks;
 using Magicodes.Pay.Volo.Abp.Services;
 using Magicodes.Pay.Volo.Abp.TransactionLogs;
+using Volo.Abp.DependencyInjection;
 
 namespace Magicodes.Pay.Volo.Abp
 {
     /// <summary>
     /// 支付配置管理器
     /// </summary>
-    public interface IPaymentManager : ISingletonDependency, IShouldInitialize
+    public interface IPaymentManager : ISingletonDependency
     {
         /// <summary>
         /// 执行支付回调通知
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<string> ExecPayNotifyAsync(PayNotifyInput input);
+        Task<string> ExecPayNotifyAsync(PayNotifyWithGuidInput input);
 
         /// <summary>
         /// 是否注册回调逻辑

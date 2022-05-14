@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Abp.Configuration;
-using Abp.Dependency;
-using Abp.Json;
-using Abp.UI;
-using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Notify.Models;
 using Magicodes.Pay.Volo.Abp.Dto;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using Volo.Abp;
+using Volo.Abp.Json;
+using Volo.Abp.Settings;
 
 namespace Magicodes.Pay.Volo.Abp.Registers
 {
@@ -18,10 +15,6 @@ namespace Magicodes.Pay.Volo.Abp.Registers
     /// </summary>
     public abstract class PaymentRegisterBase : IPaymentRegister
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public IIocManager IocManager { get; set; }
 
         /// <summary>
         /// 
@@ -33,6 +26,8 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// </summary>
         public IPaymentManager PaymentManager { get; set; }
 
+        private readonly ISettingProvider settingProvider;
+
         /// <summary>
         /// 
         /// </summary>
@@ -41,16 +36,23 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// <param name="totalFee"></param>
         /// <param name="customData"></param>
         /// <returns></returns>
-        protected async Task PayActionAsync(string outTradeNo, string transactionId, int totalFee, string customData)
+        protected async Task PayActionAsync(string outTradeNo,
+                                            string transactionId,
+                                            int totalFee,
+                                            string customData,
+                                            IServiceProvider serviceProvider,
+                                            IJsonSerializer jsonSerializer,
+                                            ISettingProvider settingProvider)
         {
+            settingProvider = settingProvider;
             if (string.IsNullOrWhiteSpace(customData))
             {
                 throw new BusinessException("请配置自定义参数！");
             }
-            //using (var uow = _unitOfWorkManager.Begin())
             {
+                var jobj= jsonSerializer.Deserialize<JObject>(customData);
                 //目前仅用支付参数的业务字段存储key，自定义数据在交易日志的CustomData中
-                var key = customData.Contains("{") ? customData.FromJsonString<JObject>()["key"]?.ToString() : customData;
+                var key = customData.Contains("{") ? jobj["key"]?.ToString() : customData;
                 await PaymentManager.ExecuteCallback(key, outTradeNo, transactionId, totalFee);
             }
         }
@@ -75,7 +77,7 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public virtual Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyInput input)
+        public virtual Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyWithGuidInput input)
         {
             throw new NotImplementedException();
         }
@@ -85,20 +87,19 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// </summary>
         /// <typeparam name="TConfig"></typeparam>
         /// <returns></returns>
-        public virtual Task<TConfig> GetConfigFromConfigOrSettingsByKey<TConfig>() where TConfig : class, new()
+        public virtual async Task<TConfig> GetConfigFromConfigOrSettingsByKey<TConfig>() where TConfig : class, new()
         {
             var settings = AppConfiguration?.GetSection(key: Key)?.Get<TConfig>();
-            if (settings != null) return Task.FromResult(settings);
+            if (settings != null) return await Task.FromResult(settings);
 
-            using (var obj = IocManager.ResolveAsDisposable<ISettingManager>())
             {
-                var value = obj.Object.GetSettingValue(Key);
+                var value = await settingProvider.GetAsync<TConfig>(Key);
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    return Task.FromResult<TConfig>(null);
+                    return await Task.FromResult<TConfig>(null);
                 }
                 settings = value.FromJsonString<TConfig>();
-                return Task.FromResult(settings);
+                return await Task.FromResult(settings);
             }
         }
     }

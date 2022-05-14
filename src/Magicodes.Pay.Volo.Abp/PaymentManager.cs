@@ -29,6 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Magicodes.Pay.Notify.Models;
 using Volo.Abp.MultiTenancy;
+using Magicodes.Pay.Notify;
 
 namespace Magicodes.Pay.Volo.Abp
 {
@@ -42,10 +43,11 @@ namespace Magicodes.Pay.Volo.Abp
         /// <summary>
         /// </summary>
         /// <param name="iocManager"></param>
-        public PaymentManager(IServiceProvider serviceProvider,ILogger<PaymentManager> logger, JsonConvert)
+        public PaymentManager(IServiceProvider serviceProvider,ILogger<PaymentManager> logger)
         {
             this.serviceProvider = serviceProvider;
             Logger = logger;
+            Initialize();
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace Magicodes.Pay.Volo.Abp
         /// <summary>
         ///     Implementors should perform any initialization logic.
         /// </summary>
-        public void Initialize()
+        private void Initialize()
         {
             PaymentRegisters = serviceProvider.GetServices<IPaymentRegister>().ToList();
             PaymentCallbackActions = serviceProvider.GetServices<IPaymentCallbackAction>().ToList();
@@ -169,19 +171,19 @@ namespace Magicodes.Pay.Volo.Abp
         /// <returns></returns>
         public async Task ExecuteCallback(string key, string outTradeNo, string transactionId, decimal totalFee)
         {
-            using (var obj = _iocManager.ResolveAsDisposable<TransactionLogHelper>())
+            var transactionLogHelper= serviceProvider.GetRequiredService<TransactionLogHelper>();
             {
                 //更新交易日志
-                await obj.Object.UpdateAsync(outTradeNo, transactionId, async (unitOfWork, logInfo) =>
+                await transactionLogHelper.UpdateAsync(outTradeNo, transactionId, async (unitOfWork, logInfo) =>
                 {
                     var data = logInfo.CustomData.FromJsonString<JObject>();
-                    Logger?.Info($"正在执行【{key}】回调逻辑。data:{data?.ToJsonString()}");
+                    Logger?.LogInformation($"正在执行【{key}】回调逻辑。data:{data?.ToJsonString()}");
 
 
 
-                    if (!decimal.Equals(logInfo.Currency.CurrencyValue, totalFee))
+                    if (!decimal.Equals(logInfo.Amount, totalFee))
                         throw new BusinessException(
-                            $"支付金额不一致：要求支付金额为：{logInfo.Currency.CurrencyValue}，实际支付金额为：{totalFee}");
+                            $"支付金额不一致：要求支付金额为：{logInfo.Amount}，实际支付金额为：{totalFee}");
 
                     var paymentCallbackAction = PaymentCallbackActions?.FirstOrDefault(p => p.Key == key);
                     if (paymentCallbackAction == null)
@@ -212,25 +214,6 @@ namespace Magicodes.Pay.Volo.Abp
             if (await IsRegisterCallbackAction(paymentCallbackAction))
                 PaymentCallbackActions.Remove(PaymentCallbackActions.First(p => p.Key == paymentCallbackAction.Key));
             await Task.FromResult(0);
-        }
-
-
-        /// <summary>
-        ///     支付回调配置
-        /// </summary>
-        /// <param name="logAction"></param>
-        public void PayNotifyConfig(Action<string, string> logAction)
-        {
-            if (_iocManager.IsRegistered<PayNotifyController>()) return;
-
-            //注册支付回调控制器
-            _iocManager.Register<PayNotifyController>(DependencyLifeStyle.Transient);
-
-            //支付回调设置
-            PayNotifyBuilder
-                .Create()
-                //设置日志记录
-                .WithLoggerAction(logAction).WithPayNotifyFunc(async input => await ExecPayNotifyAsync(input)).Build();
         }
     }
 }

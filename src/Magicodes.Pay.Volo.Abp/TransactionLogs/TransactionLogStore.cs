@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Abp.Dependency;
-using Abp.Domain.Repositories;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
 
 namespace Magicodes.Pay.Volo.Abp.TransactionLogs
 {

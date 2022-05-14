@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Abp.Auditing;
-using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
-using Abp.Extensions;
+using Volo.Abp.Auditing;
+using Volo.Abp.MultiTenancy;
+using Volo.Abp.Domain.Entities;
 
 namespace Magicodes.Pay.Volo.Abp.TransactionLogs
 {
@@ -12,9 +11,8 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
     /// 交易日志
     /// </summary>
     [Description("交易日志")]
-    [Display(Name = "交易日志")]
     [DisableAuditing]
-    public class TransactionLog : Entity<long>, IHasCreationTime, IMayHaveTenant, ICreationAudited
+    public class TransactionLog : Entity<long>, IHasCreationTime, IMultiTenant, IMayHaveCreator
     {
         /// <summary>
         /// 名称
@@ -27,25 +25,13 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// 金额
         /// </summary>
         [Display(Name = "金额")]
-        public Currency Currency { get; set; }
-
-        /// <summary>
-        /// 创建者UserId
-        /// </summary>
-        [Display(Name = "创建者UserId")]
-        public long? CreatorUserId { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
         [Display(Name = "创建时间")]
         public DateTime CreationTime { get; set; }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        [Display(Name = "租户Id")]
-        public int? TenantId { get; set; }
 
         /// <summary>
         /// 客户端Ip
@@ -118,6 +104,19 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         [MaxLength(2000)]
         [Display(Name = "异常信息")]
         public string Exception { get; set; }
+
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        [Display(Name = "租户Id")]
+        public  Guid? TenantId { get; set; }
+
+        /// <summary>
+        /// 创建者UserId
+        /// </summary>
+        [Display(Name = "创建者UserId")]
+        public Guid? CreatorId { get; set; }
 
         /// <summary>
         /// 创建交易日志

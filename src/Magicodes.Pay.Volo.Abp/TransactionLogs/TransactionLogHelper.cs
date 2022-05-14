@@ -15,17 +15,18 @@
 //   
 // ======================================================================
 
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Threading.Tasks;
 using System.Transactions;
-using Abp.Configuration;
-using Abp.Dependency;
-using Abp.Domain.Repositories;
-using Abp.Domain.Uow;
-using Abp.Extensions;
-using Abp.Runtime.Session;
-using Abp.Timing;
-using Castle.Core.Logging;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.MultiTenancy;
+using Volo.Abp.Settings;
+using Volo.Abp.Timing;
+using Volo.Abp.Uow;
+using Volo.Abp.Users;
 
 namespace Magicodes.Pay.Volo.Abp.TransactionLogs
 {
@@ -40,28 +41,36 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
 
         private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-        private readonly ISettingManager _settingManager;
-
         private readonly IRepository<TransactionLog, long> _transactionLogRepository;
+        private readonly ISettingProvider settingProvider;
+        private readonly ICurrentUser currentUser;
+        private readonly Clock clock;
+
+        //private readonly ICurrentTenant currentTenant;
 
         public TransactionLogHelper(
             ITransactionLogProvider transactionLogProvider
             , IUnitOfWorkManager unitOfWorkManager
             , ITransactionLogStore transactionLogStore
-            , ISettingManager settingManager
-            , IRepository<TransactionLog, long> transactionLogRepository)
+            , IRepository<TransactionLog, long> transactionLogRepository
+            , ISettingProvider settingProvider
+            , ICurrentUser currentUser
+            , Clock clock
+            //, ICurrentTenant currentTenant
+            , ILogger<TransactionLogHelper> logger)
         {
             _transactionLogProvider = transactionLogProvider;
             _unitOfWorkManager = unitOfWorkManager;
             _transactionLogStore = transactionLogStore;
-            _settingManager = settingManager;
             _transactionLogRepository = transactionLogRepository;
-            AbpSession = NullAbpSession.Instance;
-            Logger = NullLogger.Instance;
+            this.settingProvider = settingProvider;
+            this.currentUser = currentUser;
+            this.clock = clock;
+            //this.currentTenant = currentTenant;
+            Logger = NullLogger<TransactionLogHelper>.Instance;
         }
 
-        public ILogger Logger { get; set; }
-        public IAbpSession AbpSession { get; set; }
+        public ILogger<TransactionLogHelper> Logger { get; set; }
 
         /// <summary>
         /// 根据交易单号获取自定义数据
@@ -75,10 +84,9 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// </summary>
         /// <param name="outTradeNo"></param>
         /// <returns></returns>
-        public TransactionLog GetTransactionLogByOutTradeNo(string outTradeNo)
+        public async Task<TransactionLog> GetTransactionLogByOutTradeNo(string outTradeNo)
         {
-            _unitOfWorkManager.Current.SetTenantId(AbpSession.TenantId);
-            return _transactionLogRepository.FirstOrDefault(p => p.OutTradeNo == outTradeNo);
+            return await _transactionLogRepository.FirstOrDefaultAsync(p => p.OutTradeNo == outTradeNo);
         }
 
         /// <summary>
@@ -87,14 +95,13 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// <param name="transactionInfo"></param>
         /// <param name="symbol">货币符号</param>
         /// <returns></returns>
-        public TransactionLog CreateTransactionLog(TransactionInfo transactionInfo, string symbol = "CNY")
+        public TransactionLog CreateTransactionLog(TransactionInfo transactionInfo)
         {
-            var cultureName = _settingManager.GetSettingValueAsync("Abp.Localization.DefaultLanguageName").Result;
             var log = new TransactionLog
             {
-                //TenantId = AbpSession.TenantId,
-                CreatorUserId = AbpSession.UserId,
-                Currency = new Currency(transactionInfo.Amount, symbol),
+                TenantId = currentUser.TenantId,
+                CreatorId = currentUser.Id,
+                Amount = transactionInfo.Amount,
                 Name = transactionInfo.Subject,
                 CustomData = transactionInfo.CustomData,
                 OutTradeNo = transactionInfo.OutTradeNo,
@@ -109,23 +116,10 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex.ToString(), ex);
+                Logger.LogException(ex);
             }
 
             return log;
-        }
-
-        /// <summary>
-        ///     保存交易日志
-        /// </summary>
-        /// <param name="transactionLog"></param>
-        public void Save(TransactionLog transactionLog)
-        {
-            using (var uow = _unitOfWorkManager.Begin(TransactionScopeOption.Suppress))
-            {
-                _transactionLogStore.Save(transactionLog);
-                uow.Complete();
-            }
         }
 
         /// <summary>
@@ -135,7 +129,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// <returns></returns>
         public async Task SaveAsync(TransactionLog transactionLog)
         {
-            using (var uow = _unitOfWorkManager.Begin(TransactionScopeOption.Suppress))
+            using (var uow = _unitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
             {
                 await _transactionLogStore.SaveAsync(transactionLog);
                 await uow.CompleteAsync();
@@ -152,25 +146,25 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         public async Task UpdateAsync(string outTradeNo, string transactionId, Func<IUnitOfWorkManager, TransactionLog, Task> action)
         {
             Exception exception = null;
-            using (var uow = _unitOfWorkManager.Begin(TransactionScopeOption.Suppress))
+            using (var uow = _unitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
             {
 
                 var logInfo = await _transactionLogRepository.FirstOrDefaultAsync(p => p.OutTradeNo == outTradeNo);
                 if (logInfo == null)
                 {
-                    Logger.Error("交易订单号为 " + outTradeNo + " 不存在！");
+                    Logger.LogError("交易订单号为 " + outTradeNo + " 不存在！");
                     return;
                 }
 
                 if (logInfo.TransactionState == TransactionStates.Success && logInfo.PayTime.HasValue)
                 {
-                    Logger.Error($"outTradeNo: {outTradeNo} ，transactionId：{transactionId} 的订单已经完成了交易，请不要重新发起操作！");
+                    Logger.LogError($"outTradeNo: {outTradeNo} ，transactionId：{transactionId} 的订单已经完成了交易，请不要重新发起操作！");
                     return;
                 }
 
                 try
                 {
-                    logInfo.PayTime = Clock.Now;
+                    logInfo.PayTime = clock.Now;
                     logInfo.TransactionId = transactionId;
                     await action(_unitOfWorkManager, logInfo);
                     logInfo.TransactionState = TransactionStates.Success;
@@ -180,7 +174,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
                 {
                     logInfo.TransactionState = TransactionStates.PayError;
                     logInfo.TransactionId = transactionId;
-                    logInfo.PayTime = Clock.Now;
+                    logInfo.PayTime = clock.Now;
                     logInfo.Exception = ex.InnerException != null ? ex.InnerException.ToString().TruncateWithPostfix(2000) : ex.ToString().TruncateWithPostfix(2000);
                     await uow.CompleteAsync();
                     exception = ex;

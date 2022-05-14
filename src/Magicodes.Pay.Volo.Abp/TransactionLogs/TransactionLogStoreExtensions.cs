@@ -15,7 +15,7 @@
 //   
 // ======================================================================
 
-using Abp.Threading;
+using Volo.Abp.Threading;
 
 namespace Magicodes.Pay.Volo.Abp.TransactionLogs
 {
