@@ -30,7 +30,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
     /// <summary>
     ///  统一支付服务
     /// </summary>
-    public class PayAppService : IPayAppService, ITransientDependency
+    public class PayAppService : IPayAppService
     {
         private readonly IPaymentManager _paymentManager;
         private readonly TransactionLogHelper _transactionLogHelper;

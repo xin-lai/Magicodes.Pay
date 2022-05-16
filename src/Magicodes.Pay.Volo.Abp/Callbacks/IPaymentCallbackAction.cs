@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Magicodes.Pay.Volo.Abp.TransactionLogs;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Uow;
 
 namespace Magicodes.Pay.Volo.Abp.Callbacks
@@ -10,7 +11,7 @@ namespace Magicodes.Pay.Volo.Abp.Callbacks
     /// <summary>
     /// 回调逻辑
     /// </summary>
-    public interface IPaymentCallbackAction
+    public interface IPaymentCallbackAction: ITransientDependency
     {
         /// <summary>
         /// 业务Key

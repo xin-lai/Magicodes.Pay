@@ -22,6 +22,8 @@ Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使�
 | Magicodes.Pay.Abp.Wxpay  | ABP 微信支付模块| [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Wxpay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Wxpay) |
 | Magicodes.Pay.Abp.Alipay.Global  | ABP 国际支付宝模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Alipay.Global)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Alipay.Global) |
 | Magicodes.Pay.Abp.Alipay  | ABP 支付宝模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Alipay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Alipay) |
+| Magicodes.Pay.Volo.Abp  | ABP VNext基础模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Volo.Abp)](https://www.nuget.org/packages/Magicodes.Pay.Volo.Abp) |
+| Magicodes.Pay.Volo.Abp.Allinpay  | ABP Vnext 通联支付模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Volo.Abp.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Volo.Abp.Allinpay) |
 
 ### 已弃用的包，不再更新
 

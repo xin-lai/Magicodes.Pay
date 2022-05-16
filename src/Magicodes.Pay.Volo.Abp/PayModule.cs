@@ -21,8 +21,6 @@ namespace Magicodes.Pay.Volo.Abp
             {
                 options.Kind = DateTimeKind.Local;
             });
-
-
             
         }
 
