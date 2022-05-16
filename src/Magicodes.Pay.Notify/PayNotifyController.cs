@@ -43,8 +43,8 @@ namespace Magicodes.Pay.Notify
         /// <param name="tenantId"></param>
         /// <param name="provider">提供程序，比如WeChat、Alipay</param>
         /// <returns></returns>
-        [HttpPost("{tenantId?}/{provider}")]
-        public async Task<IActionResult> PayNotify(int? tenantId, string provider)
+        [HttpPost("{tenantId}/{provider}")]
+        public async Task<IActionResult> PayNotify(string tenantId, string provider)
         {
             if (string.IsNullOrWhiteSpace(provider)) throw new ArgumentException("请传递提供程序！", nameof(provider));
 

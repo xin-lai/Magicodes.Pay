@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using Magicodes.Pay.Notify.Models;
 using Magicodes.Pay.Volo.Abp.Dto;
+using Volo.Abp.DependencyInjection;
 
 namespace Magicodes.Pay.Volo.Abp.Registers
 {
     /// <summary>
     /// 支付注册器
     /// </summary>
-    public interface IPaymentRegister
+    public interface IPaymentRegister:ITransientDependency
     {
         /// <summary>
         /// 关键字
@@ -27,6 +28,6 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyWithGuidInput input);
+        Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyInput input);
     }
 }

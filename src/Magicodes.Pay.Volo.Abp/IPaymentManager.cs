@@ -34,7 +34,7 @@ namespace Magicodes.Pay.Volo.Abp
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<string> ExecPayNotifyAsync(PayNotifyWithGuidInput input);
+        Task<string> ExecPayNotifyAsync(PayNotifyInput input);
 
         /// <summary>
         /// 是否注册回调逻辑
@@ -79,5 +79,6 @@ namespace Magicodes.Pay.Volo.Abp
         /// <param name="payChannel"></param>
         /// <returns></returns>
         Task<IToPayService> GetPayService(PayChannels payChannel);
+        void Initialize();
     }
 }

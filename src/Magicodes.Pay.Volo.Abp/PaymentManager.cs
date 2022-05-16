@@ -30,6 +30,8 @@ using Volo.Abp;
 using Magicodes.Pay.Notify.Models;
 using Volo.Abp.MultiTenancy;
 using Magicodes.Pay.Notify;
+using Volo.Abp.Json;
+using Magicodes.Pay.Notify.Builder;
 
 namespace Magicodes.Pay.Volo.Abp
 {
@@ -39,15 +41,16 @@ namespace Magicodes.Pay.Volo.Abp
     public class PaymentManager : IPaymentManager
     {
         private readonly IServiceProvider serviceProvider;
+        private readonly IJsonSerializer jsonSerializer;
 
         /// <summary>
         /// </summary>
         /// <param name="iocManager"></param>
-        public PaymentManager(IServiceProvider serviceProvider,ILogger<PaymentManager> logger)
+        public PaymentManager(IServiceProvider serviceProvider, ILogger<PaymentManager> logger, IJsonSerializer jsonSerializer)
         {
             this.serviceProvider = serviceProvider;
             Logger = logger;
-            Initialize();
+            this.jsonSerializer = jsonSerializer;
         }
 
         /// <summary>
@@ -71,14 +74,14 @@ namespace Magicodes.Pay.Volo.Abp
         /// <summary>
         ///     Implementors should perform any initialization logic.
         /// </summary>
-        private void Initialize()
+        public void Initialize()
         {
             PaymentRegisters = serviceProvider.GetServices<IPaymentRegister>().ToList();
             PaymentCallbackActions = serviceProvider.GetServices<IPaymentCallbackAction>().ToList();
             ToPayServices = serviceProvider.GetServices<IToPayService>().ToList();
 
             //日志函数
-            void LogAction(string tag, string message)
+            void logAction(string tag, string message)
             {
                 if (tag.Equals("error", StringComparison.CurrentCultureIgnoreCase))
                     Logger.LogError(message);
@@ -86,13 +89,18 @@ namespace Magicodes.Pay.Volo.Abp
                     Logger.LogDebug(message);
             }
 
+            //支付回调设置
+            PayNotifyBuilder
+                .Create()
+                //设置日志记录
+                .WithLoggerAction(logAction).WithPayNotifyFunc(async input => await ExecPayNotifyAsync(input)).Build();
+
 
             if (PaymentRegisters != null)
                 foreach (var action in PaymentRegisters)
                     //
-                    action.Build(LogAction).Wait();
+                    action.Build(logAction).Wait();
 
-            PayNotifyConfig(LogAction);
         }
 
         /// <summary>
@@ -100,7 +108,7 @@ namespace Magicodes.Pay.Volo.Abp
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public virtual async Task<string> ExecPayNotifyAsync(PayNotifyWithGuidInput input)
+        public virtual async Task<string> ExecPayNotifyAsync(PayNotifyInput input)
         {
             var action = PaymentRegisters.FirstOrDefault(p =>
                 input.Provider.Equals(p.Key, StringComparison.OrdinalIgnoreCase));
@@ -109,7 +117,12 @@ namespace Magicodes.Pay.Volo.Abp
             using (serviceProvider.CreateScope())
             {
                 var tenant = serviceProvider.GetService<ICurrentTenant>();
-                using (tenant?.Change(input.TenantId))
+                Guid? tenantId = null;
+                if (!string.IsNullOrEmpty(input.TenantId))
+                {
+                    tenantId = Guid.Parse(input.TenantId);
+                }
+                using (tenant?.Change(tenantId))
                 {
                     var result = await action.ExecPayNotifyAsync(input);
                     if (result == null)
@@ -121,7 +134,7 @@ namespace Magicodes.Pay.Volo.Abp
                         throw new BusinessException("请配置自定义参数！");
                     }
                     //目前仅用支付参数的业务字段存储key，自定义数据在交易日志的CustomData中
-                    var key = result.BusinessParams.Contains("{") ? result.BusinessParams.FromJsonString<JObject>()["key"]?.ToString() : result.BusinessParams;
+                    var key = result.BusinessParams.Contains("{") ? jsonSerializer.Deserialize<JObject>(result.BusinessParams)["key"]?.ToString() : result.BusinessParams;
                     await ExecuteCallback(key, result.OutTradeNo, result.TradeNo, result.TotalFee);
                     return result.SuccessResult?.ToString();
                 }
@@ -171,15 +184,13 @@ namespace Magicodes.Pay.Volo.Abp
         /// <returns></returns>
         public async Task ExecuteCallback(string key, string outTradeNo, string transactionId, decimal totalFee)
         {
-            var transactionLogHelper= serviceProvider.GetRequiredService<TransactionLogHelper>();
+            var transactionLogHelper = serviceProvider.GetRequiredService<TransactionLogHelper>();
             {
                 //更新交易日志
                 await transactionLogHelper.UpdateAsync(outTradeNo, transactionId, async (unitOfWork, logInfo) =>
                 {
-                    var data = logInfo.CustomData.FromJsonString<JObject>();
-                    Logger?.LogInformation($"正在执行【{key}】回调逻辑。data:{data?.ToJsonString()}");
-
-
+                    var data = jsonSerializer.Deserialize<JObject>(logInfo.CustomData);
+                    Logger?.LogInformation($"正在执行【{key}】回调逻辑。data:{logInfo.CustomData}");
 
                     if (!decimal.Equals(logInfo.Amount, totalFee))
                         throw new BusinessException(

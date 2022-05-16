@@ -77,7 +77,15 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// </summary>
         /// <param name="outTradeNo"></param>
         /// <returns></returns>
-        public string GetCustomDataByOutTradeNo(string outTradeNo) => GetTransactionLogByOutTradeNo(outTradeNo)?.CustomData;
+        public async Task<string?> GetCustomDataByOutTradeNo(string outTradeNo)
+        {
+            var data = await GetTransactionLogByOutTradeNo(outTradeNo);
+            if (data == null)
+            {
+                return null;
+            }
+            return data.CustomData;
+        }
 
         /// <summary>
         /// 根据交易单号获取交易日志信息

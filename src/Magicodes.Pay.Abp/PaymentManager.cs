@@ -113,7 +113,12 @@ namespace Magicodes.Pay.Abp
             using (_iocManager.CreateScope())
             {
                 var abpSession = _iocManager.Resolve<IAbpSession>();
-                using (abpSession.Use(input.TenantId, null))
+                int? tenantId = null;
+                if (!string.IsNullOrEmpty(input.TenantId))
+                {
+                    tenantId = Convert.ToInt32(input.TenantId);
+                }
+                using (abpSession.Use(tenantId, null))
                 {
                     var result = await action.ExecPayNotifyAsync(input);
                     if (result == null)

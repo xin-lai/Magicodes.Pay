@@ -4,13 +4,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Magicodes.Pay.Volo.Abp.Services.Dto;
 using Magicodes.Pay.Volo.Abp.TransactionLogs;
+using Volo.Abp.DependencyInjection;
 
 namespace Magicodes.Pay.Volo.Abp.Services
 {
     /// <summary>
     /// 支付服务接口实现
     /// </summary>
-    public interface IToPayService
+    public interface IToPayService: ITransientDependency
     {
         /// <summary>
         /// 支付渠道

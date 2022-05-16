@@ -15,6 +15,18 @@ namespace Magicodes.Pay.Volo.Abp.Registers
     /// </summary>
     public abstract class PaymentRegisterBase : IPaymentRegister
     {
+        protected readonly ISettingProvider settingProvider;
+        protected readonly IJsonSerializer jsonSerializer;
+        protected readonly IServiceProvider serviceProvider;
+
+        public PaymentRegisterBase(IServiceProvider serviceProvider,
+                                            IJsonSerializer jsonSerializer,
+                                            ISettingProvider settingProvider)
+        {
+            settingProvider = settingProvider;
+            jsonSerializer = jsonSerializer;
+            this.serviceProvider = serviceProvider;
+        }
 
         /// <summary>
         /// 
@@ -26,7 +38,7 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// </summary>
         public IPaymentManager PaymentManager { get; set; }
 
-        private readonly ISettingProvider settingProvider;
+
 
         /// <summary>
         /// 
@@ -39,12 +51,10 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         protected async Task PayActionAsync(string outTradeNo,
                                             string transactionId,
                                             int totalFee,
-                                            string customData,
-                                            IServiceProvider serviceProvider,
-                                            IJsonSerializer jsonSerializer,
-                                            ISettingProvider settingProvider)
+                                            string customData
+                                            )
         {
-            settingProvider = settingProvider;
+            
             if (string.IsNullOrWhiteSpace(customData))
             {
                 throw new BusinessException("请配置自定义参数！");
@@ -77,7 +87,7 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public virtual Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyWithGuidInput input)
+        public virtual Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyInput input)
         {
             throw new NotImplementedException();
         }
@@ -91,14 +101,13 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         {
             var settings = AppConfiguration?.GetSection(key: Key)?.Get<TConfig>();
             if (settings != null) return await Task.FromResult(settings);
-
             {
-                var value = await settingProvider.GetAsync<TConfig>(Key);
+                var value = await settingProvider.GetOrNullAsync(Key);
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     return await Task.FromResult<TConfig>(null);
                 }
-                settings = value.FromJsonString<TConfig>();
+                settings = jsonSerializer.Deserialize<TConfig>(value);
                 return await Task.FromResult(settings);
             }
         }

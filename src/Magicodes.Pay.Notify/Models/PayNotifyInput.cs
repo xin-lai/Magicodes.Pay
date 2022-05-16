@@ -24,7 +24,7 @@ namespace Magicodes.Pay.Notify.Models
         /// <summary>
         ///     租户Id（选填）
         /// </summary>
-        public int? TenantId { get; set; }
+        public string TenantId { get; set; }
 
         /// <summary>
         ///     提供程序简称，比如wechat、alipay
