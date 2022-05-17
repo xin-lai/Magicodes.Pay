@@ -58,6 +58,6 @@ namespace Magicodes.Pay.Volo.Abp.Services.Dto
         /// </summary>
         [MaxLength(50)]
         [Display(Name = "OpenId")]
-        public string OpenId { get; set; }
+        public string? OpenId { get; set; }
     }
 }

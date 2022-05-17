@@ -20,12 +20,12 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         protected readonly IServiceProvider serviceProvider;
 
         public PaymentRegisterBase(IServiceProvider serviceProvider,
-                                            IJsonSerializer jsonSerializer,
-                                            ISettingProvider settingProvider)
+                                   IJsonSerializer jsonSerializer,
+                                   ISettingProvider settingProvider)
         {
-            settingProvider = settingProvider;
-            jsonSerializer = jsonSerializer;
             this.serviceProvider = serviceProvider;
+            this.jsonSerializer = jsonSerializer;
+            this.settingProvider = settingProvider;
         }
 
         /// <summary>
@@ -54,16 +54,17 @@ namespace Magicodes.Pay.Volo.Abp.Registers
                                             string customData
                                             )
         {
-            
+
             if (string.IsNullOrWhiteSpace(customData))
             {
                 throw new BusinessException("请配置自定义参数！");
             }
             {
-                var jobj= jsonSerializer.Deserialize<JObject>(customData);
+                var jobj = jsonSerializer.Deserialize<JObject>(customData);
                 //目前仅用支付参数的业务字段存储key，自定义数据在交易日志的CustomData中
                 var key = customData.Contains("{") ? jobj["key"]?.ToString() : customData;
-                await PaymentManager.ExecuteCallback(key, outTradeNo, transactionId, totalFee);
+                if (key != null)
+                    await PaymentManager.ExecuteCallback(key, outTradeNo, transactionId, totalFee);
             }
         }
 
@@ -105,7 +106,7 @@ namespace Magicodes.Pay.Volo.Abp.Registers
                 var value = await settingProvider.GetOrNullAsync(Key);
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    return await Task.FromResult<TConfig>(null);
+                    return await Task.FromResult<TConfig>(result: null);
                 }
                 settings = jsonSerializer.Deserialize<TConfig>(value);
                 return await Task.FromResult(settings);

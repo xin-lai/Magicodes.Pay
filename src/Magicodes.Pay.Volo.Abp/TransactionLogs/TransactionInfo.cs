@@ -70,7 +70,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// <summary>
         ///     异常信息
         /// </summary>
-        public Exception Exception { get; set; }
+        public Exception? Exception { get; set; }
 
         /// <summary>
         /// 主题（商品的标题/交易标题/订单标题/订单关键字等）

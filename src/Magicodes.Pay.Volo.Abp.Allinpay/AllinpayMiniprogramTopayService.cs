@@ -19,7 +19,6 @@ namespace Magicodes.Pay.Volo.Abp.Allinpay
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="iocResolver"></param>
         public AllinpayMiniprogramTopayService(IAllinpayAppService allinpayAppService) : base()
         {
             this.allinpayAppService = allinpayAppService;

@@ -29,6 +29,6 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// </summary>
         /// <param name="transactionLog">交易日志</param>
         /// <param name="exception">交易异常</param>
-        void Fill(TransactionLog transactionLog, Exception exception = null);
+        void Fill(TransactionLog transactionLog, Exception? exception = null);
     }
 }

@@ -323,7 +323,6 @@ namespace Magicodes.Pay.Wxpay.Helper
         ///     post请求返回html
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="postDataStr"></param>
         /// <returns></returns>
         public string HttpPost(string url, Dictionary<string, string> postdata)
         {

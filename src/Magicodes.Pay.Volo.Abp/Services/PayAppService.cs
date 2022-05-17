@@ -59,7 +59,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
         public virtual async Task<object> Pay(PayInputBase input)
         {
             Logger.LogDebug("准备发起支付：" + input);
-            Exception exception = null;
+            Exception? exception = null;
             object output = null;
             if (input.OutTradeNo.IsNullOrWhiteSpace())
             {
@@ -91,7 +91,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
         /// 创建交易日志
         /// </summary>
         /// <returns></returns>
-        private async Task<TransactionLog> CreateToPayTransactionInfo(PayInputBase input, Exception exception = null)
+        private async Task<TransactionLog> CreateToPayTransactionInfo(PayInputBase input, Exception? exception = null)
         {
             var transactionInfo = new TransactionInfo()
             {
@@ -104,8 +104,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
                 //TransactionId = "",
                 Exception = exception
             };
-            TransactionLog transactionLog = null;
-            transactionLog = _transactionLogHelper.CreateTransactionLog(transactionInfo);
+            TransactionLog transactionLog = _transactionLogHelper.CreateTransactionLog(transactionInfo);
             await _transactionLogHelper.SaveAsync(transactionLog);
             return transactionLog;
         }

@@ -41,13 +41,6 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         public string? ClientIpAddress { get; set; }
 
         /// <summary>
-        /// 客户端名称
-        /// </summary>
-        [Display(Name = "客户端名称")]
-        [MaxLength(128)]
-        public string? ClientName { get; set; }
-
-        /// <summary>
         /// 是否冻结
         /// </summary>
         [Display(Name = "是否冻结")]
@@ -133,9 +126,6 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
 
             if (transactionLog.Exception != null)
                 transactionLog.Exception = transactionLog.Exception.TruncateWithPostfix(2000);
-
-            if (transactionLog.ClientName != null)
-                transactionLog.ClientName = transactionLog.ClientName.TruncateWithPostfix(128);
 
             if (transactionLog.CustomData != null)
                 transactionLog.CustomData = transactionLog.CustomData.TruncateWithPostfix(500);

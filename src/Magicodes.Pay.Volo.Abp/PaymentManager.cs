@@ -108,7 +108,7 @@ namespace Magicodes.Pay.Volo.Abp
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public virtual async Task<string> ExecPayNotifyAsync(PayNotifyInput input)
+        public virtual async Task<string?> ExecPayNotifyAsync(PayNotifyInput input)
         {
             var action = PaymentRegisters.FirstOrDefault(p =>
                 input.Provider.Equals(p.Key, StringComparison.OrdinalIgnoreCase));
@@ -135,7 +135,8 @@ namespace Magicodes.Pay.Volo.Abp
                     }
                     //目前仅用支付参数的业务字段存储key，自定义数据在交易日志的CustomData中
                     var key = result.BusinessParams.Contains("{") ? jsonSerializer.Deserialize<JObject>(result.BusinessParams)["key"]?.ToString() : result.BusinessParams;
-                    await ExecuteCallback(key, result.OutTradeNo, result.TradeNo, result.TotalFee);
+                    if (!string.IsNullOrWhiteSpace(key))
+                        await ExecuteCallback(key, result.OutTradeNo, result.TradeNo, result.TotalFee);
                     return result.SuccessResult?.ToString();
                 }
             }

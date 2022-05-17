@@ -101,7 +101,6 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         ///     创建交易日志
         /// </summary>
         /// <param name="transactionInfo"></param>
-        /// <param name="symbol">货币符号</param>
         /// <returns></returns>
         public TransactionLog CreateTransactionLog(TransactionInfo transactionInfo)
         {
