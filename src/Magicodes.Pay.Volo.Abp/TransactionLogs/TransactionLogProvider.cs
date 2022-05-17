@@ -6,7 +6,7 @@
 //           filename : TransactionLogProvider.cs
 //           description :
 //   
-//           created by 雪雁 at  2018-08-06 14:21
+//           created by 雪雁 at  2022-05-17 14:21
 //           Mail: wenqiang.li@xin-lai.com
 //           QQ群：85318032（技术交流）
 //           Blog：http://www.cnblogs.com/codelove/
@@ -35,9 +35,10 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
             if (transactionLog.ClientIpAddress.IsNullOrEmpty())
                 transactionLog.ClientIpAddress = HttpContextAccessor?.HttpContext?.Connection.RemoteIpAddress?.ToString();
 
-            //if (transactionLog.ClientName.IsNullOrEmpty()) transactionLog.ClientName = HttpContextAccessor?.HttpContext?.ComputerName;
+            //if (transactionLog.ClientName.IsNullOrEmpty()) transactionLog.ClientName = HttpContextAccessor?.HttpContext?;
 
             if (transactionLog.Exception.IsNullOrEmpty()) transactionLog.Exception = exception?.ToString();
+
 
             //根据浏览器请求头判断终端设备
             //if (ClientInfoProvider != null && !ClientInfoProvider.BrowserInfo.IsNullOrEmpty())

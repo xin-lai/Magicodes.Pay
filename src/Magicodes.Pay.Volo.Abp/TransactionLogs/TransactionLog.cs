@@ -38,14 +38,14 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// </summary>
         [MaxLength(64)]
         [Display(Name = "客户端Ip")]
-        public string ClientIpAddress { get; set; }
+        public string? ClientIpAddress { get; set; }
 
         /// <summary>
         /// 客户端名称
         /// </summary>
         [Display(Name = "客户端名称")]
         [MaxLength(128)]
-        public string ClientName { get; set; }
+        public string? ClientName { get; set; }
 
         /// <summary>
         /// 是否冻结
@@ -63,7 +63,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// 终端
         /// </summary>
         [Display(Name = "终端")]
-        public Terminals Terminal { get; set; }
+        public Terminals? Terminal { get; set; }
 
         /// <summary>
         /// 交易状态
@@ -76,7 +76,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// </summary>
         [MaxLength(500)]
         [Display(Name = "自定义数据")]
-        public string CustomData { get; set; }
+        public string? CustomData { get; set; }
 
         /// <summary>
         /// 交易单号
@@ -103,14 +103,14 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// </summary>
         [MaxLength(2000)]
         [Display(Name = "异常信息")]
-        public string Exception { get; set; }
+        public string? Exception { get; set; }
 
 
         /// <summary>
         /// 租户Id
         /// </summary>
         [Display(Name = "租户Id")]
-        public  Guid? TenantId { get; set; }
+        public Guid? TenantId { get; set; }
 
         /// <summary>
         /// 创建者UserId
@@ -128,10 +128,18 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         {
             if (transactionLog == null)
                 transactionLog = new TransactionLog();
-            transactionLog.ClientIpAddress = transactionLog.ClientIpAddress.TruncateWithPostfix(64);
-            transactionLog.Exception = transactionLog.Exception.TruncateWithPostfix(2000);
-            transactionLog.ClientName = transactionLog.ClientName.TruncateWithPostfix(128);
-            transactionLog.CustomData = transactionLog.CustomData.TruncateWithPostfix(500);
+            if (transactionLog.ClientIpAddress != null)
+                transactionLog.ClientIpAddress = transactionLog.ClientIpAddress.TruncateWithPostfix(64);
+
+            if (transactionLog.Exception != null)
+                transactionLog.Exception = transactionLog.Exception.TruncateWithPostfix(2000);
+
+            if (transactionLog.ClientName != null)
+                transactionLog.ClientName = transactionLog.ClientName.TruncateWithPostfix(128);
+
+            if (transactionLog.CustomData != null)
+                transactionLog.CustomData = transactionLog.CustomData.TruncateWithPostfix(500);
+
             transactionLog.Name = transactionLog.Name.TruncateWithPostfix(50);
             return transactionLog;
         }

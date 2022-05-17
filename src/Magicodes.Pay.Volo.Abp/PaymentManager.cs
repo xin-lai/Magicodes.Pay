@@ -45,7 +45,7 @@ namespace Magicodes.Pay.Volo.Abp
 
         /// <summary>
         /// </summary>
-        /// <param name="iocManager"></param>
+        /// <param name="serviceProvider"></param>
         public PaymentManager(IServiceProvider serviceProvider, ILogger<PaymentManager> logger, IJsonSerializer jsonSerializer)
         {
             this.serviceProvider = serviceProvider;

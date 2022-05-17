@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Volo.Abp", "Volo.Abp", "{6B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magicodes.Pay.Volo.Abp", "src\Magicodes.Pay.Volo.Abp\Magicodes.Pay.Volo.Abp.csproj", "{BEBB5326-E030-4702-BF05-3FD23B0679A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magicodes.Pay.Volo.Abp.Allinpay", "src\Magicodes.Pay.Volo.Abp.Allinpay\Magicodes.Pay.Volo.Abp.Allinpay.csproj", "{3CA955B4-E313-4CB9-8C43-FFC2B6342383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magicodes.Pay.Volo.Abp.Allinpay", "src\Magicodes.Pay.Volo.Abp.Allinpay\Magicodes.Pay.Volo.Abp.Allinpay.csproj", "{3CA955B4-E313-4CB9-8C43-FFC2B6342383}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

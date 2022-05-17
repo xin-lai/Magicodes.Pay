@@ -6,7 +6,7 @@
 //           filename : TransactionLogStoreExtensions.cs
 //           description :
 //   
-//           created by 雪雁 at  2018-08-06 14:21
+//           created by 雪雁 at  2022-05-17 14:21
 //           Mail: wenqiang.li@xin-lai.com
 //           QQ群：85318032（技术交流）
 //           Blog：http://www.cnblogs.com/codelove/
