@@ -41,12 +41,6 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         public string? ClientIpAddress { get; set; }
 
         /// <summary>
-        /// 是否冻结
-        /// </summary>
-        [Display(Name = "是否冻结")]
-        public bool IsFreeze { get; set; }
-
-        /// <summary>
         /// 支付渠道
         /// </summary>
         [Display(Name = "支付渠道")]
@@ -83,7 +77,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         /// </summary>
         [MaxLength(36)]
         [Display(Name = "支付订单号")]
-        public string TransactionId { get; set; }
+        public string? TransactionId { get; set; }
 
         /// <summary>
         /// 支付完成时间
