@@ -27,13 +27,11 @@ namespace Magicodes.Pay.Volo.Abp.Allinpay
         /// </summary>
         public override string Key { get; set; } = "Allinpay";
 
-        public override async Task Build(Action<string, string> logAction)
+        public override void Build(Action<string, string> logAction)
         {
             AllinpayBuilder.Create()
                 .WithLoggerAction(logAction)
                 .RegisterGetPayConfigFunc(() => GetConfigFromConfigOrSettingsByKey<AllinpaySettings>().Result).Build();
-
-            await Task.FromResult(0);
         }
 
         public override async Task<ExecPayNotifyOutputDto> ExecPayNotifyAsync(PayNotifyInput input)

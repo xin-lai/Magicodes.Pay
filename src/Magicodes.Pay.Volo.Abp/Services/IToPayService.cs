@@ -11,7 +11,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
     /// <summary>
     /// 支付服务接口实现
     /// </summary>
-    public interface IToPayService: ITransientDependency
+    public interface IToPayService
     {
         /// <summary>
         /// 支付渠道

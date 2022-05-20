@@ -27,7 +27,7 @@ namespace Magicodes.Pay.Volo.Abp
     /// <summary>
     /// 支付配置管理器
     /// </summary>
-    public interface IPaymentManager : ISingletonDependency
+    public interface IPaymentManager
     {
         /// <summary>
         /// 执行支付回调通知

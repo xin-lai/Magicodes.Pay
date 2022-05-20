@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
+using Volo.Abp.DependencyInjection;
 
 namespace Magicodes.Pay.Volo.Abp.Allinpay
 {
@@ -53,7 +54,7 @@ namespace Magicodes.Pay.Volo.Abp.Allinpay
             }
             catch (Exception ex)
             {
-                throw new BusinessException(ex.Message);
+                throw new BusinessException(message:ex.Message);
             }
         }
 

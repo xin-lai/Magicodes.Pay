@@ -78,7 +78,7 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         /// </summary>
         /// <param name="logAction"></param>
         /// <returns></returns>
-        public virtual Task Build(Action<string, string> logAction)
+        public virtual void Build(Action<string, string> logAction)
         {
             throw new NotImplementedException();
         }

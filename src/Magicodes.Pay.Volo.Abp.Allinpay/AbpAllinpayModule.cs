@@ -12,6 +12,9 @@ namespace Magicodes.Pay.Volo.Abp.Allinpay
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddTransient<IAllinpayAppService, AllinpayAppService>();
+
+            context.Services.AddTransient<IToPayService, AllinpayMiniprogramTopayService>();
+            context.Services.AddTransient<IToPayService, AllinpayJsApiTopayService>();
         }
     }
 }

@@ -77,6 +77,10 @@ namespace Magicodes.Pay.Volo.Abp
         public void Initialize()
         {
             PaymentRegisters = serviceProvider.GetServices<IPaymentRegister>().ToList();
+            if (PaymentRegisters != null)
+                foreach (var action in PaymentRegisters)
+                    action.Build(logAction);
+
             PaymentCallbackActions = serviceProvider.GetServices<IPaymentCallbackAction>().ToList();
             ToPayServices = serviceProvider.GetServices<IToPayService>().ToList();
 
@@ -94,12 +98,6 @@ namespace Magicodes.Pay.Volo.Abp
                 .Create()
                 //设置日志记录
                 .WithLoggerAction(logAction).WithPayNotifyFunc(async input => await ExecPayNotifyAsync(input)).Build();
-
-
-            if (PaymentRegisters != null)
-                foreach (var action in PaymentRegisters)
-                    //
-                    action.Build(logAction).Wait();
 
         }
 

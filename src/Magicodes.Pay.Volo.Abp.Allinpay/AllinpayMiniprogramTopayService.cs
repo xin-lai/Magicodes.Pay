@@ -6,6 +6,7 @@ using Magicodes.Pay.Volo.Abp.Services;
 using Magicodes.Pay.Volo.Abp.Services.Dto;
 using Magicodes.Pay.Volo.Abp.TransactionLogs;
 using Volo.Abp;
+using Volo.Abp.DependencyInjection;
 
 namespace Magicodes.Pay.Volo.Abp.Allinpay
 {
@@ -51,7 +52,7 @@ namespace Magicodes.Pay.Volo.Abp.Allinpay
             }
             catch (Exception ex)
             {
-                throw new BusinessException(ex.Message);
+                throw new BusinessException(message: ex.Message);
             }
         }
     }

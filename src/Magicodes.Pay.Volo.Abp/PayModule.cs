@@ -30,7 +30,8 @@ namespace Magicodes.Pay.Volo.Abp
             {
                 options.Kind = DateTimeKind.Local;
             });
-            
+
+            context.Services.AddSingleton<IPaymentManager, PaymentManager>();
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
