@@ -2,20 +2,20 @@
 using Volo.Abp;
 using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
-//using Volo.Abp.BackgroundJobs;
+using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Data;
 //using Volo.Abp.IdentityServer;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 
-namespace Xinlai.Shop;
+namespace Magicodes.Pay.Volo.Abp.TestBase;
 
 [DependsOn(
     typeof(AbpAutofacModule),
-    typeof(Volo.Abp.AbpTestBaseModule),
+    typeof(AbpTestBaseModule),
     typeof(AbpAuthorizationModule)
     )]
-public class AbpTestBaseModule : AbpModule
+public class ShopTestBaseModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
@@ -26,16 +26,16 @@ public class AbpTestBaseModule : AbpModule
 
         //PreConfigure<IIdentityServerBuilder>(identityServerBuilder =>
         //{
-        //    identityServerBuilder.AddDeveloperSigningCredential(false, System.Guid.NewGuid().ToString());
+        //    identityServerBuilder.AddDeveloperSigningCredential(false, Guid.NewGuid().ToString());
         //});
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        //Configure<AbpBackgroundJobOptions>(options =>
-        //{
-        //    options.IsJobExecutionEnabled = false;
-        //});
+        Configure<AbpBackgroundJobOptions>(options =>
+        {
+            options.IsJobExecutionEnabled = false;
+        });
 
         context.Services.AddAlwaysAllowAuthorization();
     }

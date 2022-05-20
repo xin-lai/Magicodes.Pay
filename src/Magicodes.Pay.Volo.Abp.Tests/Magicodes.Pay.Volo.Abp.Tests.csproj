@@ -9,24 +9,22 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Authorization" Version="5.2.1" />
-		<PackageReference Include="Volo.Abp.TestBase" Version="5.2.1" />
-		<PackageReference Include="Volo.Abp.Autofac" Version="5.2.1" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-		<PackageReference Include="Shouldly" Version="4.0.3" />
-		<PackageReference Include="xunit" Version="2.4.1" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="coverlet.collector" Version="3.1.2">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
+		<PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.IdentityServer.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.BackgroundJobs.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="5.2.1" />
+		<PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="5.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Magicodes.Pay.Volo.Abp.Allinpay\Magicodes.Pay.Volo.Abp.Allinpay.csproj" />
+		<ProjectReference Include="..\Magicodes.Pay.Volo.Abp.TestBase\Magicodes.Pay.Volo.Abp.TestBase.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

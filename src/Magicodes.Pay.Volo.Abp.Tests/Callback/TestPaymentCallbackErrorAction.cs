@@ -1,11 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Abp.Dependency;
-using Abp.Domain.Uow;
-using Abp.Json;
-using Abp.UI;
-using Magicodes.Pay.Abp.Callbacks;
-using Magicodes.Pay.Abp.TransactionLogs;
+using Magicodes.Pay.Volo.Abp.Callbacks;
+using Magicodes.Pay.Volo.Abp.TransactionLogs;
 using Newtonsoft.Json.Linq;
+using Volo.Abp;
+using Volo.Abp.Uow;
 
 namespace Magicodes.Pay.Volo.Abp.Tests.Callback
 {
@@ -22,7 +20,7 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Callback
         /// <returns></returns>
         public Task Process(IUnitOfWorkManager unitOfWork, TransactionLog transactionLog)
         {
-            throw new UserFriendlyException("支付报错！");
+            throw new BusinessException("支付报错！");
         }
     }
 }

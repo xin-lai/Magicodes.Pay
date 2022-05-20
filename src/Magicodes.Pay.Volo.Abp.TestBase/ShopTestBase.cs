@@ -6,11 +6,12 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Uow;
 using Volo.Abp.Testing;
 
-namespace Magicodes.Pay.Volo.Abp.Tests;
+namespace Magicodes.Pay.Volo.Abp.TestBase;
 
 /* All test classes are derived from this class, directly or indirectly.
  */
-public abstract class AbpTestBase : AbpIntegratedTest<AbpPayTestModule>
+public abstract class ShopTestBase<TStartupModule> : AbpIntegratedTest<TStartupModule>
+    where TStartupModule : IAbpModule
 {
     protected override void SetAbpApplicationCreationOptions(AbpApplicationCreationOptions options)
     {

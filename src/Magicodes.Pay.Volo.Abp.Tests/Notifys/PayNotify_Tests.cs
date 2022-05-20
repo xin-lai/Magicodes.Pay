@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Abp.Json;
-using Abp.Timing;
-using Magicodes.Pay.Abp;
-using Magicodes.Pay.Abp.Callbacks;
-using Magicodes.Pay.Abp.TransactionLogs;
 using Magicodes.Pay.Allinpay;
 using Magicodes.Pay.Notify.Models;
-using Magicodes.Pay.Tests.Callback;
 using Magicodes.Pay.Volo.Abp.Tests;
+using Magicodes.Pay.Volo.Abp.TransactionLogs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using Shouldly;
+using Volo.Abp.Domain.Repositories;
 using Xunit;
 
 namespace Magicodes.Pay.Volo.Abp.Tests.Notifys
@@ -22,49 +18,46 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Notifys
     /// <summary>
     /// 支付回调通知测试
     /// </summary>
-    public class PayNotify_Tests : TestBase
+    public class PayNotify_Tests : AbpTestBase
     {
         private IPaymentManager paymentManager;
         private IConfiguration configuration;
         private string outTradeNo = "8AFD62BF-EA24-4B92-B015-F8CB7A86C315";
+        private IRepository<TransactionLog, long> transactionLogsRepository;
 
         public PayNotify_Tests()
         {
-            paymentManager = Resolve<IPaymentManager>();
-            configuration = Resolve<IConfiguration>();
-
-            UsingDbContext(context => context.TransactionLogs.Add(new TransactionLog()
-            {
-                ClientIpAddress = "192.168.1.1",
-                ClientName = "OS",
-                CreationTime = Clock.Now,
-                CustomData = new
-                {
-                    Name = "佩奇1号",
-                    IdCard = "430122200010016014",
-                    Phone = "18812340001",
-                    RecommendCode = "00001",
-                    Code = "CD001",
-                    ReceiptCodes = "RC001",
-                    ChargeProjectId = 1,
-                    CreationTime = new DateTime(2019, 10, 1),
-                    OpenId = "owWF25zT2BnOeQ68myWuQian7qHq"
-                }.ToJsonString(),
-                OutTradeNo = outTradeNo,
-                Currency = new Currency(0.01m),
-                Name = "学费",
-                PayChannel = PayChannels.AliAppPay,
-                Terminal = Terminals.Ipad,
-                TransactionState = TransactionStates.NotPay,
-                TenantId = null
-            }));
-
-
+            paymentManager = GetRequiredService<IPaymentManager>();
+            configuration = GetRequiredService<IConfiguration>();
+            transactionLogsRepository = GetRequiredService<IRepository<TransactionLog, long>>();
         }
 
         [Fact(DisplayName = "通联支付回调测试")]
         public async Task Allinpay_ExecPayNotifyAsync_Test()
         {
+            await WithUnitOfWorkAsync(async () =>
+            {
+                await transactionLogsRepository.InsertAsync(new TransactionLog()
+                {
+                    ClientIpAddress = "192.168.1.1",
+                    CustomData = new
+                    {
+                        Name = "佩奇",
+                        IdCard = "430122200010016014",
+                        Phone = "18812340001",
+                        RecommendCode = "00001",
+                        CreationTime = new DateTime(2019, 10, 1),
+                        OpenId = "owWF25zT2BnOeQ68myWuQian7qHq"
+                    }.ToJsonString(),
+                    OutTradeNo = outTradeNo,
+                    Amount = 0.01m,
+                    Name = "学费",
+                    PayChannel = PayChannels.AliAppPay,
+                    Terminal = Terminals.Ipad,
+                    TransactionState = TransactionStates.NotPay,
+                }, true);
+            });
+
             //Mock HttpRequest
             var httpRequestMock = Substitute.For<HttpRequest>();
             //伪造支付参数
@@ -109,12 +102,13 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Notifys
                 Request = httpRequestMock
             });
 
-            //验证交易日志
-            UsingDbContext(context =>
+            await WithUnitOfWorkAsync(async () =>
             {
-                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).TransactionState.ShouldBe(TransactionStates.Success);
-                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).PayTime.HasValue.ShouldBeTrue();
-                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).Exception.ShouldBeNull();
+                //验证状态
+                var log = await transactionLogsRepository.FirstAsync(p => p.OutTradeNo == outTradeNo);
+                log.TransactionState.ShouldBe(TransactionStates.Success);
+                log.PayTime.HasValue.ShouldBeTrue();
+                log.Exception.ShouldBeNull();
             });
         }
 

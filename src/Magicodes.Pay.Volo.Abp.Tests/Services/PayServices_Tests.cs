@@ -1,28 +1,32 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Abp.UI;
-using Magicodes.Pay.Abp.Services;
-using Magicodes.Pay.Abp.Services.Dto;
+using Magicodes.Pay.Volo.Abp.Services;
+using Magicodes.Pay.Volo.Abp.Services.Dto;
 using Magicodes.Pay.Volo.Abp.Tests;
+using Magicodes.Pay.Volo.Abp.TransactionLogs;
 using Shouldly;
+using Volo.Abp;
+using Volo.Abp.Domain.Repositories;
 using Xunit;
 
 namespace Magicodes.Pay.Volo.Abp.Tests.Services
 {
-    public class PayServices_Tests : TestBase
+    public class PayServices_Tests : AbpTestBase
     {
         public readonly IPayAppService payAppService;
+        private IRepository<TransactionLogs.TransactionLog, long> transactionLogsRepository;
 
         public PayServices_Tests()
         {
-            payAppService = Resolve<IPayAppService>();
+            payAppService = GetRequiredService<IPayAppService>();
+            transactionLogsRepository = GetRequiredService<IRepository<TransactionLogs.TransactionLog, long>>();
         }
 
         [Fact]
         public async Task Pay_Test()
         {
             //请配置正确的支付参数后在移除异常校验
-            await Assert.ThrowsAsync<UserFriendlyException>(async () =>
+            await Assert.ThrowsAsync<BusinessException>(async () =>
              {
                  var input = new PayInputBase()
                  {
@@ -37,8 +41,12 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Services
                  };
                  await payAppService.Pay(input);
 
-                 //交易日志校验
-                 UsingDbContext(context => context.TransactionLogs.Any(p => p.Currency.CurrencyValue == 88 && p.PayChannel == Pay.Abp.TransactionLogs.PayChannels.AllinWeChatMiniPay && p.TransactionState == Pay.Abp.TransactionLogs.TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo).ShouldBeTrue());
+                 await WithUnitOfWorkAsync(async () =>
+                 {
+                     //验证状态
+                     var result = await transactionLogsRepository.AnyAsync(p => p.Amount == 88 && p.PayChannel == PayChannels.AllinWeChatMiniPay && p.TransactionState == TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo);
+                     result.ShouldBeTrue();
+                 });
 
              });
         }

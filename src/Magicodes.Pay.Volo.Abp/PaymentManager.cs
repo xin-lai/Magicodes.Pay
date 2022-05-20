@@ -194,12 +194,12 @@ namespace Magicodes.Pay.Volo.Abp
                     Logger?.LogInformation($"正在执行【{key}】回调逻辑。data:{logInfo.CustomData}");
 
                     if (!decimal.Equals(logInfo.Amount, totalFee))
-                        throw new BusinessException(
+                        throw new BusinessException(message:
                             $"支付金额不一致：要求支付金额为：{logInfo.Amount}，实际支付金额为：{totalFee}");
 
                     var paymentCallbackAction = PaymentCallbackActions?.FirstOrDefault(p => p.Key == key);
                     if (paymentCallbackAction == null)
-                        throw new BusinessException($"Key：{key} 不存在，请使用Register方法进行注册");
+                        throw new BusinessException(message: $"Key：{key} 不存在，请使用Register方法进行注册");
 
                     await paymentCallbackAction.Process(unitOfWork, logInfo);
                 });
