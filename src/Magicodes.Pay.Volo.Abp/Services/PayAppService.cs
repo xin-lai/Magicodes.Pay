@@ -58,7 +58,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
         /// <returns></returns>
         public virtual async Task<object> Pay(PayInputBase input)
         {
-            Logger.LogDebug("准备发起支付：" + input);
+            Logger.LogDebug("准备发起支付：{Key} {OutTradeNo}", input.Key, input.OutTradeNo);
             Exception? exception = null;
             object output = null;
             if (input.OutTradeNo.IsNullOrWhiteSpace())

@@ -159,7 +159,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
                 var logInfo = await _transactionLogRepository.FirstOrDefaultAsync(p => p.OutTradeNo == outTradeNo);
                 if (logInfo == null)
                 {
-                    Logger.LogError("交易订单号为 " + outTradeNo + " 不存在！");
+                    Logger.LogError($"交易订单号为 {outTradeNo} 不存在！");
                     return;
                 }
 

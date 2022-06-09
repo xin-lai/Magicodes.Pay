@@ -101,16 +101,18 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         public virtual async Task<TConfig> GetConfigFromConfigOrSettingsByKey<TConfig>() where TConfig : class, new()
         {
             var settings = AppConfiguration?.GetSection(key: Key)?.Get<TConfig>();
-            if (settings != null) return await Task.FromResult(settings);
+            if (settings != null)
             {
-                var value = await settingProvider.GetOrNullAsync(Key);
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    return await Task.FromResult<TConfig>(result: null);
-                }
-                settings = jsonSerializer.Deserialize<TConfig>(value);
                 return await Task.FromResult(settings);
             }
+
+            var value = await settingProvider.GetOrNullAsync(Key);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return await Task.FromResult<TConfig>(result: null);
+            }
+            settings = jsonSerializer.Deserialize<TConfig>(value);
+            return await Task.FromResult(settings);
         }
     }
 }
