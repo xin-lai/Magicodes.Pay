@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>1.4.2</Version>
+    <Version>1.4.3</Version>
   </PropertyGroup>
   <PropertyGroup>
     <Authors>雪雁</Authors>
@@ -15,7 +15,6 @@
       公众号：麦扣聊技术
       博客地址：http://www.cnblogs.com/codelove/
       交流QQ群：85318032
-      小店地址：https://shop113059108.taobao.com/
     </Description>
   </PropertyGroup>
   <PropertyGroup>
