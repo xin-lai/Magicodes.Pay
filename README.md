@@ -24,6 +24,7 @@ Magicodes.Pay希望打造一个统一支付库，相关库均使用.NET标准库
 | Magicodes.Pay.Abp.Alipay  | ABP 支付宝模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Abp.Alipay)](https://www.nuget.org/packages/Magicodes.Pay.Abp.Alipay) |
 | Magicodes.Pay.Volo.Abp  | ABP VNext基础模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Volo.Abp)](https://www.nuget.org/packages/Magicodes.Pay.Volo.Abp) |
 | Magicodes.Pay.Volo.Abp.Allinpay  | ABP VNext 通联支付模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Volo.Abp.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Volo.Abp.Allinpay) |
+| Magicodes.Pay.Volo.Abp.Wxpay  | ABP VNext 微信支付模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Volo.Abp.Wxpay)](https://www.nuget.org/packages/Magicodes.Pay.Volo.Abp.Wxpay) |
 
 ## 主要功能
 目前已提供Abp（含Abp VNext）模块的封装，支持开箱即用。支持以下支付方式和功能：
