@@ -189,7 +189,7 @@ namespace Magicodes.Pay.Volo.Abp
                 await transactionLogHelper.UpdateAsync(outTradeNo, transactionId, async (unitOfWork, logInfo) =>
                 {
                     var data = jsonSerializer.Deserialize<JObject>(logInfo.CustomData);
-                    Logger?.LogInformation($"正在执行【{key}】回调逻辑。data:{logInfo.CustomData}");
+                    Logger?.LogInformation("正在执行【{key}】回调逻辑。data:{CustomData}", key, logInfo.CustomData);
 
                     if (!decimal.Equals(logInfo.Amount, totalFee))
                         throw new BusinessException(message:
