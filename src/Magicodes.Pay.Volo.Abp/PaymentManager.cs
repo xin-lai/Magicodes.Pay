@@ -82,7 +82,10 @@ namespace Magicodes.Pay.Volo.Abp
                     action.Build(logAction);
 
             PaymentCallbackActions = serviceProvider.GetServices<IPaymentCallbackAction>().ToList();
+            Logger.LogInformation("支付回调逻辑注册：" + String.Join(';', PaymentCallbackActions.Select(p => p.Key).ToArray()));
+
             ToPayServices = serviceProvider.GetServices<IToPayService>().ToList();
+            Logger.LogInformation("支付服务注册：" + String.Join(';', ToPayServices.Select(p => p.PayChannel).ToArray()));
 
             //日志函数
             void logAction(string tag, string message)
