@@ -2,7 +2,7 @@
 
 ## 简介
 
-Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前已提供Abp及Abp VNext模块的封装，支持开箱即用。
+Magicodes.Pay希望打造一个统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前已提供Abp及Abp VNext模块的封装，支持开箱即用。
 
 [![Build Status](https://dev.azure.com/xinlaiopencode/Magicodes.Pay/_apis/build/status/Magicodes.Pay-ASP.NET%20Core-CI?branchName=master)](https://dev.azure.com/xinlaiopencode/Magicodes.Pay/_build/latest?definitionId=13&branchName=master)
 
@@ -26,7 +26,7 @@ Magicodes.Pay，是心莱科技团队提供的统一支付库，相关库均使�
 | Magicodes.Pay.Volo.Abp.Allinpay  | ABP VNext 通联支付模块 |  [![NuGet](https://buildstats.info/nuget/Magicodes.Pay.Volo.Abp.Allinpay)](https://www.nuget.org/packages/Magicodes.Pay.Volo.Abp.Allinpay) |
 
 ## 主要功能
-Magicodes.Pay，是雪雁提供的统一支付库，相关库均使用.NET标准库编写，支持.NET Framework以及.NET Core。目前已提供Abp（含Abp VNext）模块的封装，支持开箱即用。目前支持以下支付方式和功能：
+目前已提供Abp（含Abp VNext）模块的封装，支持开箱即用。支持以下支付方式和功能：
 * 支付宝支付
   * APP支付
   * Wap支付
