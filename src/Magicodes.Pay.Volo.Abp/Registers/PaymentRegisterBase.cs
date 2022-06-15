@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Volo.Abp;
 using Volo.Abp.Json;
 using Volo.Abp.Settings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Magicodes.Pay.Volo.Abp.Registers
 {
@@ -16,19 +17,16 @@ namespace Magicodes.Pay.Volo.Abp.Registers
     /// </summary>
     public abstract class PaymentRegisterBase : IPaymentRegister
     {
-        protected readonly ISettingProvider settingProvider;
         private readonly ILogger<PaymentRegisterBase> logger;
         protected readonly IJsonSerializer jsonSerializer;
         protected readonly IServiceProvider serviceProvider;
 
         public PaymentRegisterBase(IServiceProvider serviceProvider,
                                    IJsonSerializer jsonSerializer,
-                                   ISettingProvider settingProvider,
                                    ILogger<PaymentRegisterBase> logger)
         {
             this.serviceProvider = serviceProvider;
             this.jsonSerializer = jsonSerializer;
-            this.settingProvider = settingProvider;
             this.logger = logger;
         }
 
@@ -110,6 +108,7 @@ namespace Magicodes.Pay.Volo.Abp.Registers
                 if (logger.IsEnabled(LogLevel.Debug)) logger.LogDebug(jsonSerializer.Serialize(settings));
                 return await Task.FromResult(settings);
             }
+            var settingProvider = serviceProvider.GetRequiredService<ISettingProvider>();
             var value = await settingProvider.GetOrNullAsync(Key);
             if (string.IsNullOrWhiteSpace(value))
             {

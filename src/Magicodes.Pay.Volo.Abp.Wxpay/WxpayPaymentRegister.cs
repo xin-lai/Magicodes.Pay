@@ -19,8 +19,7 @@ namespace Magicodes.Pay.Volo.Abp.Wxpay
     /// </summary>
     public class WxpayPaymentRegister : PaymentRegisterBase
     {
-
-        public WxpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ISettingProvider settingProvider, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, settingProvider, logger)
+        public WxpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, logger)
         {
         }
 

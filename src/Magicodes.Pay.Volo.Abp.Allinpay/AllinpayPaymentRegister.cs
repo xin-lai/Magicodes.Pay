@@ -19,7 +19,7 @@ namespace Magicodes.Pay.Volo.Abp.Allinpay
     /// </summary>
     public class AllinpayPaymentRegister : PaymentRegisterBase
     {
-        public AllinpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ISettingProvider settingProvider, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, settingProvider, logger)
+        public AllinpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, logger)
         {
         }
 

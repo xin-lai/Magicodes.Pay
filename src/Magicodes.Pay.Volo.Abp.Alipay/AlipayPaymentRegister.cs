@@ -19,8 +19,7 @@ namespace Magicodes.Pay.Abp.Alipay
     /// </summary>
     public class AlipayPaymentRegister : PaymentRegisterBase
     {
-
-        public AlipayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ISettingProvider settingProvider, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, settingProvider, logger)
+        public AlipayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, logger)
         {
         }
 
