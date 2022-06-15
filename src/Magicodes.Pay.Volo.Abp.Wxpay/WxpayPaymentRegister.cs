@@ -5,6 +5,7 @@ using Magicodes.Pay.Wxpay.Builder;
 using Magicodes.Pay.Wxpay.Config;
 using Magicodes.Pay.Wxpay.Pay;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -18,7 +19,8 @@ namespace Magicodes.Pay.Volo.Abp.Wxpay
     /// </summary>
     public class WxpayPaymentRegister : PaymentRegisterBase
     {
-        public WxpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ISettingProvider settingProvider) : base(serviceProvider, jsonSerializer, settingProvider)
+
+        public WxpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ISettingProvider settingProvider, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, settingProvider, logger)
         {
         }
 
