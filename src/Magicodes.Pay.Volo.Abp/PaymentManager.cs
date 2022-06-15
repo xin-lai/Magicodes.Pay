@@ -82,7 +82,10 @@ namespace Magicodes.Pay.Volo.Abp
                     action.Build(logAction);
 
             PaymentCallbackActions = serviceProvider.GetServices<IPaymentCallbackAction>().ToList();
+            Logger.LogInformation("支付回调逻辑注册：" + String.Join(';', PaymentCallbackActions.Select(p => p.Key).ToArray()));
+
             ToPayServices = serviceProvider.GetServices<IToPayService>().ToList();
+            Logger.LogInformation("支付服务注册：" + String.Join(';', ToPayServices.Select(p => p.PayChannel).ToArray()));
 
             //日志函数
             void logAction(string tag, string message)
@@ -189,7 +192,7 @@ namespace Magicodes.Pay.Volo.Abp
                 await transactionLogHelper.UpdateAsync(outTradeNo, transactionId, async (unitOfWork, logInfo) =>
                 {
                     var data = jsonSerializer.Deserialize<JObject>(logInfo.CustomData);
-                    Logger?.LogInformation($"正在执行【{key}】回调逻辑。data:{logInfo.CustomData}");
+                    Logger?.LogInformation("正在执行【{key}】回调逻辑。data:{CustomData}", key, logInfo.CustomData);
 
                     if (!decimal.Equals(logInfo.Amount, totalFee))
                         throw new BusinessException(message:

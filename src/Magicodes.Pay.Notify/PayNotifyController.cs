@@ -48,7 +48,7 @@ namespace Magicodes.Pay.Notify
         {
             if (string.IsNullOrWhiteSpace(provider)) throw new ArgumentException("请传递提供程序！", nameof(provider));
 
-            LoggerAction("Debug", "正在处理支付信息");
+            LoggerAction("Debug", "已进入支付回调，即将处理支付信息...");
             var input = new PayNotifyInput
             {
                 TenantId = tenantId,

@@ -45,6 +45,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         private readonly ISettingProvider settingProvider;
         private readonly ICurrentUser currentUser;
         private readonly Clock clock;
+        private readonly ICurrentTenant currentTenant;
 
         //private readonly ICurrentTenant currentTenant;
 
@@ -56,7 +57,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
             , ISettingProvider settingProvider
             , ICurrentUser currentUser
             , Clock clock
-            //, ICurrentTenant currentTenant
+            , ICurrentTenant currentTenant
             , ILogger<TransactionLogHelper> logger)
         {
             _transactionLogProvider = transactionLogProvider;
@@ -66,7 +67,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
             this.settingProvider = settingProvider;
             this.currentUser = currentUser;
             this.clock = clock;
-            //this.currentTenant = currentTenant;
+            this.currentTenant = currentTenant;
             Logger = NullLogger<TransactionLogHelper>.Instance;
         }
 
@@ -106,7 +107,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
         {
             var log = new TransactionLog
             {
-                TenantId = currentUser.TenantId,
+                TenantId = currentTenant.Id,
                 CreatorId = currentUser.Id,
                 Amount = transactionInfo.Amount,
                 Name = transactionInfo.Subject,
@@ -159,7 +160,7 @@ namespace Magicodes.Pay.Volo.Abp.TransactionLogs
                 var logInfo = await _transactionLogRepository.FirstOrDefaultAsync(p => p.OutTradeNo == outTradeNo);
                 if (logInfo == null)
                 {
-                    Logger.LogError("交易订单号为 " + outTradeNo + " 不存在！");
+                    Logger.LogError($"交易订单号为 {outTradeNo} 不存在！");
                     return;
                 }
 
