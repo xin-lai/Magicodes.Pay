@@ -7,6 +7,7 @@ using Magicodes.Pay.Notify.Models;
 using Magicodes.Pay.Volo.Abp.Dto;
 using Magicodes.Pay.Volo.Abp.Registers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.Json;
 using Volo.Abp.Settings;
@@ -18,7 +19,7 @@ namespace Magicodes.Pay.Volo.Abp.Allinpay
     /// </summary>
     public class AllinpayPaymentRegister : PaymentRegisterBase
     {
-        public AllinpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ISettingProvider settingProvider) : base(serviceProvider, jsonSerializer, settingProvider)
+        public AllinpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ISettingProvider settingProvider, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, settingProvider, logger)
         {
         }
 

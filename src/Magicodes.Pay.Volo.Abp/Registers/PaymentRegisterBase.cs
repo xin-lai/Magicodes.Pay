@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Magicodes.Pay.Notify.Models;
 using Magicodes.Pay.Volo.Abp.Dto;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Volo.Abp;
 using Volo.Abp.Json;
@@ -16,16 +17,19 @@ namespace Magicodes.Pay.Volo.Abp.Registers
     public abstract class PaymentRegisterBase : IPaymentRegister
     {
         protected readonly ISettingProvider settingProvider;
+        private readonly ILogger<PaymentRegisterBase> logger;
         protected readonly IJsonSerializer jsonSerializer;
         protected readonly IServiceProvider serviceProvider;
 
         public PaymentRegisterBase(IServiceProvider serviceProvider,
                                    IJsonSerializer jsonSerializer,
-                                   ISettingProvider settingProvider)
+                                   ISettingProvider settingProvider,
+                                   ILogger<PaymentRegisterBase> logger)
         {
             this.serviceProvider = serviceProvider;
             this.jsonSerializer = jsonSerializer;
             this.settingProvider = settingProvider;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -101,16 +105,19 @@ namespace Magicodes.Pay.Volo.Abp.Registers
         public virtual async Task<TConfig> GetConfigFromConfigOrSettingsByKey<TConfig>() where TConfig : class, new()
         {
             var settings = AppConfiguration?.GetSection(key: Key)?.Get<TConfig>();
-            if (settings != null) return await Task.FromResult(settings);
+            if (settings != null)
             {
-                var value = await settingProvider.GetOrNullAsync(Key);
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    return await Task.FromResult<TConfig>(result: null);
-                }
-                settings = jsonSerializer.Deserialize<TConfig>(value);
+                if (logger.IsEnabled(LogLevel.Debug)) logger.LogDebug(jsonSerializer.Serialize(settings));
                 return await Task.FromResult(settings);
             }
+            var value = await settingProvider.GetOrNullAsync(Key);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return await Task.FromResult<TConfig>(result: null);
+            }
+            if (logger.IsEnabled(LogLevel.Debug)) logger.LogDebug(value);
+            settings = jsonSerializer.Deserialize<TConfig>(value);
+            return await Task.FromResult(settings);
         }
     }
 }
