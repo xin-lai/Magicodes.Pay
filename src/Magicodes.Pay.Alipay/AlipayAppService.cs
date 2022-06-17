@@ -34,8 +34,7 @@ namespace Magicodes.Pay.Alipay
     /// </summary>
     public class AlipayAppService : IAlipayAppService
     {
-        private Lazy<IAlipaySettings> _settings = new Lazy<IAlipaySettings>(() => GetPayConfigFunc());
-        private IAlipaySettings AlipaySettings => _settings.Value;
+        private IAlipaySettings AlipaySettings {get; set;}
 
         public AlipayAppService()
         {
@@ -51,6 +50,7 @@ namespace Magicodes.Pay.Alipay
         /// <returns></returns>
         public Task<AppPayOutput> AppPay(AppPayInput input)
         {
+            AlipaySettings = GetPayConfigFunc();
             var client = GetClient();
 
             var request = new AlipayTradeAppPayRequest();
@@ -93,6 +93,7 @@ namespace Magicodes.Pay.Alipay
         /// <returns></returns>
         public Task<WapPayOutput> WapPay(WapPayInput input)
         {
+            AlipaySettings = GetPayConfigFunc();
             var client = GetClient();
 
             var request = new AlipayTradeWapPayRequest();
@@ -138,6 +139,7 @@ namespace Magicodes.Pay.Alipay
         {
             try
             {
+                AlipaySettings = GetPayConfigFunc();
                 var alipaySignPublicKey = AlipaySettings.AlipaySignPublicKey;
                 var charset = AlipaySettings.CharSet;
                 var signtype = AlipaySettings.SignType;

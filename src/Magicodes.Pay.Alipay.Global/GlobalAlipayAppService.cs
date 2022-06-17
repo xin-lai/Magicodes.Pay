@@ -28,9 +28,7 @@ namespace Magicodes.Pay.Alipay.Global
     /// <inheritdoc />
     public class GlobalAlipayAppService : IGlobalAlipayAppService
     {
-        private Lazy<IGlobalAlipaySettings> _settings = new Lazy<IGlobalAlipaySettings>(() => GetPayConfigFunc());
-        private IGlobalAlipaySettings _alipaySettings => _settings.Value;
-
+        private IGlobalAlipaySettings _alipaySettings {get; set;}
         public GlobalAlipayAppService() { }
 
         public static Action<string, string> LoggerAction { get; set; }
@@ -44,6 +42,7 @@ namespace Magicodes.Pay.Alipay.Global
         /// <returns></returns>
         public Task<PayOutput> Pay(PayInput input)
         {
+            _alipaySettings = GetPayConfigFunc();
             //把请求参数打包成数组
             var sParaTemp = new SortedDictionary<string, string>
             {
@@ -192,6 +191,7 @@ namespace Magicodes.Pay.Alipay.Global
         {
             try
             {
+                _alipaySettings = GetPayConfigFunc();
                 var sArray = new SortedDictionary<string, string>();
                 foreach (var item in dic)
                 {

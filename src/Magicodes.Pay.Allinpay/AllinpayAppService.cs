@@ -10,8 +10,7 @@ namespace Magicodes.Pay.Allinpay
     /// </summary>
     public class AllinpayAppService : IAllinpayAppService
     {
-        private Lazy<IAllinpaySettings> _settings = new Lazy<IAllinpaySettings>(() => GetPayConfigFunc());
-        private IAllinpaySettings AllinpaySettings => _settings.Value;
+        private IAllinpaySettings AllinpaySettings {get; set;}
 
         public AllinpayAppService()
         {
@@ -27,6 +26,7 @@ namespace Magicodes.Pay.Allinpay
         /// <returns></returns>
         public Task<WeChatMiniPayOutput> WeChatMiniPay(WeChatMiniPayInput input)
         {
+            AllinpaySettings = GetPayConfigFunc();
             var allinpayDefaultClient = new AllinpayDefaultClient(AllinpaySettings);
             var response = allinpayDefaultClient.WeChatMiniPay(input);
             if (response.RetCode == "FAIL")
@@ -50,6 +50,7 @@ namespace Magicodes.Pay.Allinpay
         /// <returns></returns>
         public Task<JsApiPayOutput> WeChatJsApiPay(JsApiPayInput input)
         {
+            AllinpaySettings = GetPayConfigFunc();
             var allinpayDefaultClient = new AllinpayDefaultClient(AllinpaySettings);
             var response = allinpayDefaultClient.WeChatJsApiPay(input);
             if (response.RetCode == "FAIL")
@@ -75,6 +76,7 @@ namespace Magicodes.Pay.Allinpay
         {
             try
             {
+                AllinpaySettings = GetPayConfigFunc();
                 var allinpayKey = AllinpaySettings.AppKey;
                 if (!dic.ContainsKey("sign"))//如果不包含sign,则不进行处理
                 {
