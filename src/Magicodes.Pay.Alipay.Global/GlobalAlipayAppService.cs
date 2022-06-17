@@ -28,9 +28,10 @@ namespace Magicodes.Pay.Alipay.Global
     /// <inheritdoc />
     public class GlobalAlipayAppService : IGlobalAlipayAppService
     {
-        private readonly IGlobalAlipaySettings _alipaySettings;
+        private Lazy<IGlobalAlipaySettings> _settings = new Lazy<IGlobalAlipaySettings>(() => GetPayConfigFunc());
+        private IGlobalAlipaySettings _alipaySettings => _settings.Value;
 
-        public GlobalAlipayAppService() => _alipaySettings = GetPayConfigFunc();
+        public GlobalAlipayAppService() { }
 
         public static Action<string, string> LoggerAction { get; set; }
         public static Func<IGlobalAlipaySettings> GetPayConfigFunc { get; set; }

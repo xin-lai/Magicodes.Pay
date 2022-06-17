@@ -10,11 +10,11 @@ namespace Magicodes.Pay.Allinpay
     /// </summary>
     public class AllinpayAppService : IAllinpayAppService
     {
-        private readonly IAllinpaySettings _allinpaySettings;
+        private Lazy<IAllinpaySettings> _settings = new Lazy<IAllinpaySettings>(() => GetPayConfigFunc());
+        private IAllinpaySettings AllinpaySettings => _settings.Value;
 
         public AllinpayAppService()
         {
-            _allinpaySettings = GetPayConfigFunc();
         }
 
         public static Action<string, string> LoggerAction { get; set; }
@@ -27,11 +27,11 @@ namespace Magicodes.Pay.Allinpay
         /// <returns></returns>
         public Task<WeChatMiniPayOutput> WeChatMiniPay(WeChatMiniPayInput input)
         {
-            var allinpayDefaultClient = new AllinpayDefaultClient(_allinpaySettings);
+            var allinpayDefaultClient = new AllinpayDefaultClient(AllinpaySettings);
             var response = allinpayDefaultClient.WeChatMiniPay(input);
             if (response.RetCode == "FAIL")
             {
-                LoggerAction?.Invoke("Error", "通联支付请求参数错误（FAIL）:" + _allinpaySettings);
+                LoggerAction?.Invoke("Error", "通联支付请求参数错误（FAIL）:" + AllinpaySettings);
                 LoggerAction?.Invoke("Error", "input:" + input);
                 LoggerAction?.Invoke("Error", "RetMsg:" + response.RetMsg + "    ErrMsg:" + response.ErrMsg);
                 throw new Exception("通联支付请求参数错误,请检查!");
@@ -50,11 +50,11 @@ namespace Magicodes.Pay.Allinpay
         /// <returns></returns>
         public Task<JsApiPayOutput> WeChatJsApiPay(JsApiPayInput input)
         {
-            var allinpayDefaultClient = new AllinpayDefaultClient(_allinpaySettings);
+            var allinpayDefaultClient = new AllinpayDefaultClient(AllinpaySettings);
             var response = allinpayDefaultClient.WeChatJsApiPay(input);
             if (response.RetCode == "FAIL")
             {
-                LoggerAction?.Invoke("Error", "通联支付请求参数错误（FAIL）:" + _allinpaySettings);
+                LoggerAction?.Invoke("Error", "通联支付请求参数错误（FAIL）:" + AllinpaySettings);
                 LoggerAction?.Invoke("Error", "input:" + input);
                 LoggerAction?.Invoke("Error", "RetMsg:" + response.RetMsg + "    ErrMsg:" + response.ErrMsg);
                 throw new Exception("通联支付请求参数错误,请检查!");
@@ -75,7 +75,7 @@ namespace Magicodes.Pay.Allinpay
         {
             try
             {
-                var allinpayKey = _allinpaySettings.AppKey;
+                var allinpayKey = AllinpaySettings.AppKey;
                 if (!dic.ContainsKey("sign"))//如果不包含sign,则不进行处理
                 {
                     LoggerAction?.Invoke("Error", "sign is null");

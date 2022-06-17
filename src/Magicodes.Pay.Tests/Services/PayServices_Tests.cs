@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Abp.UI;
 using Magicodes.Pay.Abp.Services;
 using Magicodes.Pay.Abp.Services.Dto;
+using Magicodes.Pay.Abp.TransactionLogs;
 using Shouldly;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace Magicodes.Pay.Tests.Services
     public class PayServices_Tests : TestBase
     {
         public readonly IPayAppService payAppService;
-        
+
         public PayServices_Tests()
         {
             this.payAppService = Resolve<IPayAppService>();
@@ -30,14 +31,14 @@ namespace Magicodes.Pay.Tests.Services
                      Key = "缴费支付",
                      OpenId = "ouiSX5OJ0OX-5W_1g4du5QZx-wsE",
                      OutTradeNo = "ouiSX5OJ0OX-5W_1g4du5QZx-wsE",
-                     PayChannel = Abp.TransactionLogs.PayChannels.AllinJsApiPay,
+                     PayChannel = PayChannels.AllinJsApiPay,
                      Subject = "缴费",
                      TotalAmount = 0.01m
                  };
                  await payAppService.Pay(input);
 
-                //交易日志校验
-                 UsingDbContext(context => context.TransactionLogs.Any(p => p.Currency.CurrencyValue == 88 && p.PayChannel == Pay.Abp.TransactionLogs.PayChannels.AllinWeChatMiniPay && p.TransactionState == Pay.Abp.TransactionLogs.TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo).ShouldBeTrue());
+                 //交易日志校验
+                 UsingDbContext(context => context.TransactionLogs.Any(p => p.Currency.CurrencyValue == 88 && p.PayChannel == PayChannels.AllinWeChatMiniPay && p.TransactionState == TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo).ShouldBeTrue());
 
              });
         }
