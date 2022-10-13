@@ -66,14 +66,10 @@ namespace Magicodes.Pay.Volo.Abp.Services
                 input.OutTradeNo = GenerateOutTradeNo();
             }
 
+            var service = await _paymentManager.GetPayService(input.PayChannel);
+            if (service == null) throw new BusinessException(message: $"支付渠道 {input.PayChannel} 不存在，请确认是否已注册或已添加引用！");
             try
             {
-                var service = await _paymentManager.GetPayService(input.PayChannel);
-                if (service == null) throw new BusinessException($"支付渠道 {input.PayChannel} 不存在，请确认是否已注册或已添加引用！");
-                if (string.IsNullOrWhiteSpace(input.OutTradeNo))
-                {
-                    input.OutTradeNo = $"{DateTime.Now:yyyyMMddHHmmssfff}";
-                }
                 output = await service.ToPay(input);
             }
             catch (Exception ex)
@@ -84,7 +80,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
             if (exception == null) return output;
 
             Logger.LogError("支付失败！", exception);
-            throw new BusinessException("支付异常，请联系客服人员或稍后再试！");
+            throw new BusinessException(message: "支付异常，请联系客服人员或稍后再试！", details: exception.Message);
         }
 
         /// <summary>
