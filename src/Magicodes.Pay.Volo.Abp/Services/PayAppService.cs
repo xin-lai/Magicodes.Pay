@@ -79,7 +79,7 @@ namespace Magicodes.Pay.Volo.Abp.Services
             await CreateToPayTransactionInfo(input, exception);
             if (exception == null) return output;
 
-            Logger.LogError("支付失败！", exception);
+            Logger.LogError(exception.Message);
             throw new BusinessException(message: "支付异常，请联系客服人员或稍后再试！", details: exception.Message);
         }
 

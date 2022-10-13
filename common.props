@@ -1,10 +1,10 @@
 <Project>
   <PropertyGroup>
-    <Version>1.5.4</Version>
+    <Version>1.5.5</Version>
   </PropertyGroup>
   <PropertyGroup>
     <Authors>雪雁</Authors>
-    <Company>湖南心莱信息科技有限公司</Company>
+    <Company>心莱科技</Company>
     <Product>麦扣</Product>
     <PackageProjectUrl>https://docs.xin-lai.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xin-lai/Magicodes.Pay</RepositoryUrl>
