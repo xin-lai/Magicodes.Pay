@@ -23,7 +23,7 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Services
         }
 
         [Fact]
-        public async Task Pay_Test()
+        public async Task Pay_AllinJsApiPay_Test()
         {
             //请配置正确的支付参数后在移除异常校验
             await Assert.ThrowsAsync<BusinessException>(async () =>
@@ -49,6 +49,31 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Services
                  });
 
              });
+        }
+
+        [Fact]
+        public async Task Pay_WeChatMiniProgram_Test()
+        {
+            var input = new PayInputBase()
+            {
+                Body = "缴费支付",
+                CustomData = "{\"Name\":\"张6\",\"IdCard\":\"430626199811111111\",\"Phone\":\"18975061111\",\"Amount\":0.01,\"Remark\":\"\",\"OpenId\":\"ouiSX5OJ0OX-5W_1g4du5QZx-wsE\",\"PayChannel\":7}",
+                Key = "缴费支付",
+                OpenId = "ouiSX5OJ0OX-5W_1g4du5QZx-wsE",
+                OutTradeNo = "ouiSX5OJ0OX-5W_1g4du5QZx-wsE",
+                PayChannel = Abp.TransactionLogs.PayChannels.WeChatMiniProgram,
+                Subject = "缴费",
+                TotalAmount = 0.01m
+            };
+            await payAppService.Pay(input);
+
+            await WithUnitOfWorkAsync(async () =>
+            {
+                //验证状态
+                var result = await transactionLogsRepository.AnyAsync(p => p.Amount == 88 && p.PayChannel == PayChannels.WeChatMiniProgram && p.TransactionState == TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo);
+                result.ShouldBeTrue();
+            });
+
         }
     }
 }

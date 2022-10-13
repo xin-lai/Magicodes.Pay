@@ -25,6 +25,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Magicodes.Pay.Volo.Abp.Allinpay\Magicodes.Pay.Volo.Abp.Allinpay.csproj" />
 		<ProjectReference Include="..\Magicodes.Pay.Volo.Abp.TestBase\Magicodes.Pay.Volo.Abp.TestBase.csproj" />
+		<ProjectReference Include="..\Magicodes.Pay.Volo.Abp.Wxpay\Magicodes.Pay.Volo.Abp.Wxpay.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
