@@ -86,7 +86,7 @@ namespace Magicodes.Pay.Wxpay.Helper
                 var xmlSerial = new XmlSerializer(typeof(T));
                 using (var rdr = new StringReader(str))
                 {
-                    return (T) xmlSerial.Deserialize(rdr);
+                    return (T)xmlSerial.Deserialize(rdr);
                 }
             }
         }
@@ -99,8 +99,8 @@ namespace Magicodes.Pay.Wxpay.Helper
         /// <returns></returns>
         public static T DeserializeObject<T>(string input) where T : class
         {
-            if (!input.StartsWith("<?xml"))
-                input = @"<?xml version=""1.0"" encoding=""utf-8""?>" + input;
+            //if (!input.StartsWith("<?xml"))
+            //    input = @"<?xml version=""1.0"" encoding=""utf-8""?>" + input;
             using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
             {
                 return DeserializeObject<T>(memoryStream);
