@@ -4,6 +4,7 @@ using Magicodes.Pay.Volo.Abp.Services;
 using Magicodes.Pay.Volo.Abp.Services.Dto;
 using Magicodes.Pay.Volo.Abp.Tests;
 using Magicodes.Pay.Volo.Abp.TransactionLogs;
+using Magicodes.Pay.Wxpay.Helper;
 using Shouldly;
 using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
@@ -25,6 +26,7 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Services
         [Fact]
         public async Task Pay_AllinJsApiPay_Test()
         {
+            
             //请配置正确的支付参数后在移除异常校验
             await Assert.ThrowsAsync<BusinessException>(async () =>
              {
@@ -39,6 +41,8 @@ namespace Magicodes.Pay.Volo.Abp.Tests.Services
                      Subject = "缴费",
                      TotalAmount = 0.01m
                  };
+
+                 //var data = XmlHelper.SerializeObjectWithoutNamespace(input);
                  await payAppService.Pay(input);
 
                  await WithUnitOfWorkAsync(async () =>

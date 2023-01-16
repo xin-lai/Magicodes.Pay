@@ -57,7 +57,7 @@ namespace Magicodes.Pay.Wxpay.Helper
             {
                 Encoding = Encoding.UTF8,
                 Indent = false,
-                OmitXmlDeclaration = true
+                OmitXmlDeclaration = true,
             };
             using (var xmlWriter = XmlWriter.Create(sb, settings))
             {
@@ -99,8 +99,8 @@ namespace Magicodes.Pay.Wxpay.Helper
         /// <returns></returns>
         public static T DeserializeObject<T>(string input) where T : class
         {
-            //if (!input.StartsWith("<?xml"))
-            //    input = @"<?xml version=""1.0"" encoding=""utf-8""?>" + input;
+            if (!input.StartsWith("<?xml"))
+                input = @"<?xml version=""1.0"" encoding=""utf-8""?>" + input;
             using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
             {
                 return DeserializeObject<T>(memoryStream);

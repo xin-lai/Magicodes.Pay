@@ -209,7 +209,7 @@ namespace Magicodes.Pay.Wxpay.Helper
             switch (inputDataType)
             {
                 case WebRequestDataTypes.XML:
-                    postStr = XmlHelper.SerializeObject(obj);
+                    postStr = XmlHelper.SerializeObjectWithoutNamespace(obj);
                     break;
                 default:
                     postStr = JsonConvert.SerializeObject(obj);
@@ -298,7 +298,7 @@ namespace Magicodes.Pay.Wxpay.Helper
             switch (inputDataType)
             {
                 case WebRequestDataTypes.XML:
-                    postStr = XmlHelper.SerializeObject(obj);
+                    postStr = XmlHelper.SerializeObjectWithoutNamespace(obj);
                     break;
                 default:
                     postStr = JsonConvert.SerializeObject(obj);
