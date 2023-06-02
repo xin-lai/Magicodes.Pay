@@ -44,5 +44,13 @@
         /// 通联JSAPI
         /// </summary>
         AllinJsApiPay = 7,
+        /// <summary>
+        /// 农业银行
+        /// </summary>
+        AbcPay = 8,
+        /// <summary>
+        /// 工商银行
+        /// </summary>
+        IcbcPay=9
     }
 }
