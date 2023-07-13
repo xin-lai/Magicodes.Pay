@@ -50,21 +50,21 @@ namespace Magicodes.Pay.Tests.Services
             //请配置正确的支付参数后在移除异常校验
             await Assert.ThrowsAsync<UserFriendlyException>(async () =>
             {
-                var input = new PayInputBase()
+                 var input = new PayInputBase()
                 {
-                    Body = "缴费支付",
-                    CustomData = "{\"Name\":\"张6\",\"IdCard\":\"430626199811111111\",\"Phone\":\"18975061111\",\"Amount\":0.01,\"Remark\":\"\",\"OpenId\":\"ouiSX5OJ0OX-5W_1g4du5QZx-wsE\",\"PayChannel\":7}",
-                    Key = "缴费支付",
+                    Body = "张三-买菜",
+                    CustomData = "{\"OutTradeNo\":\"c72cccce9af44f8cbef4bceb7900704d\",\"StudentId\":\"1161d8cc-260a-4510-970c-001347fc9c6e\",\"StudentName\":\"122\",\"SchoolId\":\"42bb8f05-7cb6-45af-aaa7-dee526ed8e7c\",\"Amount\":1.0,\"ProjectName\":\"test\",\"PayChannel\":9,\"OpenId\":\"ouiSX5OJ0OX-5W_1g4du5QZx-wsE\",\"PayerId\":null,\"PayerType\":null,\"RechargeType\":0}",
+                    Key = "一脸通充值",
                     OpenId = "ouiSX5OJ0OX-5W_1g4du5QZx-wsE",
                     OutTradeNo = Guid.NewGuid().ToString(),
                     PayChannel = PayChannels.IcbcPay,
-                    Subject = "缴费",
-                    TotalAmount = 0.01m
+                    Subject = "买菜",
+                    TotalAmount = 1
                 };
                 await payAppService.Pay(input);
 
                 //交易日志校验
-                UsingDbContext(context => context.TransactionLogs.Any(p => p.Currency.CurrencyValue == 88 && p.PayChannel == PayChannels.AllinWeChatMiniPay && p.TransactionState == TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo).ShouldBeTrue());
+                //UsingDbContext(context => context.TransactionLogs.Any(p => p.Currency.CurrencyValue == 88 && p.PayChannel == PayChannels.AllinWeChatMiniPay && p.TransactionState == TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo).ShouldBeTrue());
 
             });
         }

@@ -80,7 +80,7 @@ namespace Magicodes.Pay.Icbc
             }
             catch (Exception ex)
             {
-                throw new Exception("工行支付请求参数错误,请检查!");
+                throw new Exception("工行支付请求参数错误,请检查："+ ex.Message);
 
             }
         }
