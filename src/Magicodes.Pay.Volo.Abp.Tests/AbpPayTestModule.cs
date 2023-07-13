@@ -1,4 +1,5 @@
 ﻿using Magicodes.Pay.Volo.Abp.Allinpay;
+using Magicodes.Pay.Volo.Abp.Icbcpay;
 using Magicodes.Pay.Volo.Abp.Tests.EF;
 using Magicodes.Pay.Volo.Abp.Wxpay;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,8 @@ namespace Magicodes.Pay.Volo.Abp.Tests;
     typeof(AbpAuthorizationModule),
     typeof(AbpEntityFrameworkCoreSqliteModule),
     typeof(AbpAllinpayModule),
-    typeof(AbpWxpayModule)
+    typeof(AbpWxpayModule),
+    typeof(AbpIcbcpayModule)
     )]
 public class AbpPayTestModule : AbpModule
 {

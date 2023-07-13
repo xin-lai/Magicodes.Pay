@@ -25,11 +25,7 @@ namespace Magicodes.Pay.Icbc.Dto
         ///     备注信息
         /// </summary>
         public string Remark { get; set; }
-
-        /// <summary>
-        ///  设备号
-        /// </summary>
-        public string DeciveInfo { get; set; } = "001";
+         
 
         /// <summary>
         ///     支付平台用户标识

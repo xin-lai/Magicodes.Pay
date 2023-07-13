@@ -9,7 +9,7 @@ namespace Magicodes.Pay.Icbc.Dto
 
         public override Type getResponseClass()
         {
-            return Type.GetType("sdk_cop.B2cPassfreeAgreementSignRequestV1"); ;
+            return Type.GetType("Magicodes.Pay.Icbc.Dto.CardbusinessAggregatepayB2cOnlineConsumepurchaseResponseV1"); ;
         }
 
         public override bool isNeedEncrypt()
@@ -19,7 +19,7 @@ namespace Magicodes.Pay.Icbc.Dto
 
         public override Type getBizContentClass()
         {
-            return Type.GetType("sdk_cop" + ".B2cPassfreeAgreementSignRequestV1+B2cPassfreeAgreementSignRequestV1Biz", true, true);
+            return Type.GetType("Magicodes.Pay.Icbc.Dto" + ".B2cPassfreeAgreementSignRequestV1+B2cPassfreeAgreementSignRequestV1Biz", true, true);
         }
 
         public override string getMethod()

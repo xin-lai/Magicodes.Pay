@@ -12,7 +12,8 @@ namespace Magicodes.Pay.Volo.Abp.Icbcpay
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddTransient<IIcbcpayAppService, IcbcpayAppService>();
-             
+            context.Services.AddTransient<IToPayService, IcbcpayTopayService>();
+
         }
     }
 }

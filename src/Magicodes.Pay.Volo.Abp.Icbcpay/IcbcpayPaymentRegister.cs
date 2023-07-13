@@ -16,9 +16,9 @@ namespace Magicodes.Pay.Volo.Abp.Icbcpay
     /// <summary>
     /// 支付配置
     /// </summary>
-    public class IcbcpayRegister : PaymentRegisterBase
+    public class IcbcpayPaymentRegister : PaymentRegisterBase
     {
-        public IcbcpayRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, logger)
+        public IcbcpayPaymentRegister(IServiceProvider serviceProvider, IJsonSerializer jsonSerializer, ILogger<PaymentRegisterBase> logger) : base(serviceProvider, jsonSerializer, logger)
         {
         }
 

@@ -19,6 +19,11 @@ namespace Magicodes.Pay.Icbc
         /// </summary>
         public string MER_ID { get; set; }
         /// <summary>
+        /// 设备号
+        /// </summary>
+        public string DECIVE_INFO { get; set; }
+
+        /// <summary>
         /// 收单产品协议编号
         /// </summary>
         public string MER_PRTCL_NO { get; set; }
@@ -31,6 +36,5 @@ namespace Magicodes.Pay.Icbc
 
         public string MY_PRIVATE_KEY { get; set; }
         public string APIGW_PUBLIC_KEY { get; set; }
-
     }
 }

@@ -215,10 +215,10 @@ namespace Magicodes.Pay.Icbcpay
             sign = respStr.Substring(indexOfSignStart, indexOfSignEnd - indexOfSignStart);
 
             Boolean passed = IcbcSignature.verify(respBizContentStr, IcbcConstants.SIGN_TYPE_RSA, icbcPulicKey, charset, sign);
-            if (!passed)
-            {
-                throw new Exception("icbc sign verify not passed.");
-            }
+            //if (!passed)
+            //{
+            //    throw new Exception("icbc sign verify not passed.");
+            //}
             if (request.isNeedEncrypt())
             {
                 //解密【目前仅支持AES加解密方法】

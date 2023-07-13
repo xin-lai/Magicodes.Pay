@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -87,6 +88,7 @@ namespace Magicodes.Pay.Icbcpay
         }
         public static String GetResponseJson(string url, IDictionary<string, string> parameters, String charset)
         {
+            var test = JsonConvert.SerializeObject(parameters);
             HttpWebResponse response = CreatePostHttpResponse(url, parameters, charset);
             var httpStatusCode = (int)response.StatusCode;
             if (httpStatusCode == 200)

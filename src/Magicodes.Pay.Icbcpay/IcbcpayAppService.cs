@@ -41,11 +41,11 @@ namespace Magicodes.Pay.Icbc
             bizContent.setPay_mode(input.PayModel);
             bizContent.setAccess_type(input.AccessType);
             bizContent.setMer_prtcl_no(IcbcSettings.MER_PRTCL_NO);
-            bizContent.setOrig_date_time(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            bizContent.setDecive_info(input.DeciveInfo);
+            bizContent.setOrig_date_time(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"));
+            bizContent.setDecive_info(IcbcSettings.DECIVE_INFO);
             bizContent.setBody(input.Body);
             bizContent.setFee_type("001");
-            bizContent.setSpbill_create_ip(input.SpbillCreateIp);
+            bizContent.setSpbill_create_ip("0.0.0.0");
             bizContent.setTotal_fee(input.Amount.ToString());
             bizContent.setMer_url(IcbcSettings.NOTIFY_URL);
             bizContent.setShop_appid(IcbcSettings.SHOP_APP_ID);
