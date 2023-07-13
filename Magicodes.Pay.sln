@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magicodes.Pay.Volo.Abp.Icbc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magicodes.Pay.Icbcpay", "src\Magicodes.Pay.Icbcpay\Magicodes.Pay.Icbcpay.csproj", "{F2A33558-2AC5-443D-9722-BD12416A10C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magicodes.Pay.Abp.Icbcpay", "src\Magicodes.Pay.Abp.Icbcpay\Magicodes.Pay.Abp.Icbcpay.csproj", "{66ADB599-AFD5-4B86-8201-DAC10EF7538F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{F2A33558-2AC5-443D-9722-BD12416A10C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2A33558-2AC5-443D-9722-BD12416A10C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2A33558-2AC5-443D-9722-BD12416A10C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66ADB599-AFD5-4B86-8201-DAC10EF7538F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66ADB599-AFD5-4B86-8201-DAC10EF7538F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66ADB599-AFD5-4B86-8201-DAC10EF7538F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66ADB599-AFD5-4B86-8201-DAC10EF7538F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +172,7 @@ Global
 		{67414688-4C9B-4D87-81F6-A4C3AF784F7B} = {6BBBEDCB-BA97-4703-A9D1-F927A8E171A6}
 		{A13DD7BF-E6FE-4104-ADDA-23A274982DC6} = {6BBBEDCB-BA97-4703-A9D1-F927A8E171A6}
 		{F2A33558-2AC5-443D-9722-BD12416A10C3} = {334C665F-6917-4515-912F-19016DF7872C}
+		{66ADB599-AFD5-4B86-8201-DAC10EF7538F} = {4AFBD77A-801A-45DB-BB23-BF2ABC977228}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A95AAC76-182C-4F87-B1DA-C5C09D94F365}

@@ -12,14 +12,15 @@ using Magicodes.Pay.Abp;
 using Magicodes.Pay.Abp.Allinpay;
 using Magicodes.Pay.Abp.Callbacks;
 using Magicodes.Pay.Abp.Registers;
-
+using Magicodes.Pay.Abp.Icbcpay;
 
 namespace Magicodes.Pay.Tests
 {
     [DependsOn(
        typeof(AbpTestBaseModule),
        typeof(AbpEntityFrameworkCoreModule),
-       typeof(AbpAllinpayModule)
+       typeof(AbpAllinpayModule),
+        typeof(AbpIcbcpayModule)
        )]
     public class TestModule : AbpModule
     {
