@@ -51,7 +51,7 @@ namespace Magicodes.Pay.Volo.Abp.Icbcpay
             try
             {
                 var appPayOutput = await IcbcpayAppService.B2cAggregatedPay(appPayInput);
-                return appPayOutput.Response;
+                return appPayOutput;
             }
             catch (Exception ex)
             {

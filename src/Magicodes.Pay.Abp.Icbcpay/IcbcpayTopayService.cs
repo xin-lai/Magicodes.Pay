@@ -51,7 +51,7 @@ namespace Magicodes.Pay.Abp.Icbcpay
             try
             {
                 var appPayOutput = await api.B2cAggregatedPay(appPayInput);
-                return appPayOutput.Response;
+                return appPayOutput;
             }
             catch (Exception ex)
             {

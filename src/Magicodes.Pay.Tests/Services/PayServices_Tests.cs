@@ -61,7 +61,7 @@ namespace Magicodes.Pay.Tests.Services
                     Subject = "买菜",
                     TotalAmount = 1
                 };
-                await payAppService.Pay(input);
+                var result = await payAppService.Pay(input);
 
                 //交易日志校验
                 //UsingDbContext(context => context.TransactionLogs.Any(p => p.Currency.CurrencyValue == 88 && p.PayChannel == PayChannels.AllinWeChatMiniPay && p.TransactionState == TransactionStates.NotPay && p.OutTradeNo == input.OutTradeNo).ShouldBeTrue());

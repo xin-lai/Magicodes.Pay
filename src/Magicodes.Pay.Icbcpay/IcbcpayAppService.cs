@@ -64,10 +64,18 @@ namespace Magicodes.Pay.Icbc
                var response = (CardbusinessAggregatepayB2cOnlineConsumepurchaseResponseV1)client.execute(request, Guid.NewGuid().ToString());//msgId消息通讯唯一编号，要求每次调用独立生成，APP级唯一
                 if (response.getReturnCode() == 0)
                 {
-                    return Task.FromResult(new B2cAggregatedPayOutput
-                    {
-                        Response = response
-                    });
+                    var result = new B2cAggregatedPayOutput();
+                    result.order_id = response.getOrderId();
+                    result.total_amt = response.getTotalAmt();
+                    result.out_trade_no = response.getOutTradeNo();
+                    result.pay_time = response.getPayTime();
+                    result.mer_id = response.getMerId();
+                    result.pay_mode = response.getPayMode();
+                    result.access_type = response.getAccessType();
+                    result.card_kind = response.getCardKind();
+                    result.trade_type = response.getTradeType();
+                    result.wx_data_package = response.getWxDataPackage(); 
+                    return Task.FromResult(result);
                 }
                 else
                 {
