@@ -119,8 +119,7 @@ namespace Magicodes.Pay.Abp
                     tenantId = Convert.ToInt32(input.TenantId);
                 }
                 using (abpSession.Use(tenantId, null))
-                {
-                    Logger.Info($"第三方传入：{input.Request.Form.ToJsonString()}") ;
+                { 
                     var result = await action.ExecPayNotifyAsync(input);
                     if (result == null)
                     {

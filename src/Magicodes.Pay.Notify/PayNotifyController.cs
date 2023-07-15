@@ -16,10 +16,12 @@
 // ======================================================================
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Magicodes.Pay.Notify.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Magicodes.Pay.Notify
 {
@@ -49,6 +51,22 @@ namespace Magicodes.Pay.Notify
             if (string.IsNullOrWhiteSpace(provider)) throw new ArgumentException("请传递提供程序！", nameof(provider));
 
             LoggerAction("Debug", "已进入支付回调，即将处理支付信息...");
+
+            try
+            {
+                LoggerAction("Debug","Url参数："+ Request.QueryString.ToString());
+
+                var dictionary = Request.Form.ToDictionary(p => p.Key,
+                    p2 => p2.Value.FirstOrDefault()?.ToString());
+                LoggerAction("Debug", "Form参数：" + JsonConvert.SerializeObject(dictionary));
+            }
+            catch (Exception ex)
+            {
+                LoggerAction("读取测试参数失败", ex.Message);
+
+                throw;
+            } 
+
             var input = new PayNotifyInput
             {
                 TenantId = tenantId,
