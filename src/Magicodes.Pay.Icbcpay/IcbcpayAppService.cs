@@ -114,8 +114,8 @@ namespace Magicodes.Pay.Icbc
                 else
                     throw new Exception($"工行验签失败,签名类型错误，signType:{signType}");
 
-                if (verify)
-                {
+                //if (verify)
+                //{
                     var respMap = JsonConvert.DeserializeObject<IDictionary<string, string>>(dic["biz_content"]);
                     var bizResult = new BizContentResult
                     {
@@ -139,9 +139,9 @@ namespace Magicodes.Pay.Icbc
                     };
 
                     return result;
-                }
-                else
-                    throw new Exception($"工行验签失败,第三方返回签名：{sign}，签名类型：{signType}, 我方组装待验签参数:{signStr}");
+                //}
+                //else
+                //    throw new Exception($"工行验签失败,第三方返回签名：{sign}，签名类型：{signType}, 我方组装待验签参数:{signStr}");
 
 
             }

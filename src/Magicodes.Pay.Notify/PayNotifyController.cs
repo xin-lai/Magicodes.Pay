@@ -52,21 +52,6 @@ namespace Magicodes.Pay.Notify
 
             LoggerAction("Debug", "已进入支付回调，即将处理支付信息...");
 
-            try
-            {
-                LoggerAction("Debug","Url参数："+ Request.QueryString.ToString());
-
-                var dictionary = Request.Form.ToDictionary(p => p.Key,
-                    p2 => p2.Value.FirstOrDefault()?.ToString());
-                LoggerAction("Debug", "Form参数：" + JsonConvert.SerializeObject(dictionary));
-            }
-            catch (Exception ex)
-            {
-                LoggerAction("读取测试参数失败", ex.Message);
-
-                throw;
-            } 
-
             var input = new PayNotifyInput
             {
                 TenantId = tenantId,

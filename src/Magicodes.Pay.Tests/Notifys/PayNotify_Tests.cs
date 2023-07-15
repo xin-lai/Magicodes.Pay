@@ -117,5 +117,46 @@ namespace Magicodes.Pay.Tests.Notifys
             });
         }
 
+
+        [Fact(DisplayName = "工行支付回调测试")]
+        public async Task Icbc_ExecPayNotifyAsync_Test()
+        {
+            //Mock HttpRequest
+            var httpRequestMock = Substitute.For<HttpRequest>();
+            //伪造支付参数
+            var dic = new Dictionary<string, string>() {
+                { "api", "/api/cardbusiness/aggregatepay/b2c/online/consumepurchase/V1" },
+                { "appid", "11000000000000005718" },
+                { "biz_content", "{\"access_type\":\"9\",\"attach\":\"一脸通充值\",\"bank_disc_amt\":\"0\",\"card_flag\":\"\",\"card_kind\":\"\",\"card_no\":\"\",\"coupon_amt\":\"0\",\"cust_id\":\"\",\"decr_flag\":\"\",\"ecoupon_amt\":\"0\",\"mer_disc_amt\":\"0\",\"mer_id\":\"150582490069\",\"msg_id\":\"050267273196818155655103244\",\"open_id\":\"ow8NuxNXOzOxTE-W7O29I_fFGxbE\",\"order_id\":\"150582490069000542307150006164\",\"out_trade_no\":\"4566b1a286b54984800d6577a1b0493b\",\"pay_time\":\"20230715155655\",\"pay_type\":\"9\",\"payment_amt\":\"100\",\"point_amt\":\"0\",\"return_code\":\"0\",\"return_msg\":\"交易成功\",\"third_party_coupon_amt\":\"0\",\"third_party_discount_amt\":\"0\",\"third_trade_no\":\"4200001883202307158141587074\",\"total_amt\":\"100\",\"total_disc_amt\":\"0\"}" },
+                { "charset", "UTF-8" },
+                { "format", "json" },
+                { "from", "icbc-api" },
+                { "sign", "UB6ZYmfKa0Clng02WErsy+jImlx506zzWvU1XtOSvQD6LpUSXAVLri1bgnpI4NRhUyVabJU8VW2gdYj6edfYLZe6Lh+N/0D9CA7zEZr2tOBFNYiZrVd+S3fbktK+oQ1fge48ezUp1MubNVhb6pzbvrKoOnSJK7DWC49SWNJRo1s=" },
+                //外部交易单号
+                { "sign_type", "RSA" },
+                { "timestamp","2023-07-15 15:56:55" }
+            };
+             
+
+            //Mock HttpRequest 的表单参数
+            var formDic = dic.ToDictionary(item => item.Key, item => new Microsoft.Extensions.Primitives.StringValues(item.Value));
+            httpRequestMock.Form.Returns(new FormCollection(formDic, null));
+
+            //执行支付回调
+           var result =  await paymentManager.ExecPayNotifyAsync(new PayNotifyInput()
+            {
+                Provider = "icbcpay",
+                Request = httpRequestMock 
+            });
+
+            //验证交易日志
+            UsingDbContext(context =>
+            {
+                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).TransactionState.ShouldBe(TransactionStates.Success);
+                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).PayTime.HasValue.ShouldBeTrue();
+                context.TransactionLogs.First(p => p.OutTradeNo == outTradeNo).Exception.ShouldBeNull();
+            });
+        }
+
     }
 }
