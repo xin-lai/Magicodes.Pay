@@ -132,7 +132,7 @@ namespace Magicodes.Pay.Icbc
 
                     var result = new IcbcpayOutput() {
                         OutTradeNo = respMap["out_trade_no"],
-                        TotalFee = Convert.ToDecimal(respMap["total_amt"]),
+                        TotalFee = Convert.ToDecimal(respMap["total_amt"]) / 100,
                         TradeNo = respMap["order_id"],
                         BusinessParams = respMap["attach"],
                         SuccessResult = JsonConvert.SerializeObject(icbcpayResult)
