@@ -124,7 +124,10 @@ namespace Magicodes.Pay.Icbc
                         msg_id = respMap["msg_id"]
 
                     }; 
-                    var bizResultJson = JsonConvert.SerializeObject(bizResult);
+                if(bizResult.return_code != "0")
+                    throw new Exception($"工行支付失败");
+
+                var bizResultJson = JsonConvert.SerializeObject(bizResult);
                     var signDic = $"\"response_biz_content\":{bizResultJson },\"sign_type\":\"{signType}\"";
                     sign = IcbcSignature.sign(signStr, signType, IcbcSettings.MY_PRIVATE_KEY, charset);
 
